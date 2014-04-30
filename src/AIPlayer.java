@@ -3,13 +3,16 @@
  * @author danieka
  *
  */
-public class AIPlayer {
-	private String name;
+public class AIPlayer extends Player{
 	AIPlayer (String name) {
-		this.name = name;
+		super(name);
 	}
 	
-	public String getName(){
-		return name;
+	public void makeMove(Map map){
+		for (Planet planet : map.getPlanets()){
+			if (planet.getOwner() != this){
+				System.out.println(planet);
+			}
+		}
 	}
 }

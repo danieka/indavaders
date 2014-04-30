@@ -7,11 +7,13 @@ public class Planet {
 	private int size;
 	private String name;
 	private int productionCapacity;
+	private Player owner;
 	
-	Planet (int size, String name){
+	Planet (int size, String name, Player owner){
 		this.size = size;
 		this.name = name;
 		this.productionCapacity = size;
+		this.owner = owner;
 	}
 	
 	public int getProductionCapacity() {
@@ -20,5 +22,9 @@ public class Planet {
 	
 	public void setOwner(Player player){
 		return;
+	}
+	
+	public Player getOwner(){
+		return owner;
 	}
 }
