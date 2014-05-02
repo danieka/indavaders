@@ -1,6 +1,7 @@
 
 public class Fleet {
 	private int size;
+	private Planet location;
 	Fleet(){
 		
 	}
@@ -10,10 +11,13 @@ public class Fleet {
 	}
 	
 	public void moveTowards(Planet planet){
+		GameObject G = GameObject.getInstance();
+		int[] path = G.path(location, planet);
+		location = G.getPlanet(path[0]);
 		return;
 	}
 	
 	public Planet getPlanet(){
-		return null;
+		return location;
 	}
 }
