@@ -73,23 +73,35 @@ public class GameObject {
 	}
 	
 	public ArrayList<Planet> getPlanets(){
-		return null;
+		return planets;
 	}
 	
 	public ArrayList<Fleet> getFleets(){
-		return null;
+		return fleets;
 	}
 	
 	/**
 	 * Returns an arraylist of all planets beloning to player.
 	 * @param player
 	 */
-	public ArrayList <Player> getPlayerPlanets(Player player){
-		return null;
+	public ArrayList<Planet> getPlayerPlanets(Player player){
+		ArrayList<Planet> list = new ArrayList<Planet>();
+		for(Planet plan: planets){
+			if(plan.getOwner() == player){
+				list.add(plan); 
+			}			
+		}		
+		return list;
 	}
 	
 	public ArrayList<Fleet> getPlayerFleets(Player player){
-		return null;
+		ArrayList<Fleet> list = new ArrayList<Fleet>();
+		for(Fleet fleet: fleets){
+			if(fleet.getOwner() == player){
+				list.add(fleet); 
+			}			
+		}		
+		return list;
 	}
 	
 	/**

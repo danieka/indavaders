@@ -2,6 +2,8 @@
 public class Fleet {
 	private int size;
 	private Planet location;
+	private Player owner;
+	
 	Fleet(){
 		
 	}
@@ -19,5 +21,9 @@ public class Fleet {
 	
 	public Planet getPlanet(){
 		return location;
+	}
+	
+	public Player getOwner(){
+		return owner;
 	}
 }
