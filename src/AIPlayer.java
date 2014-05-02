@@ -8,11 +8,19 @@ public class AIPlayer extends Player{
 		super(name);
 	}
 	
-	public void makeMove(Map map){
-		for (Planet planet : map.getPlanets()){
-			if (planet.getOwner() != this){
-				System.out.println(planet);
+	public void makeMove(Fleet fleet){
+		GameObject G = GameObject.getInstance();
+		Fleet largestFleet = fleet;
+		for(Fleet f : G.getPlayerFleets(this)){
+			if(f.getSize() > largestFleet.getSize()){
+				largestFleet = f;
 			}
+		}
+		if(largestFleet == fleet){
+			return;
+		}
+		else{
+			fleet.moveTowards(largestFleet.getPlanet());
 		}
 	}
 }

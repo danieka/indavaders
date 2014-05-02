@@ -8,4 +8,12 @@ public class Fleet {
 	public int getSize(){
 		return size;
 	}
+	
+	public void moveTowards(Planet planet){
+		return;
+	}
+	
+	public Planet getPlanet(){
+		return null;
+	}
 }

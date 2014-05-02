@@ -17,10 +17,9 @@ public class GameObject {
 	private ArrayList<Player> players;
 	private ArrayList<Planet> planets;
 	private ArrayList<Fleet> fleets;
+	private static GameObject uniqInstance;
 	
-	
-	
-	GameObject(){	
+	private GameObject(){	
 		
 		Graph G = null;
 		BufferedReader file = null;
@@ -111,4 +110,11 @@ public class GameObject {
 		}
 		return Arrays.copyOfRange(strarr, 0, i);
 	}	
+	
+	public static synchronized GameObject getInstance() {
+	    if (uniqInstance == null) {
+	      uniqInstance = new GameObject();
+	    }
+	    return uniqInstance;
+	  }
 }

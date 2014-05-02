@@ -1,4 +1,3 @@
-
 /**
  * A graph with a fixed number of vertices. The vertices are numbered from 0 to
  * n-1, were n is the number of vertices in the graph. Edges may be added or
