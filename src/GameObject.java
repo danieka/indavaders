@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,13 +14,20 @@ public class GameObject {
 	//Players
 	//Planets
 	//Fleets
+	private ArrayList<Player> players;
+	private ArrayList<Planet> planets;
+	private ArrayList<Fleet> fleets;
 	
-	GameObject(){
-		Graph G = null;
+	
+	
+	GameObject(){	
 		
+		Graph G = null;
+		BufferedReader file = null;
 		// This "try-with-resource" statement automatically calls file.close()
         // just before leaving the try block.
-        try (BufferedReader file = new BufferedReader(new FileReader("Distances.txt"))) {
+        try {
+        	file = new BufferedReader(new InputStreamReader(new FileInputStream("Filerna"), "UTF-8"));
         	String line = file.readLine();
             while(line != null){
             	if(line.startsWith("//") || line.trim().length() == 0){
@@ -57,6 +67,10 @@ public class GameObject {
         	System.err.printf("%s%n",  e);
             System.exit(1);
         }
+        ArrayList<Player> players = new ArrayList<Player>();
+    	ArrayList<Planet> planets = new ArrayList<Planet>();
+    	ArrayList<Fleet> fleets = new ArrayList<Fleet>();
+        
 	}
 	
 	public ArrayList<Planet> getPlanets(){
