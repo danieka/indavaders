@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Queue;
 
 //Create player
 /**
@@ -22,10 +23,11 @@ public class GameObject {
 	private ArrayList<Fleet> fleets;
 	private Graph G;
 	private static GameObject uniqInstance;
+	private Queue moveQueue;
 	
 	
 	private GameObject(){	
-		
+		moveQueue = new LinkedList<Move>();
 		BufferedReader file = null;
 		// This "try-with-resource" statement automatically calls file.close()
         // just before leaving the try block.
@@ -149,9 +151,20 @@ public class GameObject {
 	    return uniqInstance;
 	  }
 	
-	public int[] path(int from, int dest){
-		int[][] i = dijkstras(from);
-		int next = dest;
+	public void addMove(Move move){
+		moveQueue.add(move);
+	}
+	
+	public void nextTurn(){
+		for(AIPlayer p : getAIPlayers()){
+			
+		}
+	}
+	
+	public int[] path(Planet fromPlanet, Planet destPlanet){
+		int from = planets.indexOf(fromPlanet);
+		int next = planets.indexOf(destPlanet);
+		int[][] i = dijkstras(from);		
 		LinkedList<Integer> directions = new LinkedList<Integer>();
 		while(next != from){
 			directions.addFirst(next);

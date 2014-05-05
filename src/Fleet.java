@@ -12,10 +12,11 @@ public class Fleet {
 		return size;
 	}
 	
-	public void moveTowards(Planet planet){
+	public void moveTo(Planet planet){
 		GameObject G = GameObject.getInstance();
-		//int[] path = G.path(location, planet);
-		//location = G.getPlanet(path[0]);
+		int[] path = G.path(location, planet);
+		location = G.getPlanets().get(path[0]);
+		G.addMove(new Move(this, location, planet));
 		return;
 	}
 	
