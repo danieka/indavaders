@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -206,7 +207,15 @@ public class GameObject {
 	
 	public ArrayList<int[]> getAllEdges(){
 		ArrayList<int[]> ret = new ArrayList<int[]>();
-		ret.add(new int[]{100,200,200,100});
+		for(int i = 0; i < G.numVertices(); i++){
+			for(VertexIterator iter = G.neighbors(i); iter.hasNext();){
+				int n = iter.next();
+				int[] edge = new int[]{planets.get(i).getX(), planets.get(i).getY(), planets.get(n).getX(), planets.get(n).getY()};
+				if (!ret.contains(edge)){
+					ret.add(edge);
+				}
+			}
+		}
 		return ret;
 	}
 	
