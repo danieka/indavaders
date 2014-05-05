@@ -220,13 +220,22 @@ public class GameObject {
 		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
 		//om det finns det ska dom slåss.
 		for(Planet planet: planets){
-			Player i = null;
+			Fleet fleetOne = null;
 			for(Fleet fleet: planet.getFleets()){				
-				if(i == null){
-					i = fleet.getOwner();
+				if(fleetOne == null){
+					fleetOne = fleet;	
 				}
-				if(i != null){
-					//TODO FIGHT
+				if(fleetOne.getOwner() != fleet.getOwner()){
+					if(fleetOne.getSize() > fleet.getSize()){
+						fleetOne.setSize(fleetOne.getSize() - fleet.getSize());
+						fleets.remove(fleet);
+						fleet.getPlanet().removeFleet(fleet);
+					} else if(fleetOne.getSize() < fleet.getSize()){
+						fleetOne.setSize(fleet.getSize() - fleetOne.getSize() );
+						fleets.remove(fleetOne);
+						fleet.getPlanet().removeFleet(fleetOne);
+						fleetOne = fleet;
+					}
 				}
 			}			
 		}
