@@ -13,6 +13,6 @@ public class Move {
 	public void execute(){
 		fleet.setLocation(to);
 		from.removeFleet(fleet);
-		to.removeFleet(from);
+		to.removeFleet(fleet);
 	}
 }
