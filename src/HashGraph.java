@@ -111,6 +111,9 @@ public class HashGraph implements Graph {
 
 		@Override
 		public boolean hasNext() {
+			if (iter == null){
+				return false;
+			}
 			return iter.hasNext();
 		}
 
