@@ -5,7 +5,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
+/**
+ * The final state of the game; game over. 
+ * @author Adam Pielbusch
+ *
+ */
 public class EndState extends BasicGameState{
 
 	public void init(GameContainer arg0, StateBasedGame arg1)
