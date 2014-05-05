@@ -20,7 +20,7 @@ public class AIPlayer extends Player{
 			return;
 		}
 		else{
-			fleet.moveTowards(largestFleet.getPlanet());
+			fleet.moveTo(largestFleet.getPlanet());
 		}
 	}
 }

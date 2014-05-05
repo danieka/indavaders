@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Game object
@@ -19,10 +20,11 @@ public class GameObject {
 	private ArrayList<Fleet> fleets;
 	private Graph G;
 	private static GameObject uniqInstance;
+	private Queue<Move> moveQueue;
 	
 	
 	private GameObject(){	
-		
+		moveQueue = new LinkedList<Move>();
 		BufferedReader file = null;
 		// This "try-with-resource" statement automatically calls file.close()
         // just before leaving the try block.
@@ -162,11 +164,11 @@ public class GameObject {
 	}
 	
 	
-	public ArrayList<Player> getAIPlayers(){
-		ArrayList<Player> list = new ArrayList<Player>();
+	public ArrayList<AIPlayer> getAIPlayers(){
+		ArrayList<AIPlayer> list = new ArrayList<AIPlayer>();
 		for(Player player: players){
 			if(player.getClass() == AIPlayer.class){
-				list.add(player); 
+				list.add((AIPlayer) player); 
 			}			
 		}		
 		return list;
@@ -198,9 +200,28 @@ public class GameObject {
 	    return uniqInstance;
 	  }
 	
-	public int[] path(int from, int dest){
-		int[][] i = dijkstras(from);
-		int next = dest;
+	public void addMove(Move move){
+		moveQueue.add(move);
+	}
+	
+	public void nextTurn(){
+		for(AIPlayer p : getAIPlayers()){
+			for(Fleet f : getPlayerFleets(p)){
+				p.makeMove(f);
+			}
+		}
+		
+		Move m;
+		while(!moveQueue.isEmpty()){
+			m = moveQueue.poll();
+			m.execute();
+		}
+	}
+	
+	public int[] path(Planet fromPlanet, Planet destPlanet){
+		int from = planets.indexOf(fromPlanet);
+		int next = planets.indexOf(destPlanet);
+		int[][] i = dijkstras(from);		
 		LinkedList<Integer> directions = new LinkedList<Integer>();
 		while(next != from){
 			directions.addFirst(next);
