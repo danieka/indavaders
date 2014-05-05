@@ -14,7 +14,8 @@ public class GameObjectTest {
 	}
 	
 	@Test
-	public void testConstruct() {	
+	public void testConstruct() {
+		System.out.println(G);
 		assertEquals(G.getPlanets().size(), 6);
 		Player human = G.getHumanPlayer();
 		G.getPlanets().get(0).setOwner(human);
