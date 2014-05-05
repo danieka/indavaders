@@ -10,6 +10,7 @@ public class GameObjectTest {
 	@Before
 	public void method() {
 		GameObject G = GameObject.getInstance();
+		G.createPlayers(4);
 	}
 	
 	@Test
