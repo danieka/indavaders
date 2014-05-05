@@ -23,7 +23,7 @@ public class GameObject {
 	private ArrayList<Fleet> fleets;
 	private Graph G;
 	private static GameObject uniqInstance;
-	private Queue moveQueue;
+	private Queue<Move> moveQueue;
 	
 	
 	private GameObject(){	
@@ -129,11 +129,11 @@ public class GameObject {
 	}
 	
 	
-	public ArrayList<Player> getAIPlayers(){
-		ArrayList<Player> list = new ArrayList<Player>();
+	public ArrayList<AIPlayer> getAIPlayers(){
+		ArrayList<AIPlayer> list = new ArrayList<AIPlayer>();
 		for(Player player: players){
 			if(player.getClass() == AIPlayer.class){
-				list.add(player); 
+				list.add((AIPlayer) player); 
 			}			
 		}		
 		return list;
@@ -171,7 +171,15 @@ public class GameObject {
 	
 	public void nextTurn(){
 		for(AIPlayer p : getAIPlayers()){
-			
+			for(Fleet f : getPlayerFleets(p)){
+				p.makeMove(f);
+			}
+		}
+		
+		Move m;
+		while(!moveQueue.isEmpty()){
+			m = moveQueue.poll();
+			m.execute();
 		}
 	}
 	

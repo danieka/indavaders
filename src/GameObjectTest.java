@@ -24,7 +24,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void testPath() {
-		assertArrayEquals(new int[]{0,1,5},G.path(0, 5));
+		assertArrayEquals(new int[]{0,1,5},G.path(G.getPlanets().get(0), G.getPlanets().get(5)));
 	}
 
 }

@@ -27,4 +27,8 @@ public class Fleet {
 	public Player getOwner(){
 		return owner;
 	}
+
+	public void setLocation(Planet to) {
+		location = to;
+	}
 }

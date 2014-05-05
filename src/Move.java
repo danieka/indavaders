@@ -9,4 +9,8 @@ public class Move {
 		this.to = to;
 		this.from = from;
 	}
+	
+	public void execute(){
+		fleet.setLocation(to);
+	}
 }
