@@ -26,7 +26,6 @@ public class GameObject {
 	
 	private GameObject(){	
 		
-		Graph G = null;
 		BufferedReader file = null;
 		// This "try-with-resource" statement automatically calls file.close()
         // just before leaving the try block.
@@ -78,7 +77,7 @@ public class GameObject {
     	fleets = new ArrayList<Fleet>();
         
     	for(int i = 0; i < G.numVertices(); i++){    		
-    		planets.add(new Planet(1, "jorden", null));
+    		planets.add(new Planet(1, "jorden", null, i*50, i*50));
     	}
 	}
 	
@@ -165,7 +164,7 @@ public class GameObject {
 	  }
 	
 	public int[] path(int from, int dest){
-		int[][] i = dijkstras(G, from);
+		int[][] i = dijkstras(from);
 		int next = dest;
 		LinkedList<Integer> directions = new LinkedList<Integer>();
 		while(next != from){
@@ -186,12 +185,12 @@ public class GameObject {
 	 * The first array contains the cost from that node to the source. If MAX_INT there is no path.
 	 * The second array contains the previous node in the optimal path to source for each node. If -1 there is no path.
 	 * 
-	 * @param g
 	 * @param source
 	 * @return
 	 */
-	private static int[][] dijkstras(Graph g, int source){
-		int numVertices = g.numVertices();
+	private int[][] dijkstras(int source){
+		//TODO: Stop once we reach the right planet
+		int numVertices = G.numVertices();
 		int[] dist = new int[numVertices];
 		int[] prev = new int[numVertices];
 		HashSet<Integer> Q = new HashSet<Integer>(numVertices);
@@ -213,9 +212,9 @@ public class GameObject {
 			if(dist[u] == Integer.MAX_VALUE){
 				continue;
 			}
-			for (VertexIterator iter = g.neighbors(u); iter.hasNext();){
+			for (VertexIterator iter = G.neighbors(u); iter.hasNext();){
 				int v = iter.next();
-				int alt = dist[u] + g.cost(u, v);
+				int alt = dist[u] + G.cost(u, v);
 				if(alt < dist[v]){
 					dist[v] = alt;
 					prev[v] = u;

@@ -11,11 +11,13 @@ public class Planet {
 	private int x;
 	private int y;
 	
-	Planet (int size, String name, Player owner){
+	Planet (int size, String name, Player owner, int x, int y){
 		this.size = size;
 		this.name = name;
 		this.productionCapacity = size;
 		this.owner = owner;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public int getProductionCapacity() {
@@ -31,7 +33,11 @@ public class Planet {
 		return owner;
 	}
 	
-	public void getGraphic(){
-		
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
 	}
 }
