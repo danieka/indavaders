@@ -1,0 +1,15 @@
+// This is a database with distances between a number
+// of planets. The planets are numbered 0, 1, 2, ..., n-1.
+// The first lines contains the integer n, i.e. the
+// number of planets. Each following line contains three
+// integers i, j, and d separated by spaces. The positive
+// number d is the distance between i and j.
+
+
+
+10 25 1 Tellus // First planet
+45 23 1 Centauri
+100 23 1 Sirius
+200 150 1 Wolfram
+66 33 1 Saturn
+500 350 1 Mars  // Last planet
