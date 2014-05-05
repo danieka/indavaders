@@ -28,7 +28,7 @@ public class GameObject {
 		// This "try-with-resource" statement automatically calls file.close()
         // just before leaving the try block.
         try {
-        	file = new BufferedReader(new InputStreamReader(new FileInputStream("Filerna"), "UTF-8"));
+        	file = new BufferedReader(new InputStreamReader(new FileInputStream("src/Planets.txt"), "UTF-8"));
         	String line = file.readLine();
             while(line != null){
             	if(line.startsWith("//") || line.trim().length() == 0){
@@ -70,17 +70,17 @@ public class GameObject {
         	System.err.printf("%s%n",  e);
             System.exit(1);
         }
-        ArrayList<Player> players = new ArrayList<Player>();
-    	ArrayList<Planet> planets = new ArrayList<Planet>();
-    	ArrayList<Fleet> fleets = new ArrayList<Fleet>();
+        players = new ArrayList<Player>();
+    	planets = new ArrayList<Planet>();
+    	fleets = new ArrayList<Fleet>();
         
-    	for(int i = 0; i < G.numVertices(); i++){
-    		
+    	for(int i = 0; i < G.numVertices(); i++){    		
     		planets.add(new Planet(1, "jorden", null));
     	}
 	}
 	
 	public ArrayList<Planet> getPlanets(){
+		System.out.println(planets);
 		return planets;
 	}
 	
@@ -110,6 +110,15 @@ public class GameObject {
 			}			
 		}		
 		return list;
+	}
+	
+	public void createPlayers(int amountOfPlayers){
+		players.add(new Player("name"));
+		
+	}
+	
+	public Player getHumanPlayer(){		
+		return players.get(0);
 	}
 	
 	/**
