@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -208,6 +209,20 @@ public class GameObject {
 		moveQueue.add(move);
 	}
 	
+	public ArrayList<int[]> getAllEdges(){
+		ArrayList<int[]> ret = new ArrayList<int[]>();
+		for(int i = 0; i < G.numVertices(); i++){
+			for(VertexIterator iter = G.neighbors(i); iter.hasNext();){
+				int n = iter.next();
+				int[] edge = new int[]{planets.get(i).getX(), planets.get(i).getY(), planets.get(n).getX(), planets.get(n).getY()};
+				if (!ret.contains(edge)){
+					ret.add(edge);
+				}
+			}
+		}
+		return ret;
+	}
+	
 	public void nextTurn(){
 		for(AIPlayer p : getAIPlayers()){
 			for(Fleet f : getPlayerFleets(p)){
@@ -224,13 +239,22 @@ public class GameObject {
 		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
 		//om det finns det ska dom slåss.
 		for(Planet planet: planets){
-			Player i = null;
+			Fleet fleetOne = null;
 			for(Fleet fleet: planet.getFleets()){				
-				if(i == null){
-					i = fleet.getOwner();
+				if(fleetOne == null){
+					fleetOne = fleet;	
 				}
-				if(i != null){
-					//TODO FIGHT
+				if(fleetOne.getOwner() != fleet.getOwner()){
+					if(fleetOne.getSize() > fleet.getSize()){
+						fleetOne.setSize(fleetOne.getSize() - fleet.getSize());
+						fleets.remove(fleet);
+						fleet.getPlanet().removeFleet(fleet);
+					} else if(fleetOne.getSize() < fleet.getSize()){
+						fleetOne.setSize(fleet.getSize() - fleetOne.getSize() );
+						fleets.remove(fleetOne);
+						fleet.getPlanet().removeFleet(fleetOne);
+						fleetOne = fleet;
+					}
 				}
 			}			
 		}

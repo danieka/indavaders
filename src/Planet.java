@@ -21,7 +21,8 @@ public class Planet {
 		this.owner = owner;
 		this.x = x;
 		this.y = y;
-	}
+		fleets = new ArrayList<Fleet>();
+		}
 	
 	public int getProductionCapacity() {
 		return productionCapacity;

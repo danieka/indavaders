@@ -33,4 +33,8 @@ public class Fleet {
 	public void setLocation(Planet to) {
 		location = to;
 	}
+	
+	public void setSize(int size) {
+		this.size = size;
+	}
 }
