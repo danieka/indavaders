@@ -4,8 +4,10 @@ public class Fleet {
 	private Planet location;
 	private Player owner;
 	
-	Fleet(){
-		
+	Fleet(int size, Player owner, Planet location){
+		this.size = size;
+		this.owner = owner;
+		this.location = location;
 	}
 	
 	public int getSize(){

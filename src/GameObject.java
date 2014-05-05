@@ -152,9 +152,13 @@ public class GameObject {
 	public void createPlayers(int amountOfPlayers){
 		players.add(new Player("name", Color.blue));
 		planets.get(0).setOwner(players.get(0));
-		for(int i = 0; i < amountOfPlayers-1; i++){
-			players.add(new AIPlayer("name", Color.red));
-			planets.get(i).setOwner(players.get(i));
+		fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
+		planets.get(0).addFleet(fleets.get(0));
+		for(int i = 0; i < amountOfPlayers-1; i++){			
+			players.add(new AIPlayer("name", Color.red));			
+			planets.get(i).setOwner(players.get(i));			
+			fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
+			planets.get(i).addFleet(fleets.get(i));
 		}
 	}
 	
@@ -206,7 +210,15 @@ public class GameObject {
 	
 	public ArrayList<int[]> getAllEdges(){
 		ArrayList<int[]> ret = new ArrayList<int[]>();
-		ret.add(new int[]{100,200,200,100});
+		for(int i = 0; i < G.numVertices(); i++){
+			for(VertexIterator iter = G.neighbors(i); iter.hasNext();){
+				int n = iter.next();
+				int[] edge = new int[]{planets.get(i).getX(), planets.get(i).getY(), planets.get(n).getX(), planets.get(n).getY()};
+				if (!ret.contains(edge)){
+					ret.add(edge);
+				}
+			}
+		}
 		return ret;
 	}
 	
