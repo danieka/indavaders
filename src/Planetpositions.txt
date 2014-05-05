@@ -7,9 +7,9 @@
 
 
 
-10 25 1 Tellus // First planet
-45 23 1 Centauri
-100 23 1 Sirius
+100 400 1 Tellus // First planet
+300 150 1 Centauri
+250 375 1 Sirius
 200 150 1 Wolfram
-66 33 1 Saturn
+450 120 1 Saturn
 500 350 1 Mars  // Last planet

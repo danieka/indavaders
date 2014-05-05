@@ -1,11 +1,13 @@
+import org.newdawn.slick.Color;
+
 /**
  * 
  * @author danieka
  *
  */
 public class AIPlayer extends Player{
-	AIPlayer (String name) {
-		super(name);
+	AIPlayer (String name, Color color) {
+		super(name, color);
 	}
 	
 	public void makeMove(Fleet fleet){
