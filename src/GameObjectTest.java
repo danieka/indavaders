@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,8 @@ public class GameObjectTest {
 		Player AIPlayer = G.getAIPlayers().get(1);
 		G.getPlanets().get(0).setOwner(AIPlayer);
 		assertEquals(AIPlayer, G.getPlanets().get(0).getOwner());
-		assertEquals(1, G.getPlayerPlanets(AIPlayer).size());
+		assertEquals(2, G.getPlayerPlanets(AIPlayer).size());
+		assertEquals(0, G.getPlayerPlanets(human).size());
 	}
 	
 	@Test
@@ -35,6 +37,17 @@ public class GameObjectTest {
 		assertArrayEquals(new int[]{0,1,5},G.path(G.getPlanets().get(0), G.getPlanets().get(5)));
 		assertArrayEquals(new int[]{1,5},G.path(G.getPlanets().get(1), G.getPlanets().get(5)));
 		assertArrayEquals(new int[]{2,3,4},G.path(G.getPlanets().get(2), G.getPlanets().get(4)));
+	}
+	
+	@Test
+	public void testEmptyTurn() {
+		G.nextTurn();
+	}
+	
+	@After
+	public void tearDown() {
+		G = null;
+		System.gc();
 	}
 
 }
