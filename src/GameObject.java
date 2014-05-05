@@ -117,11 +117,25 @@ public class GameObject {
 	
 	public void createPlayers(int amountOfPlayers){
 		players.add(new Player("name"));
+		for(int i = 0; i < amountOfPlayers-1; i++){
+			players.add(new AIPlayer("name"));
+		}
 		
 	}
 	
 	public Player getHumanPlayer(){		
 		return players.get(0);
+	}
+	
+	
+	public ArrayList<Player> getAIPlayers(){
+		ArrayList<Player> list = new ArrayList<Player>();
+		for(Player player: players){
+			if(player.getClass() == AIPlayer.class){
+				list.add(player); 
+			}			
+		}		
+		return list;
 	}
 	
 	/**
