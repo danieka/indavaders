@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 //Create player
 /**
@@ -18,6 +20,7 @@ public class GameObject {
 	private ArrayList<Player> players;
 	private ArrayList<Planet> planets;
 	private ArrayList<Fleet> fleets;
+	private Graph G;
 	private static GameObject uniqInstance;
 	
 	
@@ -146,4 +149,83 @@ public class GameObject {
 	    }
 	    return uniqInstance;
 	  }
+	
+	public int[] path(int from, int dest){
+		int[][] i = dijkstras(G, from);
+		int next = dest;
+		LinkedList<Integer> directions = new LinkedList<Integer>();
+		while(next != from){
+			directions.addFirst(next);
+			next = i[1][next];
+		}
+		directions.addFirst(from);
+		int[] ret = new int[directions.size()];
+		  for(int j = 0;j < ret.length;j++)
+		    ret[j] = directions.get(j);
+		  return ret;
+	}
+	
+	/**
+	 * Djikstras algorithm.
+	 * 
+	 * Returns two arrays of integers inside an array of arrays containing integers = int[][].
+	 * The first array contains the cost from that node to the source. If MAX_INT there is no path.
+	 * The second array contains the previous node in the optimal path to source for each node. If -1 there is no path.
+	 * 
+	 * @param g
+	 * @param source
+	 * @return
+	 */
+	private static int[][] dijkstras(Graph g, int source){
+		int numVertices = g.numVertices();
+		int[] dist = new int[numVertices];
+		int[] prev = new int[numVertices];
+		HashSet<Integer> Q = new HashSet<Integer>(numVertices);
+		for(int v = 0; v < numVertices; v++){
+			dist[v] = Integer.MAX_VALUE;
+			prev[v] = -1;
+			Q.add(v);
+ 		}
+		dist[source] = 0;
+		
+		while (!Q.isEmpty()){
+			int u = max(dist);
+			for(int v : Q){
+				if(dist[v] <= dist[u]){
+					u = v;
+				}
+			}
+			Q.remove(u);
+			if(dist[u] == Integer.MAX_VALUE){
+				continue;
+			}
+			for (VertexIterator iter = g.neighbors(u); iter.hasNext();){
+				int v = iter.next();
+				int alt = dist[u] + g.cost(u, v);
+				if(alt < dist[v]){
+					dist[v] = alt;
+					prev[v] = u;
+				}
+			}
+		}
+		
+		
+		
+		int[][] r = {dist,prev};
+		return r;
+	}
+	
+	/**
+	 * Returns the index of the largest value in the values array.
+	 * @param values
+	 * @return
+	 */
+	private static int max(int[] values) {
+        int max = 0;
+        for(int i = 0; i < values.length; i++) {
+                if(values[i] > values[max])
+                        max = i;
+        }
+        return max;
+	}
 }
