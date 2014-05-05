@@ -7,16 +7,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-//Create player
 /**
  * Game object
  * @author danieka
  *
  */
 public class GameObject {
-	//Players
-	//Planets
-	//Fleets
+	
 	private ArrayList<Player> players;
 	private ArrayList<Planet> planets;
 	private ArrayList<Fleet> fleets;
@@ -76,9 +73,47 @@ public class GameObject {
     	planets = new ArrayList<Planet>();
     	fleets = new ArrayList<Fleet>();
         
-    	for(int i = 0; i < G.numVertices(); i++){    		
-    		planets.add(new Planet(1, "jorden", null, i*50, i*50));
-    	}
+    	file = null;
+		// This "try-with-resource" statement automatically calls file.close()
+        // just before leaving the try block.
+        try {
+        	file = new BufferedReader(new InputStreamReader(new FileInputStream("src/Planetpositions.txt"), "UTF-8"));
+        	String line = file.readLine();
+            while(line != null){
+            	if(line.startsWith("//") || line.trim().length() == 0){
+            		//If the line starts with a comment or is empty we can safely ignore it.
+            		line = file.readLine();
+            		continue;
+            	}
+            	
+            	String[] elements = line.split(" +");
+            	elements = removeComments(elements);            	
+            	if(elements.length != 4){
+            		System.err.println("Illegal number of arguments on the line, should be 4 not " + elements.length);
+            		System.out.println("On line " + line);
+            	}
+            	if(elements.length == 4){
+            		//G.add(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+            		
+            			System.out.println("a");
+            			planets.add(new Planet(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3], null));
+            		
+            	}
+            	
+            	line = file.readLine();            	
+            }
+            
+        } catch (IOException e) {
+            System.err.printf("%s%n",  e);
+            System.exit(1);
+        } catch (NumberFormatException e){
+        	System.err.printf("Illegal number %s%n",  e);
+            System.exit(1);
+        } catch (IllegalArgumentException e){
+        	System.err.println("The vertex is larger than the size of the graph.");
+        	System.err.printf("%s%n",  e);
+            System.exit(1);
+        }
 	}
 	
 	public ArrayList<Planet> getPlanets(){
