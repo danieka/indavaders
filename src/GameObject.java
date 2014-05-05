@@ -204,6 +204,12 @@ public class GameObject {
 		moveQueue.add(move);
 	}
 	
+	public ArrayList<int[]> getAllEdges(){
+		ArrayList<int[]> ret = new ArrayList<int[]>();
+		ret.add(new int[]{100,200,200,100});
+		return ret;
+	}
+	
 	public void nextTurn(){
 		for(AIPlayer p : getAIPlayers()){
 			for(Fleet f : getPlayerFleets(p)){
