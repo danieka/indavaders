@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//Create player
 /**
  * Game object
  * @author danieka
@@ -18,6 +19,7 @@ public class GameObject {
 	private ArrayList<Planet> planets;
 	private ArrayList<Fleet> fleets;
 	private static GameObject uniqInstance;
+	
 	
 	private GameObject(){	
 		
@@ -51,10 +53,12 @@ public class GameObject {
             	}
             	if(G != null && elements.length == 3){
             		G.add(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+            		
             	}
             	
             	line = file.readLine();            	
             }
+            
         } catch (IOException e) {
             System.err.printf("%s%n",  e);
             System.exit(1);
@@ -70,6 +74,10 @@ public class GameObject {
     	ArrayList<Planet> planets = new ArrayList<Planet>();
     	ArrayList<Fleet> fleets = new ArrayList<Fleet>();
         
+    	for(int i = 0; i < G.numVertices(); i++){
+    		
+    		planets.add(new Planet(1, "jorden", null));
+    	}
 	}
 	
 	public ArrayList<Planet> getPlanets(){
