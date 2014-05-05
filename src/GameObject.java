@@ -50,7 +50,7 @@ public class GameObject {
             	}
             	if(G != null && elements.length != 3){
             		System.err.println("Illegal number of arguments on the line, should be 3 not " + elements.length);
-            		System.out.println("On line " + line);
+            		System.err.println("On line " + line);
             	}
             	if(G != null && elements.length == 3){
             		G.add(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
@@ -92,12 +92,9 @@ public class GameObject {
             	elements = removeComments(elements);            	
             	if(elements.length != 4){
             		System.err.println("Illegal number of arguments on the line, should be 4 not " + elements.length);
-            		System.out.println("On line " + line);
+            		System.err.println("On line " + line);
             	}
             	if(elements.length == 4){
-            		//G.add(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
-            		
-            			System.out.println("a");
             			planets.add(new Planet(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3], null));
             		
             	}
@@ -119,7 +116,6 @@ public class GameObject {
 	}
 	
 	public ArrayList<Planet> getPlanets(){
-		System.out.println(planets);
 		return planets;
 	}
 	
