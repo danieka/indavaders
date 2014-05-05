@@ -171,6 +171,7 @@ public class GameObject {
 				list.add((AIPlayer) player); 
 			}			
 		}		
+		System.out.println(players);
 		return list;
 	}
 	
@@ -215,6 +216,20 @@ public class GameObject {
 		while(!moveQueue.isEmpty()){
 			m = moveQueue.poll();
 			m.execute();
+		}
+		
+		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
+		//om det finns det ska dom slåss.
+		for(Planet planet: planets){
+			Player i = null;
+			for(Fleet fleet: planet.getFleets()){				
+				if(i == null){
+					i = fleet.getOwner();
+				}
+				if(i != null){
+					//TODO FIGHT
+				}
+			}			
 		}
 	}
 	

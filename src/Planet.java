@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Class representing planets in the game.
  * @author danieka
@@ -10,6 +12,7 @@ public class Planet {
 	private Player owner;
 	private int x;
 	private int y;
+	private ArrayList<Fleet> fleets; 
 	
 	Planet (int x, int y, int size, String name, Player owner){
 		this.size = size;
@@ -40,4 +43,16 @@ public class Planet {
 	public int getY(){
 		return y;
 	}
+	
+	public void addFleet(Fleet fleet){
+		fleets.add(fleet);
+	}
+	
+	public void removeFleet(Fleet fleet){
+		fleets.remove(fleet);
+	}
+	
+	public ArrayList<Fleet> getFleets(){
+		return fleets;
+	}	
 }
