@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.newdawn.slick.Color;
+
 /**
  * Game object
  * @author danieka
@@ -148,11 +150,12 @@ public class GameObject {
 	}
 	
 	public void createPlayers(int amountOfPlayers){
-		players.add(new Player("name"));
+		players.add(new Player("name", Color.blue));
+		planets.get(0).setOwner(players.get(0));
 		for(int i = 0; i < amountOfPlayers-1; i++){
-			players.add(new AIPlayer("name"));
+			players.add(new AIPlayer("name", Color.red));
+			planets.get(i).setOwner(players.get(i));
 		}
-		
 	}
 	
 	public Player getHumanPlayer(){		
