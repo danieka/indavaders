@@ -152,9 +152,13 @@ public class GameObject {
 	public void createPlayers(int amountOfPlayers){
 		players.add(new Player("name", Color.blue));
 		planets.get(0).setOwner(players.get(0));
-		for(int i = 0; i < amountOfPlayers-1; i++){
-			players.add(new AIPlayer("name", Color.red));
-			planets.get(i).setOwner(players.get(i));
+		fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
+		planets.get(0).addFleet(fleets.get(0));
+		for(int i = 0; i < amountOfPlayers-1; i++){			
+			players.add(new AIPlayer("name", Color.red));			
+			planets.get(i).setOwner(players.get(i));			
+			fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
+			planets.get(i).addFleet(fleets.get(i));
 		}
 	}
 	
