@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +11,7 @@ public class GameObjectTest {
 	
 	@Before
 	public void method() {
-		GameObject G = GameObject.getInstance();
+		G = GameObject.getInstance();
 		G.createPlayers(4);
 	}
 	
@@ -19,7 +21,8 @@ public class GameObjectTest {
 		assertEquals(G.getPlanets().size(), 6);
 		Player human = G.getHumanPlayer();
 		G.getPlanets().get(0).setOwner(human);
-		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanets().get(0)));
+		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanets().get(0)));		
+		assertEquals(G.getAIPlayers().size(), 3);
 	}
 	
 	@Test

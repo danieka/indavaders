@@ -11,7 +11,7 @@ public class Planet {
 	private int x;
 	private int y;
 	
-	Planet (int size, String name, Player owner, int x, int y){
+	Planet (int x, int y, int size, String name, Player owner){
 		this.size = size;
 		this.name = name;
 		this.productionCapacity = size;
