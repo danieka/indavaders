@@ -10,6 +10,11 @@ public class Assignement implements Comparable<Assignement> {
 	Assignement(Task task, float score, Fleet fleet){
 		this.task = task;
 		this.score = score;
+		this.fleet = fleet;
+	}
+	
+	public Task getTask(){
+		return task;
 	}
 	
 	@Override
@@ -18,7 +23,11 @@ public class Assignement implements Comparable<Assignement> {
 	}
 	
 	public String toString(){
-		return "Task: " + task.toString() + ", Ass. Scr: " + score;
+		return "Task: " + task.toString() + ", Ass. Scr: " + score + ", With fleet: " + fleet;
+	}
+
+	public Fleet getFleet() {
+		return fleet;
 	}
 	
 }

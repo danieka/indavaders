@@ -142,7 +142,14 @@ public class GameObject {
 		return list;
 	}
 	
-	//TODO: We need a function to split fleets. It should take a fleet as an argument and return the newly created fleet.
+	public Fleet splitFleet(Fleet fleet, int newSize){
+		if(newSize > fleet.getSize()) throw new IllegalArgumentException("Illegal size");
+		Fleet newFleet = new Fleet(newSize, fleet.getOwner(), fleet.getPlanet());
+		fleets.add(newFleet);
+		fleet.getPlanet().addFleet(newFleet);
+		fleet.setSize(fleet.getSize() - newSize);
+		return newFleet;
+	}
 	
 	public ArrayList<Fleet> getPlayerFleets(Player player){
 		ArrayList<Fleet> list = new ArrayList<Fleet>();
@@ -243,6 +250,7 @@ public class GameObject {
 		Move m;
 		while(!moveQueue.isEmpty()){
 			m = moveQueue.poll();
+			System.out.println(m);
 			m.execute();
 		}
 		

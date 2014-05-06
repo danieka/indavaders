@@ -1,5 +1,6 @@
 package ai;
 
+import main.Fleet;
 import main.Planet;
 
 public class Task implements Comparable<Task> {
@@ -27,7 +28,14 @@ public class Task implements Comparable<Task> {
 	}
 
 	public float getScore() {
-		// TODO Auto-generated method stub
 		return score+(score / shipsNecessary);
+	}
+	
+	public int getShipsNecessary() {
+		return shipsNecessary;
+	}
+
+	public void decreaseShipsNecessary(int size) {
+		shipsNecessary -= size;
 	}
 }

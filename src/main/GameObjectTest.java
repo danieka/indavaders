@@ -59,6 +59,16 @@ public class GameObjectTest {
 		G.nextTurn();
 	}
 	
+	@Test
+	public void testSplitFleet(){
+		Fleet oldFleet = G.getFleets().get(0);
+		Fleet newFleet = G.splitFleet(oldFleet, 5);
+		assertEquals(15, oldFleet.getSize());
+		assertEquals(5, newFleet.getSize());
+		assertEquals(newFleet.getPlanet(), oldFleet.getPlanet());
+		assertEquals(5, G.getFleets().size());
+	}
+	
 	@After
 	public void tearDown() {
 		G.destroy();

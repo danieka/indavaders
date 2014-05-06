@@ -5,7 +5,7 @@ public class Move {
 	private Planet to;
 	private Planet from;
 
-	Move(Fleet fleet, Planet to, Planet from){
+	public Move(Fleet fleet, Planet to, Planet from){
 		this.fleet = fleet;
 		this.to = to;
 		this.from = from;
