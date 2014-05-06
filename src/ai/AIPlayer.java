@@ -1,3 +1,9 @@
+package ai;
+
+import main.Fleet;
+import main.GameObject;
+import main.Player;
+
 import org.newdawn.slick.Color;
 
 /**
@@ -6,7 +12,7 @@ import org.newdawn.slick.Color;
  *
  */
 public class AIPlayer extends Player{
-	AIPlayer (String name, Color color) {
+	public AIPlayer (String name, Color color) {
 		super(name, color);
 	}
 	
@@ -24,5 +30,9 @@ public class AIPlayer extends Player{
 		else{
 			fleet.moveTo(largestFleet.getPlanet());
 		}
+	}
+	
+	private void gatherTasks(){
+		return;
 	}
 }

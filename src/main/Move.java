@@ -1,3 +1,4 @@
+package main;
 
 public class Move {
 	private Fleet fleet;

@@ -1,3 +1,4 @@
+package main;
 /**
  * This interface contains a single act method intended to be called during a
  * traversal of a graph.

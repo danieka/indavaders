@@ -1,3 +1,4 @@
+package main;
 import org.newdawn.slick.Color;
 
 /**
@@ -10,7 +11,7 @@ public class Player {
 	private Color color;
 	
 	
-	Player (String name, Color color){
+	protected Player (String name, Color color){
 		this.name = name;
 		this.color = color;
 	}
