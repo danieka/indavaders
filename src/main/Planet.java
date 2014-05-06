@@ -57,4 +57,8 @@ public class Planet {
 	public ArrayList<Fleet> getFleets(){
 		return fleets;
 	}	
+	
+	public String getName(){
+		return name;
+	}
 }

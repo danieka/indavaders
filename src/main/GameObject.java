@@ -142,6 +142,8 @@ public class GameObject {
 		return list;
 	}
 	
+	//TODO: We need a function to split fleets. It should take a fleet as an argument and return the newly created fleet.
+	
 	public ArrayList<Fleet> getPlayerFleets(Player player){
 		ArrayList<Fleet> list = new ArrayList<Fleet>();
 		for(Fleet fleet: fleets){
@@ -157,8 +159,8 @@ public class GameObject {
 		planets.get(0).setOwner(players.get(0));
 		fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
 		planets.get(0).addFleet(fleets.get(0));
-		for(int i = 0; i < amountOfPlayers-1; i++){			
-			players.add(new AIPlayer("name", Color.red));			
+		for(int i = 1; i < amountOfPlayers; i++){			
+			players.add(new AIPlayer("name", Color.red));	
 			planets.get(i).setOwner(players.get(i));			
 			fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
 			planets.get(i).addFleet(fleets.get(i));
@@ -177,7 +179,6 @@ public class GameObject {
 				list.add((AIPlayer) player); 
 			}			
 		}		
-		System.out.println(players);
 		return list;
 	}
 	
@@ -225,11 +226,18 @@ public class GameObject {
 		return ret;
 	}
 	
+	public ArrayList<Planet> getNeighbourPlanets(Planet planet){
+		ArrayList<Planet> ret = new ArrayList<Planet>();
+		for (VertexIterator iter = G.neighbors(planets.indexOf(planet)); iter.hasNext();){
+			int v = iter.next();
+			ret.add(planets.get(v));
+		}
+		return ret;
+	}
+	
 	public void nextTurn(){
 		for(AIPlayer p : getAIPlayers()){
-			for(Fleet f : getPlayerFleets(p)){
-				p.makeMove(f);
-			}
+			p.makeMove();
 		}
 		
 		Move m;
@@ -260,6 +268,10 @@ public class GameObject {
 				}
 			}			
 		}
+		
+		//TODO: Kolla om några planeter bytt ägarskap
+		//TODO: Kolla om någon spelare blivit utslagen och ta bort dem om fallet är så.
+		//TODO: Skapa nya flottor, planeter som spelare äger bygger nya flottor
 	}
 	
 	public int[] path(Planet fromPlanet, Planet destPlanet){
