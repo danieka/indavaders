@@ -45,8 +45,8 @@ public class GameState extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
 			throws SlickException {
 		g.drawString("This is the game", 280, 200);
-		g.setLineWidth(3);
-		g.setColor(Color.green);
+		g.setLineWidth(1);
+		g.setColor(Color.cyan);
 		for(int[] l : game.getAllEdges()){
 			int x1 = l[0];
 			int y1 = l[1];
