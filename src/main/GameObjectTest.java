@@ -18,13 +18,13 @@ public class GameObjectTest {
 		G.createPlayers(4);
 	}
 	
-	//@Test
+	@Test
 	public void testConstruct() {
 		assertEquals(G.getPlanets().size(), 6);
 		assertEquals(G.getAIPlayers().size(), 3);
 	}
 	
-	//@Test
+	@Test
 	public void testChangeOwner() {
 		Player human = G.getHumanPlayer();
 		G.getPlanets().get(0).setOwner(human);
@@ -36,11 +36,22 @@ public class GameObjectTest {
 		assertEquals(0, G.getPlayerPlanets(human).size());
 	}
 	
-	//@Test
+	@Test
 	public void testPath() {
 		assertArrayEquals(new int[]{0,1,5},G.path(G.getPlanets().get(0), G.getPlanets().get(5)));
 		assertArrayEquals(new int[]{1,5},G.path(G.getPlanets().get(1), G.getPlanets().get(5)));
 		assertArrayEquals(new int[]{2,3,4},G.path(G.getPlanets().get(2), G.getPlanets().get(4)));
+	}
+	
+	@Test
+	public void testNeighbourPlanet() {
+		ArrayList<Planet> n = G.getNeighbourPlanets(G.getPlanets().get(0));
+		assertTrue(n.contains(G.getPlanets().get(3)));
+		assertTrue(n.contains(G.getPlanets().get(1)));
+		
+		n = G.getNeighbourPlanets(G.getPlanets().get(5));
+		assertTrue(n.contains(G.getPlanets().get(4)));
+		assertTrue(n.contains(G.getPlanets().get(1)));
 	}
 	
 	@Test
@@ -50,7 +61,7 @@ public class GameObjectTest {
 	
 	@After
 	public void tearDown() {
-		G = null;
+		G.destroy();
 		System.gc();
 	}
 

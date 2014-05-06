@@ -58,7 +58,7 @@ public class GameObject {
             		System.err.println("On line " + line);
             	}
             	if(G != null && elements.length == 3){
-            		G.add(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+            		G.addBi(Integer.parseInt(elements[0]), Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
             		
             	}
             	
@@ -352,5 +352,9 @@ public class GameObject {
                         max = i;
         }
         return max;
+	}
+
+	public void destroy() {
+		uniqInstance = new GameObject();
 	}
 }

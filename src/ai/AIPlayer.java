@@ -18,23 +18,33 @@ import org.newdawn.slick.Color;
  *
  */
 public class AIPlayer extends Player{
-	private float defendAffinity = 10;
-	private float attackAffinity = 5;
-	private float colonizeAffinity = 5;
+	private boolean verbose = true;
+	private float defendAffinity = 50;
+	private float attackAffinity = 40;
+	private float colonizeAffinity = 45;
 	
 	GameObject G;
 	ArrayList<Task> taskList;
+	ArrayList<Assignement> assignementList;
 	
 	public AIPlayer (String name, Color color) {
 		super(name, color);
-		G = GameObject.getInstance();		
+		G = GameObject.getInstance();
+				
 	}
 	
 	public void makeMove(){
+		
+		if(verbose)System.out.println("New player move!!");
 		gatherTasks();
 		assignTasks();
+		executeAssignements();
+		for(Assignement ass : assignementList){
+			if(verbose) System.out.println(ass);
+		}
 	}
-	
+
+
 	/**
 	 * This dfs-search goes through all planets and generates appropriate tasks that ought to be performed in the next round.
 	 */
@@ -72,13 +82,27 @@ public class AIPlayer extends Player{
 			}
 		}
 		Collections.sort(taskList);
-		System.out.println(taskList);
 	}
 	
 	/**
 	 * Here we allocate our fleets to 
 	 */
 	private void assignTasks(){
-		return;
+		assignementList = new ArrayList<Assignement>();
+		for(Task task : taskList){
+			for(Fleet fleet : G.getPlayerFleets(this)){
+				assignTask(task, fleet);
+			}
+		}
+		Collections.sort(assignementList);
+	}
+	
+	private void assignTask(Task task, Fleet fleet){
+		float score = task.getScore()/Math.max(1, G.path(fleet.getPlanet(), task.getPlanet()).length -2);
+		assignementList.add(new Assignement(task, score, fleet)); 
+	}
+	
+	private void executeAssignements() {
+			return;
 	}
 }

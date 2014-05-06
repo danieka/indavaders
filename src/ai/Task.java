@@ -19,6 +19,15 @@ public class Task implements Comparable<Task> {
 
 	@Override
 	public int compareTo(Task arg0) {
-		return (int)Math.ceil(this.score+(this.score + this.shipsNecessary) - arg0.score+(arg0.score + arg0.shipsNecessary));
+		return (int)Math.ceil(this.score+(this.score / this.shipsNecessary) - arg0.score+(arg0.score / arg0.shipsNecessary));
+	}
+
+	public Planet getPlanet() {
+		return destination;
+	}
+
+	public float getScore() {
+		// TODO Auto-generated method stub
+		return score+(score / shipsNecessary);
 	}
 }
