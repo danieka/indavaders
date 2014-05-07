@@ -283,10 +283,13 @@ public class GameObject {
 		
 		
 	}
-	public void changeOwnership(Planet planet){
-		if(){
-			
-		}		
+	public void changeOwnership(Planet planet){		
+		Player owner = planet.getOwner();
+		for(Fleet fleet: planet.getFleets()){
+			if(owner != fleet.getOwner()){
+				planet.setOwner(fleet.getOwner());
+			}
+		}				
 	}
 	
 	public void eliminatePlayer(Player player){
