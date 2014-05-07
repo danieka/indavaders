@@ -20,6 +20,12 @@ import org.newdawn.slick.Color;
  *
  */
 public class AIPlayer extends Player{
+	public static enum color {
+        RED,
+        GREEN,
+        PINK,
+    }
+	
 	private boolean verbose = true;
 	private float defendAffinity = 50;
 	private float attackAffinity = 40;
