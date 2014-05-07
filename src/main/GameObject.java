@@ -291,8 +291,9 @@ public class GameObject {
 		
 		executeMoves();
 		
-		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
-		//om det finns det ska dom slåss.
+		
+		merge();
+		
 		
 		fight();
 
@@ -309,6 +310,7 @@ public class GameObject {
 			for(Fleet fleet: planet.getFleets()){				
 				if(fleetOne == null){
 					fleetOne = fleet;	
+					continue;
 				}
 				if(fleetOne.getOwner() != fleet.getOwner()){
 					System.out.println("Fight");
@@ -378,6 +380,51 @@ public class GameObject {
 			}
 		}
 	}	
+	//Slå ihop flottor, gå igenom alla flottor å kolla om dom har samma ägare, om det är det slå ihop dom.
+	//Kolla alla flottor mot alla andra flottor
+	
+	//gå igenom planeterna
+	//gå igenom alla flottor på varje planet
+	//kolla om flottorna har samma ägare
+	//om dom har det slå ihop dom
+	
+	public void merge(){
+		for(Planet planet: planets){
+			Fleet fleetOne = null;
+			System.out.println("New planet");
+			for(Fleet fleet: planet.getFleets()){
+				//System.out.println(fleet);
+				if(fleetOne == null){					
+					fleetOne = fleet;
+					System.out.println(fleetOne.getSize());
+					continue;
+					}
+				if(fleetOne.getOwner() == fleet.getOwner()){
+					if(fleet.getSize() == 0){
+						continue;
+					}					
+					int size = fleetOne.getSize();
+					System.out.println(size);
+					
+					fleetOne.setSize(size + fleet.getSize());
+					System.out.println(fleet.getSize());
+					System.out.println(size + fleet.getSize());
+					fleet.setSize(0);					
+					
+					
+				}			
+			}
+			Iterator<Fleet> i = planet.getFleets().iterator();
+			while (i.hasNext()) {
+			   Fleet f = i.next(); // must be called before you can call i.remove()
+			   if(f.getSize() == 0){
+				   i.remove();
+				   fleets.remove(f);
+			   }			   
+			}
+		}
+		
+	}
 	
 	public int[] path(Planet fromPlanet, Planet destPlanet){
 		int from = planets.indexOf(fromPlanet);
