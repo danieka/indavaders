@@ -25,6 +25,10 @@ public class GameState extends BasicGameState{
 	Image planetImg;
 	Image nextTurn;
 	private Fleet selectedFleet;
+	private boolean shiftPressed;
+	private int divFleetNumber = 0;
+	private Fleet divFleet;
+	private String toolTip;
 
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
@@ -62,10 +66,13 @@ public class GameState extends BasicGameState{
 		//int posY = 768 - Mouse.getY();
 		
 		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
-				game.nextTurn();
-			
+				game.nextTurn();		
 		}
-		
+		if(container.getInput().isKeyDown(Input.KEY_LSHIFT)){
+			shiftPressed = true;
+		} else {
+			shiftPressed = false;
+		}		
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
@@ -112,15 +119,25 @@ public class GameState extends BasicGameState{
 		}
 		
 		g.setColor(Color.white);
-		
+		if(toolTip != null){
+			g.drawString(toolTip, posX + 15, posY);
 		}
+	}
 
 	public int getID() {
 		return 1;
 	}
 	@Override
 	public void mousePressed(int button, int posX, int posY){
-		if (button == 0){
+		if (button == 0 && !shiftPressed){
+			if(divFleet != null){
+				divFleet.setSize(divFleet.getSize() + divFleetNumber);
+				divFleetNumber = 0;
+				divFleet = null;
+				toolTip = null;
+			}
+			
+			
 			if((posX>900 && posX<995) && (posY<746 && posY>654)){
 				if(Mouse.isButtonDown(0)){
 					game.nextTurn();
@@ -135,7 +152,6 @@ public class GameState extends BasicGameState{
 						Fleet fleet = p.getFleets().get(0);
 						Mouse.getEventButtonState();
 						if(Mouse.isButtonDown(0)){
-							//fleet.moveTo(game.getPlanets().get(15));
 							selectedFleet = fleet;
 							//idleShip = selectedShip;
 						}
@@ -143,7 +159,45 @@ public class GameState extends BasicGameState{
 				}
 			}
 		}
+		
+		if (button == 0 && shiftPressed){
+			for(Planet p: game.getPlanets()){
+				if(!p.getFleets().isEmpty()){
+					int x = p.getX();
+					int y = p.getY();
+					if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+						Fleet fleet = p.getFleets().get(0);
+						if(divFleet == fleet || divFleet == null){
+							divFleet = fleet;
+							if(0 < fleet.getSize()){
+								fleet.setSize(fleet.getSize() - 1);
+								divFleetNumber += 1;
+								toolTip = divFleetNumber + "";
+							}
+						}
+					}
+				}
+			}
+
+		}
+		
 		if (button == 1){
+			if(divFleet != null){
+				Planet p = divFleet.getPlanet();
+				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				for(Planet plan: planetList){
+					int x = plan.getX();
+					int y = plan.getY();
+					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){						
+						Fleet f = game.createFleet(game.getHumanPlayer(), divFleet.getPlanet(), divFleetNumber);
+						divFleet = null;
+						divFleetNumber = 0;
+						toolTip = null;
+						f.moveTo(plan);					
+					}
+				}	
+			}
+			
 			if(selectedFleet != null){
 				Planet p = selectedFleet.getPlanet();
 				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
