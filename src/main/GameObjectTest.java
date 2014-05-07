@@ -93,6 +93,57 @@ public class GameObjectTest {
 		assertEquals(5, G.getFleets().size());
 	}
 	
+	//@Test
+	public void testGame(){
+		while(G.getAIPlayers().size() != 1){
+			G.nextTurn();
+		}
+	}
+	
+	@Test
+	public void testFight(){
+		Fleet f = G.getPlayerFleets(G.getHumanPlayer()).get(0);
+		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
+		f.setSize(40);
+		G.addMove(new Move(f, G.getPlanets().get(1)));
+		G.executeMoves();
+		G.fight();
+		assertEquals(1, G.getPlanets().get(1).getFleets().size());
+		assertTrue(G.getFleets().contains(f));
+		assertFalse(G.getFleets().contains(e));
+	}
+	
+	@Test
+	public void testEqualFight(){
+		Fleet f = G.getPlayerFleets(G.getHumanPlayer()).get(0);
+		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
+		G.addMove(new Move(f, G.getPlanets().get(1)));
+		G.executeMoves();
+		G.fight();
+		assertEquals(1, G.getPlanets().get(1).getFleets().size());
+		assertTrue(G.getFleets().contains(e));
+		assertFalse(G.getFleets().contains(f));
+	}
+	
+	@Test
+	public void testThreewayFight(){
+		Fleet f = G.getPlayerFleets(G.getHumanPlayer()).get(0);
+		f.setSize(60);
+		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
+		Fleet e2 = G.getPlayerFleets(G.getAIPlayers().get(1)).get(0);
+		G.addMove(new Move(f, G.getPlanets().get(1)));
+		G.addMove(new Move(e2, G.getPlanets().get(1)));
+		G.executeMoves();
+		assertEquals(3, G.getPlanets().get(1).getFleets().size());
+		G.fight();
+		assertEquals(1, G.getPlanets().get(1).getFleets().size());
+		assertTrue(G.getFleets().contains(f));
+		assertFalse(G.getFleets().contains(e));
+		assertFalse(G.getFleets().contains(e2));
+	}
+	
+	
+	
 	@After
 	public void tearDown() {
 		G.destroy();
