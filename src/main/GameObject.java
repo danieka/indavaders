@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -250,8 +251,9 @@ public class GameObject {
 		
 		executeMoves();
 		
-		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
-		//om det finns det ska dom slåss.
+		
+		merge();
+		
 		
 		fight();
 
@@ -327,6 +329,30 @@ public class GameObject {
 			}
 		}
 	}	
+	//Slå ihop flottor, gå igenom alla flottor å kolla om dom har samma ägare, om det är det slå ihop dom.
+	//Kolla alla flottor mot alla andra flottor
+	
+	//gå igenom planeterna
+	//gå igenom alla flottor på varje planet
+	//kolla om flottorna har samma ägare
+	//om dom har det slå ihop dom
+	
+	public void merge(){
+		for(Planet planet: planets){
+			Fleet fleetOne = null;
+			for(Fleet fleet: planet.getFleets()){
+				if(fleetOne == null){
+					fleetOne = fleet;	
+					}
+				if(fleetOne.getOwner() == fleet.getOwner()){
+					int size = fleetOne.getSize();
+					fleet.setSize(size + fleet.getSize());
+					fleetOne.setSize(0);
+					fleetOne = fleet;
+				}
+			}
+		}
+	}
 	
 	public int[] path(Planet fromPlanet, Planet destPlanet){
 		int from = planets.indexOf(fromPlanet);
