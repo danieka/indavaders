@@ -58,6 +58,7 @@ public class AIPlayer extends Player{
 			for( Planet next : G.getNeighbourPlanets(planet)){
 				if(!visited.contains(next) && next.getOwner() == this){
 					stack.add(next);
+					visited.add(next);
 				}
 				else if(next.getOwner() == null){
 					taskList.add(new Task(colonizeAffinity*next.getProductionCapacity(), next, 3));
