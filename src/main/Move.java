@@ -11,9 +11,15 @@ public class Move {
 		this.from = from;
 	}
 	
+	public Move(Fleet fleet, Planet to){
+		this.fleet = fleet;
+		this.to = to;
+		this.from = fleet.getPlanet();
+	}
+	
 	public void execute(){
 		fleet.setLocation(to);
 		from.removeFleet(fleet);
-		to.removeFleet(fleet);
+		to.addFleet(fleet);
 	}
 }
