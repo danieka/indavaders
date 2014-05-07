@@ -24,11 +24,12 @@ public class GameState extends BasicGameState{
 	Image space;
 	Image planetImg;
 	Image nextTurn;
+	private Fleet selectedFleet;
 
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
-		game.createPlayers(4);
+		game.randomPlayers(4);
 		starShip = new Image("resources/starship.gif");
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
@@ -50,26 +51,14 @@ public class GameState extends BasicGameState{
 		if(container.getInput().isKeyPressed(Input.KEY_2)){
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
-		int posX = Mouse.getX();
-		int posY = Mouse.getY();
-		if((posX>900 && posX<995) && (posY>22 && posY<114)){
-			if(Mouse.isButtonDown(0) || container.getInput().isKeyPressed(Input.KEY_SPACE)){
+		//int posX = Mouse.getX();
+		//int posY = 768 - Mouse.getY();
+		
+		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
 				game.nextTurn();
 			
-			}
 		}
-		for(Planet p: game.getPlanets()){
-			if(!p.getFleets().isEmpty()){
-				int x = p.getX();
-				int y = 768 - p.getY();
-				if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
-					Fleet fleet = p.getFleets().get(0);
-					if(Mouse.isButtonDown(0)){
-						fleet.moveTo(game.getPlanets().get(15));
-					}
-				}
-			}
-		}
+		
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
@@ -78,7 +67,7 @@ public class GameState extends BasicGameState{
 		planetImg.draw(150, 150);
 		nextTurn.draw(900, 650);
 		int posX = Mouse.getX();
-		int posY = Mouse.getY();
+		int posY = 768 - Mouse.getY();
 		g.drawString("X: " + posX + " Y: "+ posY, 600, 50);
 		g.setLineWidth(1);
 		g.setColor(Color.cyan);
@@ -109,6 +98,7 @@ public class GameState extends BasicGameState{
 				for(int n=0; n<p.getFleets().size(); n++){
 					z += p.getFleets().get(n).getSize();
 				}
+				g.setColor(Color.white);
 				g.drawString("[" +z+ "]", x+30, y+10);
 			}
 		}
@@ -119,6 +109,45 @@ public class GameState extends BasicGameState{
 
 	public int getID() {
 		return 1;
+	}
+	@Override
+	public void mousePressed(int button, int posX, int posY){
+		if (button == 0){
+			if((posX>900 && posX<995) && (posY<746 && posY>654)){
+				if(Mouse.isButtonDown(0)){
+					game.nextTurn();
+				
+				}
+			}
+			for(Planet p: game.getPlanets()){
+				if(!p.getFleets().isEmpty()){
+					int x = p.getX();
+					int y = p.getY();
+					if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+						Fleet fleet = p.getFleets().get(0);
+						Mouse.getEventButtonState();
+						if(Mouse.isButtonDown(0)){
+							//fleet.moveTo(game.getPlanets().get(15));
+							selectedFleet = fleet;
+						}
+					}
+				}
+			}
+		}
+		if (button == 1){
+			if(selectedFleet != null){
+				Planet p = selectedFleet.getPlanet();
+				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				for(Planet plan: planetList){
+					int x = plan.getX();
+					int y = plan.getY();
+					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){
+						selectedFleet.moveTo(plan);
+					}
+				}
+			}
+			
+		}
 	}
 	
 }
