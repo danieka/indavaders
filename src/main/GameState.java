@@ -2,6 +2,7 @@ package main;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,7 +10,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -17,9 +17,9 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class GameState extends BasicGameState{
 	private ArrayList<Circle> gamePlanets;
-	//private ArrayList<Line> paths;
-	//private static int turn;
 	private GameObject game;
+	Animation idleShip, selectedShip, movingShip;
+	int[] duration = {500, 500, 500, 500};
 	Image starShip;
 	Image space;
 	Image planetImg;
@@ -34,9 +34,16 @@ public class GameState extends BasicGameState{
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
 		nextTurn = new Image("resources/nextTurn.png");
-		//turn = 0;
+		Image[] shipIdle = {new Image("resources/starship1.png"), new Image("resources/starship1.png"),
+		new Image("resources/starship1.png"), new Image("resources/starship1.png")};
+		Image[] selectingShip = {new Image("resources/starship1.png"), new Image("resources/starship2.png"),
+		new Image("resources/starship3.png"), new Image("resources/starship4.png")};
+		Image[] movedShip = {new Image("resources/starshipMove1.png"), new Image("resources/starshipMove2.png"),
+		new Image("resources/starship3.png"), new Image("resources/starship4.png")};
+		selectedShip = new Animation(selectingShip, duration, false);
+		idleShip = new Animation(shipIdle, duration, false);
+		movingShip = new Animation(movedShip, duration, false);
 		gamePlanets = new ArrayList<Circle>();
-		//paths = new ArrayList<Line>();
 		
 		for(Planet p: game.getPlanets()){
 			int x = p.getX();
@@ -46,7 +53,7 @@ public class GameState extends BasicGameState{
 			
 	}
 
-	public void update(GameContainer container, StateBasedGame sbg, int arg2)
+	public void update(GameContainer container, StateBasedGame sbg, int delta)
 			throws SlickException {
 		if(container.getInput().isKeyPressed(Input.KEY_2)){
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
@@ -93,7 +100,8 @@ public class GameState extends BasicGameState{
 			if(!p.getFleets().isEmpty()){
 				int x = p.getX();
 				int y = p.getY();
-				starShip.draw(x, y);
+				//starShip.draw(x, y);
+				selectedShip.draw(x, y);
 				int z = 0;
 				for(int n=0; n<p.getFleets().size(); n++){
 					z += p.getFleets().get(n).getSize();
@@ -129,6 +137,7 @@ public class GameState extends BasicGameState{
 						if(Mouse.isButtonDown(0)){
 							//fleet.moveTo(game.getPlanets().get(15));
 							selectedFleet = fleet;
+							//idleShip = selectedShip;
 						}
 					}
 				}
@@ -143,6 +152,7 @@ public class GameState extends BasicGameState{
 					int y = plan.getY();
 					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){
 						selectedFleet.moveTo(plan);
+						selectedShip = movingShip;
 					}
 				}
 			}
