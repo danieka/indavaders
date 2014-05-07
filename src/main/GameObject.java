@@ -134,6 +134,10 @@ public class GameObject {
 		return planets;
 	}
 	
+	public Planet getPlanet(int i){
+		return planets.get(i);
+	}
+	
 	public ArrayList<Fleet> getFleets(){
 		return fleets;
 	}
@@ -267,12 +271,7 @@ public class GameObject {
 
 		changeOwnership();
 		eliminatePlayer();
-		spawnNewFleets();
-		//TODO: Kolla om några planeter bytt ägarskap
-		//TODO: Kolla om någon spelare blivit utslagen och ta bort dem om fallet är så.
-		//TODO: Skapa nya flottor, planeter som spelare äger bygger nya flottor
-		
-		
+		spawnNewFleets();		
 	}
 
 

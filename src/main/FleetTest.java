@@ -21,7 +21,7 @@ public class FleetTest {
 	@Test
 	public void testMoveTo() {
 		Planet prev = f.getPlanet();
-		Planet p = G.getPlanets().get(5);
+		Planet p = G.getPlanet(5);
 		f.moveTo(p);
 		G.executeMoves();
 		assertEquals(p, f.getPlanet());
@@ -32,8 +32,8 @@ public class FleetTest {
 	@Test
 	public void testMoveTowards() {
 		Planet prev = f.getPlanet();
-		Planet p = G.getPlanets().get(5);
-		f.moveTo(G.getPlanets().get(15));
+		Planet p = G.getPlanet(5);
+		f.moveTo(G.getPlanet(15));
 		G.executeMoves();
 		assertEquals(p, f.getPlanet());
 		assertTrue(p.getFleets().contains(f));
