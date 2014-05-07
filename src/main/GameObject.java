@@ -367,7 +367,6 @@ public class GameObject {
 			   Player p = i.next(); // must be called before you can call i.remove()
 			   if(getPlayerPlanets(p).isEmpty()){
 				   i.remove();
-
 			   }			   
 			}
 	}
@@ -375,27 +374,22 @@ public class GameObject {
 	public void spawnNewFleets(){		
 		for(Planet planet: planets){
 			if(planet.getOwner() != null){
-				Fleet f = new Fleet(5*planet.getProductionCapacity(), planet.getOwner(), planet);
+				int r = 5;
+				if(planet.getOwner() == players.get(0)){
+					r = 10;
+				}
+				Fleet f = new Fleet(r*planet.getProductionCapacity(), planet.getOwner(), planet);
 				planet.addFleet(f);
 				fleets.add(f);
 			}
 		}
 	}	
-	//Slå ihop flottor, gå igenom alla flottor å kolla om dom har samma ägare, om det är det slå ihop dom.
-	//Kolla alla flottor mot alla andra flottor
-	
-	//gå igenom planeterna
-	//gå igenom alla flottor på varje planet
-	//kolla om flottorna har samma ägare
-	//om dom har det slå ihop dom
-	
+
 	public void merge(){
-		for(Planet planet: planets){
-			Fleet fleetOne = null;
+		for(Planet planet: planets){			
 			for(Fleet f : planet.getFleets()){
 				if (f.getSize() == 0) continue;
-				for(Fleet fleet: planet.getFleets()){
-					//System.out.println(fleet);
+				for(Fleet fleet: planet.getFleets()){					
 					if(fleet == f || fleet.getSize() == 0){					
 						continue;
 					}
@@ -404,7 +398,6 @@ public class GameObject {
 							continue;
 						}					
 						int size = f.getSize();
-
 						f.setSize(size + fleet.getSize());
 						fleet.setSize(0);					
 					}			
@@ -412,16 +405,15 @@ public class GameObject {
 			}
 			Iterator<Fleet> i = planet.getFleets().iterator();
 			while (i.hasNext()) {
-			   Fleet f = i.next(); // must be called before you can call i.remove()
-			   if(f.getSize() == 0){
-				   i.remove();
-				   fleets.remove(f);
-			   }			   
+				Fleet f = i.next(); // must be called before you can call i.remove()
+				if(f.getSize() == 0){
+					i.remove();
+					fleets.remove(f);
+				}			   
 			}
-		}
-		
+		}		
 	}
-	
+
 	public int[] path(Planet fromPlanet, Planet destPlanet){
 		int from = planets.indexOf(fromPlanet);
 		int next = planets.indexOf(destPlanet);
