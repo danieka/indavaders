@@ -53,12 +53,23 @@ public class GameState extends BasicGameState{
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 		if((posX>900 && posX<995) && (posY>22 && posY<114)){
-			if(Mouse.isButtonDown(0)){
+			if(Mouse.isButtonDown(0) || container.getInput().isKeyPressed(Input.KEY_SPACE)){
 				game.nextTurn();
 			
 			}
 		}
-		
+		for(Planet p: game.getPlanets()){
+			if(!p.getFleets().isEmpty()){
+				int x = p.getX();
+				int y = 768 - p.getY();
+				if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+					Fleet fleet = p.getFleets().get(0);
+					if(Mouse.isButtonDown(0)){
+						fleet.moveTo(game.getPlanets().get(15));
+					}
+				}
+			}
+		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
@@ -94,7 +105,10 @@ public class GameState extends BasicGameState{
 				int x = p.getX();
 				int y = p.getY();
 				starShip.draw(x, y);
-				int z = p.getFleets().get(0).getSize();
+				int z = 0;
+				for(int n=0; n<p.getFleets().size(); n++){
+					z += p.getFleets().get(n).getSize();
+				}
 				g.drawString("[" +z+ "]", x+30, y+10);
 			}
 		}
