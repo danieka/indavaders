@@ -299,7 +299,8 @@ public class GameObject {
 
 		changeOwnership();
 		eliminatePlayer();
-		spawnNewFleets();		
+		spawnNewFleets();	
+		merge();
 	}
 
 
@@ -391,28 +392,23 @@ public class GameObject {
 	public void merge(){
 		for(Planet planet: planets){
 			Fleet fleetOne = null;
-			System.out.println("New planet");
-			for(Fleet fleet: planet.getFleets()){
-				//System.out.println(fleet);
-				if(fleetOne == null){					
-					fleetOne = fleet;
-					System.out.println(fleetOne.getSize());
-					continue;
-					}
-				if(fleetOne.getOwner() == fleet.getOwner()){
-					if(fleet.getSize() == 0){
+			for(Fleet f : planet.getFleets()){
+				if (f.getSize() == 0) continue;
+				for(Fleet fleet: planet.getFleets()){
+					//System.out.println(fleet);
+					if(fleet == f || fleet.getSize() == 0){					
 						continue;
-					}					
-					int size = fleetOne.getSize();
-					System.out.println(size);
-					
-					fleetOne.setSize(size + fleet.getSize());
-					System.out.println(fleet.getSize());
-					System.out.println(size + fleet.getSize());
-					fleet.setSize(0);					
-					
-					
-				}			
+					}
+					if(f.getOwner() == fleet.getOwner()){
+						if(fleet.getSize() == 0){
+							continue;
+						}					
+						int size = f.getSize();
+
+						f.setSize(size + fleet.getSize());
+						fleet.setSize(0);					
+					}			
+				}
 			}
 			Iterator<Fleet> i = planet.getFleets().iterator();
 			while (i.hasNext()) {
@@ -508,5 +504,12 @@ public class GameObject {
 
 	public void destroy() {
 		uniqInstance = new GameObject();
+	}
+
+	public Fleet createFleet(Player player1, Planet p, int i) {
+		Fleet f = new Fleet(i, player1, p);
+		fleets.add(f);
+		p.addFleet(f);
+		return f;
 	}
 }

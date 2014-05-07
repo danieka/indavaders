@@ -144,19 +144,16 @@ public class GameObjectTest {
 	@Test
 	public void testMerge2(){		
 		Player player1 = G.getAIPlayers().get(1);		
-		Player player2 = G.getAIPlayers().get(2);	
-		Fleet f = G.getPlayerFleets(G.getAIPlayers().get(0));
-		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0));
-		
-		
-		
-//		G.addMove(new Move(f, G.getPlanets().get(1)));
-//		G.executeMoves();
-		
+		Player player2 = G.getAIPlayers().get(2);
+		Planet p = G.getPlanet(15);
+		Fleet f1 = G.createFleet(player1, p, 20);
+		Fleet f2 = G.createFleet(player2, p, 20);
+		Fleet f3 = G.createFleet(player1, p, 20);
+		Fleet f4 = G.createFleet(player2, p, 20);
 		G.merge();
-		assertEquals(1, G.getPlanets().get(1).getFleets().size());
-		assertTrue(G.getFleets().contains(f));
-		assertFalse(G.getFleets().contains(e));
+		assertEquals(2, p.getFleets().size());
+		assertTrue(p.getFleets().contains(f1));
+		assertTrue(p.getFleets().contains(f2));
 	}
 	
 	@Test
