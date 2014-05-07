@@ -243,6 +243,7 @@ public class GameObject {
 	}
 	
 	public void nextTurn(){
+		System.out.println("<<<<<<<<<<<<<<  New turn  >>>>>>>>>>>>>>");
 		for(AIPlayer p : getAIPlayers()){
 			p.makeMove();
 		}
@@ -251,6 +252,20 @@ public class GameObject {
 		
 		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
 		//om det finns det ska dom slåss.
+		
+		fight();
+
+		
+		//TODO: Kolla om några planeter bytt ägarskap
+		//TODO: Kolla om någon spelare blivit utslagen och ta bort dem om fallet är så.
+		//TODO: Skapa nya flottor, planeter som spelare äger bygger nya flottor
+		
+		
+	}
+
+
+	private void fight() {
+		
 		for(Planet planet: planets){
 			Fleet fleetOne = null;
 			for(Fleet fleet: planet.getFleets()){				
@@ -258,6 +273,7 @@ public class GameObject {
 					fleetOne = fleet;	
 				}
 				if(fleetOne.getOwner() != fleet.getOwner()){
+					System.out.println("Fight");
 					if(fleetOne.getSize() > fleet.getSize()){
 						fleetOne.setSize(fleetOne.getSize() - fleet.getSize());
 						fleets.remove(fleet);
@@ -271,20 +287,12 @@ public class GameObject {
 				}
 			}			
 		}
-		
-		//TODO: Kolla om några planeter bytt ägarskap
-		//TODO: Kolla om någon spelare blivit utslagen och ta bort dem om fallet är så.
-		//TODO: Skapa nya flottor, planeter som spelare äger bygger nya flottor
-		
-		
 	}
-
 
 	public void executeMoves(){
 		Move m;
 		while(!moveQueue.isEmpty()){
 			m = moveQueue.poll();
-			System.out.println(m);
 			m.execute();
 		}
 	}
