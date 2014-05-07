@@ -270,15 +270,12 @@ public class GameObject {
 					}
 				}
 			}			
-		}
+		}		
 		
-		//TODO: Kolla om några planeter bytt ägarskap
-		//TODO: Kolla om någon spelare blivit utslagen och ta bort dem om fallet är så.
-		//TODO: Skapa nya flottor, planeter som spelare äger bygger nya flottor
-		
-		
+		changeOwnership();
+		eliminatePlayer();
+		spawnNewFleets();			
 	}
-
 
 	public void executeMoves(){
 		Move m;
@@ -289,27 +286,33 @@ public class GameObject {
 		}
 	}
 
-	public void changeOwnership(Planet planet){		
-		Player owner = planet.getOwner();
-		for(Fleet fleet: planet.getFleets()){
-			if(owner != fleet.getOwner()){
-				planet.setOwner(fleet.getOwner());
-			}
-		}		
-
-	}
-
-	public void eliminatePlayer(Player player){
-		if(getPlayerPlanets(player) == null){
-			players.remove(player);			
-		}			
-	}
-
-	public void spawnNewFleets(Planet planet){				
-		if(planet.getOwner() != null){
-			planet.addFleet(new Fleet(5*planet.getProductionCapacity(), planet.getOwner(), planet));						
+	public void changeOwnership(){		
+		for(Planet planet: planets){
+			Player owner = planet.getOwner();		
+			for(Fleet fleet: planet.getFleets()){
+				if(owner != fleet.getOwner()){
+					planet.setOwner(fleet.getOwner());
+				}
+			}		
 		}
+	}
 
+	public void eliminatePlayer(){
+		for(Player player: players){
+			if(getPlayerPlanets(player).isEmpty()){
+				players.remove(player);			
+			}			
+		}
+	}
+
+	public void spawnNewFleets(){		
+		for(Planet planet: planets){
+			if(planet.getOwner() != null){
+				Fleet f = new Fleet(5*planet.getProductionCapacity(), planet.getOwner(), planet);
+				planet.addFleet(f);
+				fleets.add(f);
+			}
+		}
 	}	
 	
 	public int[] path(Planet fromPlanet, Planet destPlanet){
