@@ -247,12 +247,7 @@ public class GameObject {
 			p.makeMove();
 		}
 		
-		Move m;
-		while(!moveQueue.isEmpty()){
-			m = moveQueue.poll();
-			System.out.println(m);
-			m.execute();
-		}
+		executeMoves();
 		
 		//Gå igenom alla planeter å kolla om det finns flottor från olika spelare,
 		//om det finns det ska dom slåss.
@@ -283,6 +278,16 @@ public class GameObject {
 		
 		
 	}
+	
+	public void executeMoves(){
+		Move m;
+		while(!moveQueue.isEmpty()){
+			m = moveQueue.poll();
+			System.out.println(m);
+			m.execute();
+		}
+	}
+	
 	public void changeOwnership(Planet planet){
 		if(){
 			

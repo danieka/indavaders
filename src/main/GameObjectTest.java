@@ -80,6 +80,7 @@ public class GameObjectTest {
 		G.spawnNewFleets(p);
 		assertEquals(2, p.getFleets().size());
 		assertEquals(5, p.getFleets().get(1).getSize());
+		assertEquals(2, G.getPlayerFleets(G.getHumanPlayer()).size());
 	}
 	
 	@Test
