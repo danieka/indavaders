@@ -67,6 +67,22 @@ public class GameObjectTest {
 	}
 	
 	@Test
+	public void testEliminatePlayers() {
+		Player p = G.getAIPlayers().get(1);
+		G.getPlayerPlanets(p).get(0).setOwner(G.getHumanPlayer());
+		G.eliminatePlayer(p);
+		assertFalse(G.getAIPlayers().contains(p));
+	}
+	
+	@Test
+	public void testSpawnFleets() {
+		Planet p = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
+		G.spawnNewFleets(p);
+		assertEquals(2, p.getFleets().size());
+		assertEquals(5, p.getFleets().get(1).getSize());
+	}
+	
+	@Test
 	public void testSplitFleet(){
 		Fleet oldFleet = G.getFleets().get(0);
 		Fleet newFleet = G.splitFleet(oldFleet, 5);
