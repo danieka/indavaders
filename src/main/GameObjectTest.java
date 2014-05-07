@@ -93,7 +93,7 @@ public class GameObjectTest {
 		assertEquals(5, G.getFleets().size());
 	}
 	
-	//@Test
+	@Test
 	public void testGame(){
 		while(G.getAIPlayers().size() != 1){
 			G.nextTurn();

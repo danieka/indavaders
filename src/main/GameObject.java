@@ -20,6 +20,15 @@ import ai.AIPlayer;
  *
  */
 public class GameObject {
+	private enum color {
+        RED(Color.red), GREEN(Color.green), MAGENTA(Color.magenta), ORANGE(Color.orange);
+        
+        private Color color;
+        
+        private color(Color color) {
+            this.color = color;
+        }
+    }
 	
 	private ArrayList<Player> players;
 	private ArrayList<Planet> planets;
@@ -168,7 +177,7 @@ public class GameObject {
 		fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
 		planets.get(0).addFleet(fleets.get(0));
 		for(int i = 1; i < amountOfPlayers; i++){			
-			players.add(new AIPlayer("name", Color.red));	
+			players.add(new AIPlayer("name", color.values()[i].color));	
 			planets.get(i).setOwner(players.get(i));			
 			fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
 			planets.get(i).addFleet(fleets.get(i));
