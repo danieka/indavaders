@@ -275,6 +275,7 @@ public class GameObject {
 			for(Fleet fleet: planet.getFleets()){				
 				if(fleetOne == null){
 					fleetOne = fleet;	
+					continue;
 				}
 				if(fleetOne.getOwner() != fleet.getOwner()){
 					System.out.println("Fight");
@@ -352,18 +353,39 @@ public class GameObject {
 	public void merge(){
 		for(Planet planet: planets){
 			Fleet fleetOne = null;
+			System.out.println("New planet");
 			for(Fleet fleet: planet.getFleets()){
-				if(fleetOne == null){
-					fleetOne = fleet;	
+				//System.out.println(fleet);
+				if(fleetOne == null){					
+					fleetOne = fleet;
+					System.out.println(fleetOne.getSize());
+					continue;
 					}
 				if(fleetOne.getOwner() == fleet.getOwner()){
+					if(fleet.getSize() == 0){
+						continue;
+					}					
 					int size = fleetOne.getSize();
-					fleet.setSize(size + fleet.getSize());
-					fleetOne.setSize(0);
-					fleetOne = fleet;
-				}
+					System.out.println(size);
+					
+					fleetOne.setSize(size + fleet.getSize());
+					System.out.println(fleet.getSize());
+					System.out.println(size + fleet.getSize());
+					fleet.setSize(0);					
+					
+					
+				}			
+			}
+			Iterator<Fleet> i = planet.getFleets().iterator();
+			while (i.hasNext()) {
+			   Fleet f = i.next(); // must be called before you can call i.remove()
+			   if(f.getSize() == 0){
+				   i.remove();
+				   fleets.remove(f);
+			   }			   
 			}
 		}
+		
 	}
 	
 	public int[] path(Planet fromPlanet, Planet destPlanet){
