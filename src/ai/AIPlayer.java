@@ -101,7 +101,6 @@ public class AIPlayer extends Player{
 
 	private void executeAssignements() {
 		HashSet<Fleet> assignedFleets = new HashSet<Fleet>();
-		System.out.println(taskList);
 		for(Assignement ass : assignementList){
 			if(assignedFleets.contains(ass.getFleet())) continue;
 			
@@ -116,7 +115,6 @@ public class AIPlayer extends Player{
 				ass.getTask().decreaseShipsNecessary(ass.getFleet().getSize());
 				assignedFleets.add(ass.getFleet());
 			}
-			System.out.println(taskList);
 		}
 	}
 }
