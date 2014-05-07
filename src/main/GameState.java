@@ -206,6 +206,7 @@ public class GameState extends BasicGameState{
 					int y = plan.getY();
 					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){
 						selectedFleet.moveTo(plan);
+						selectedFleet = null;
 						selectedShip = movingShip;
 					}
 				}
