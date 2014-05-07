@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -19,6 +20,15 @@ import ai.AIPlayer;
  *
  */
 public class GameObject {
+	private enum color {
+        RED(Color.red), GREEN(Color.green), MAGENTA(Color.magenta), ORANGE(Color.orange);
+        
+        private Color color;
+        
+        private color(Color color) {
+            this.color = color;
+        }
+    }
 	
 	private ArrayList<Player> players;
 	private ArrayList<Planet> planets;
@@ -167,7 +177,7 @@ public class GameObject {
 		fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
 		planets.get(0).addFleet(fleets.get(0));
 		for(int i = 1; i < amountOfPlayers; i++){			
-			players.add(new AIPlayer("name", Color.red));	
+			players.add(new AIPlayer("name", color.values()[i].color));	
 			planets.get(i).setOwner(players.get(i));			
 			fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
 			planets.get(i).addFleet(fleets.get(i));
@@ -266,7 +276,7 @@ public class GameObject {
 	}
 
 
-	private void fight() {
+	public void fight() {
 		
 		for(Planet planet: planets){
 			Fleet fleetOne = null;
@@ -276,18 +286,30 @@ public class GameObject {
 				}
 				if(fleetOne.getOwner() != fleet.getOwner()){
 					System.out.println("Fight");
+					if(fleet.getSize() == 0){
+						continue;
+					}
 					if(fleetOne.getSize() > fleet.getSize()){
 						fleetOne.setSize(fleetOne.getSize() - fleet.getSize());
-						fleets.remove(fleet);
-						fleet.getPlanet().removeFleet(fleet);
+						fleet.setSize(0);
 					} else if(fleetOne.getSize() < fleet.getSize()){
-						fleetOne.setSize(fleet.getSize() - fleetOne.getSize() );
-						fleets.remove(fleetOne);
-						fleet.getPlanet().removeFleet(fleetOne);
+						fleet.setSize(fleet.getSize() - fleetOne.getSize() );
+						fleetOne.setSize(0);
 						fleetOne = fleet;
+					} else if(fleetOne.getSize() == fleet.getSize()){
+						fleetOne.setSize(1);
+						fleet.setSize(0);
 					}
 				}
-			}			
+			}
+			Iterator<Fleet> i = planet.getFleets().iterator();
+			while (i.hasNext()) {
+			   Fleet f = i.next(); // must be called before you can call i.remove()
+			   if(f.getSize() == 0){
+				   i.remove();
+				   fleets.remove(f);
+			   }			   
+			}
 		}
 	}
 

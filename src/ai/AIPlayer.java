@@ -20,6 +20,12 @@ import org.newdawn.slick.Color;
  *
  */
 public class AIPlayer extends Player{
+	public static enum color {
+        RED,
+        GREEN,
+        PINK,
+    }
+	
 	private boolean verbose = true;
 	private float defendAffinity = 50;
 	private float attackAffinity = 40;
@@ -58,6 +64,7 @@ public class AIPlayer extends Player{
 			for( Planet next : G.getNeighbourPlanets(planet)){
 				if(!visited.contains(next) && next.getOwner() == this){
 					stack.add(next);
+					visited.add(next);
 				}
 				else if(next.getOwner() == null){
 					taskList.add(new Task(colonizeAffinity*next.getProductionCapacity(), next, 3));
