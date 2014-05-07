@@ -277,10 +277,30 @@ public class GameObject {
 			}			
 		}
 		
-		//TODO: Kolla om några planeter bytt ägarskap
-		//TODO: Kolla om någon spelare blivit utslagen och ta bort dem om fallet är så.
-		//TODO: Skapa nya flottor, planeter som spelare äger bygger nya flottor
+		//TODO: Kolla om n√•gra planeter bytt √§garskap
+		//TODO: Kolla om n√•gon spelare blivit utslagen och ta bort dem om fallet √§r s√•.
+		//TODO: Skapa nya flottor, planeter som spelare √§ger bygger nya flottor
+		
+		
 	}
+	public void changeOwnership(Planet planet){
+		if(){
+			
+		}		
+	}
+	
+	public void eliminatePlayer(Player player){
+		if(getPlayerPlanets(player) == null){
+			players.remove(player);			
+		}			
+	}
+
+	public void spawnNewFleets(Planet planet){				
+		if(planet.getOwner() != null){
+			planet.addFleet(new Fleet(5*planet.getProductionCapacity(), planet.getOwner(), planet));						
+		}
+
+	}	
 	
 	public int[] path(Planet fromPlanet, Planet destPlanet){
 		int from = planets.indexOf(fromPlanet);
