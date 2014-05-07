@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -18,11 +19,13 @@ public class GameState extends BasicGameState{
 	//private ArrayList<Line> paths;
 	//private static int turn;
 	private GameObject game;
+	Image starShip;
 
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
 		game.createPlayers(4);
+		starShip = new Image("resources/starship.gif");
 		//turn = 0;
 		gamePlanets = new ArrayList<Circle>();
 		//paths = new ArrayList<Line>();
@@ -40,12 +43,16 @@ public class GameState extends BasicGameState{
 		if(container.getInput().isKeyPressed(Input.KEY_2)){
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
+		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
+			game.nextTurn();
+		}
 		
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
 			throws SlickException {
 		g.drawString("This is the game", 280, 200);
+		//starShip.draw(50, 50);
 		g.setLineWidth(1);
 		g.setColor(Color.cyan);
 		for(int[] l : game.getAllEdges()){
@@ -64,6 +71,15 @@ public class GameState extends BasicGameState{
 			}else{
 				g.setColor(Color.white);
 				g.fill(c);
+			}
+		}
+		for(Planet p: game.getPlanets()){
+			if(!p.getFleets().isEmpty()){
+				int x = p.getX();
+				int y = p.getY();
+				starShip.draw(x, y);
+				int z = p.getFleets().get(0).getSize();
+				g.drawString("[" +z+ "]", x+30, y+10);
 			}
 		}
 		

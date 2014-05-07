@@ -24,7 +24,7 @@ public class Indavaders extends StateBasedGame{
 		{
 			//AppGameContainer appgc;
 			appgc = new AppGameContainer(new Indavaders("Indavaders"));
-			appgc.setDisplayMode(640, 480, false);
+			appgc.setDisplayMode(1020, 840, false);
 			appgc.setTargetFrameRate(60);
 			appgc.start();
 			
