@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 
@@ -36,10 +37,12 @@ public class GameObject {
 	private Graph G;
 	private static GameObject uniqInstance;
 	private Queue<Move> moveQueue;
-	
+	private Random rand;
 	
 	private GameObject(){	
 		moveQueue = new LinkedList<Move>();
+		rand = new Random();
+		
 		BufferedReader file = null;
 		// This "try-with-resource" statement automatically calls file.close()
         // just before leaving the try block.
@@ -141,6 +144,7 @@ public class GameObject {
 	public ArrayList<Fleet> getFleets(){
 		return fleets;
 	}
+
 	
 	/**
 	 * Returns an arraylist of all planets beloning to player.
@@ -186,6 +190,29 @@ public class GameObject {
 			fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
 			planets.get(i).addFleet(fleets.get(i));
 		}
+	}
+	
+	public void randomPlayers(int amountOfPlayers){
+	players.add(new Player("name", Color.blue));
+	Planet p = randomUnownedPlanet();
+	p.setOwner(players.get(0));
+	fleets.add(new Fleet(20, players.get(0), p));			
+	p.addFleet(fleets.get(0));
+	for(int i = 1; i < amountOfPlayers; i++){
+		p = randomUnownedPlanet();
+		players.add(new AIPlayer("name", color.values()[i].color));	
+		p.setOwner(players.get(i));			
+		fleets.add(new Fleet(20, players.get(i), p));	
+		p.addFleet(fleets.get(i));
+	}
+	}
+	
+	public Planet randomUnownedPlanet(){
+		Planet p = getPlanet(rand.nextInt(19));
+		while(p.getOwner() != null){
+			p = getPlanet(rand.nextInt(19));
+		}
+		return p;
 	}
 	
 	public Player getHumanPlayer(){		
@@ -332,11 +359,14 @@ public class GameObject {
 	}
 
 	public void eliminatePlayer(){
-		for(Player player: players){
-			if(getPlayerPlanets(player).isEmpty()){
-				players.remove(player);			
-			}			
-		}
+		Iterator<Player> i = players.iterator();
+		while (i.hasNext()) {
+			   Player p = i.next(); // must be called before you can call i.remove()
+			   if(getPlayerPlanets(p).isEmpty()){
+				   i.remove();
+
+			   }			   
+			}
 	}
 
 	public void spawnNewFleets(){		

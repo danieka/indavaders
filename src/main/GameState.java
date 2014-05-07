@@ -28,7 +28,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
-		game.createPlayers(4);
+		game.randomPlayers(4);
 		starShip = new Image("resources/starship.gif");
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
