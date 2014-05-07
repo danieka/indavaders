@@ -2,7 +2,6 @@ package main;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,38 +26,38 @@ public class GameObjectTest {
 	@Test
 	public void testChangeOwner() {
 		Player human = G.getHumanPlayer();
-		G.getPlanets().get(0).setOwner(human);
-		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanets().get(0)));
+		G.getPlanet(0).setOwner(human);
+		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
 		Player AIPlayer = G.getAIPlayers().get(1);
-		G.getPlanets().get(0).setOwner(AIPlayer);
-		assertEquals(AIPlayer, G.getPlanets().get(0).getOwner());
+		G.getPlanet(0).setOwner(AIPlayer);
+		assertEquals(AIPlayer, G.getPlanet(0).getOwner());
 		assertEquals(2, G.getPlayerPlanets(AIPlayer).size());
 		assertEquals(0, G.getPlayerPlanets(human).size());
 	}
 	
 	@Test
 	public void testPath() {
-		assertArrayEquals(new int[]{0,1,2,3,4},G.path(G.getPlanets().get(0), G.getPlanets().get(4)));
-		assertArrayEquals(new int[]{1,5},G.path(G.getPlanets().get(1), G.getPlanets().get(5)));
-		assertArrayEquals(new int[]{10,6,7},G.path(G.getPlanets().get(10), G.getPlanets().get(7)));
+		assertArrayEquals(new int[]{0,1,2,3,4},G.path(G.getPlanet(0), G.getPlanet(4)));
+		assertArrayEquals(new int[]{1,5},G.path(G.getPlanet(1), G.getPlanet(5)));
+		assertArrayEquals(new int[]{10,6,7},G.path(G.getPlanet(10), G.getPlanet(7)));
 	}
 	
 	@Test
 	public void testNeighbourPlanet() {
-		ArrayList<Planet> n = G.getNeighbourPlanets(G.getPlanets().get(0));
-		assertTrue(n.contains(G.getPlanets().get(5)));
-		assertTrue(n.contains(G.getPlanets().get(1)));
+		ArrayList<Planet> n = G.getNeighbourPlanets(G.getPlanet(0));
+		assertTrue(n.contains(G.getPlanet(5)));
+		assertTrue(n.contains(G.getPlanet(1)));
 		
-		n = G.getNeighbourPlanets(G.getPlanets().get(5));
-		assertTrue(n.contains(G.getPlanets().get(6)));
-		assertTrue(n.contains(G.getPlanets().get(1)));
+		n = G.getNeighbourPlanets(G.getPlanet(5));
+		assertTrue(n.contains(G.getPlanet(6)));
+		assertTrue(n.contains(G.getPlanet(1)));
 		
-		n = G.getNeighbourPlanets(G.getPlanets().get(13));
-		assertTrue(n.contains(G.getPlanets().get(12)));
-		assertTrue(n.contains(G.getPlanets().get(14)));
-		assertTrue(n.contains(G.getPlanets().get(8)));
-		assertTrue(n.contains(G.getPlanets().get(9)));
-		assertTrue(n.contains(G.getPlanets().get(19)));
+		n = G.getNeighbourPlanets(G.getPlanet(13));
+		assertTrue(n.contains(G.getPlanet(12)));
+		assertTrue(n.contains(G.getPlanet(14)));
+		assertTrue(n.contains(G.getPlanet(8)));
+		assertTrue(n.contains(G.getPlanet(9)));
+		assertTrue(n.contains(G.getPlanet(19)));
 	}
 	
 	@Test
@@ -105,10 +104,10 @@ public class GameObjectTest {
 		Fleet f = G.getPlayerFleets(G.getHumanPlayer()).get(0);
 		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
 		f.setSize(40);
-		G.addMove(new Move(f, G.getPlanets().get(1)));
+		G.addMove(new Move(f, G.getPlanet(1)));
 		G.executeMoves();
 		G.fight();
-		assertEquals(1, G.getPlanets().get(1).getFleets().size());
+		assertEquals(1, G.getPlanet(1).getFleets().size());
 		assertTrue(G.getFleets().contains(f));
 		assertFalse(G.getFleets().contains(e));
 	}
@@ -117,10 +116,10 @@ public class GameObjectTest {
 	public void testEqualFight(){
 		Fleet f = G.getPlayerFleets(G.getHumanPlayer()).get(0);
 		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
-		G.addMove(new Move(f, G.getPlanets().get(1)));
+		G.addMove(new Move(f, G.getPlanet(1)));
 		G.executeMoves();
 		G.fight();
-		assertEquals(1, G.getPlanets().get(1).getFleets().size());
+		assertEquals(1, G.getPlanet(1).getFleets().size());
 		assertTrue(G.getFleets().contains(e));
 		assertFalse(G.getFleets().contains(f));
 	}
@@ -131,16 +130,41 @@ public class GameObjectTest {
 		f.setSize(60);
 		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
 		Fleet e2 = G.getPlayerFleets(G.getAIPlayers().get(1)).get(0);
-		G.addMove(new Move(f, G.getPlanets().get(1)));
-		G.addMove(new Move(e2, G.getPlanets().get(1)));
+		G.addMove(new Move(f, G.getPlanet(1)));
+		G.addMove(new Move(e2, G.getPlanet(1)));
 		G.executeMoves();
-		assertEquals(3, G.getPlanets().get(1).getFleets().size());
+		assertEquals(3, G.getPlanet(1).getFleets().size());
 		G.fight();
-		assertEquals(1, G.getPlanets().get(1).getFleets().size());
+		assertEquals(1, G.getPlanet(1).getFleets().size());
 		assertTrue(G.getFleets().contains(f));
 		assertFalse(G.getFleets().contains(e));
 		assertFalse(G.getFleets().contains(e2));
 	}
+	
+	@Test
+	public void testMerge2(){		
+		Player player1 = G.getAIPlayers().get(1);		
+		Player player2 = G.getAIPlayers().get(2);
+		Planet p = G.getPlanet(15);
+		Fleet f1 = G.createFleet(player1, p, 20);
+		Fleet f2 = G.createFleet(player2, p, 20);
+		Fleet f3 = G.createFleet(player1, p, 20);
+		Fleet f4 = G.createFleet(player2, p, 20);
+		G.merge();
+		assertEquals(2, p.getFleets().size());
+		assertTrue(p.getFleets().contains(f1));
+		assertTrue(p.getFleets().contains(f2));
+	}
+	
+	@Test
+	public void testMerge(){		
+		G.spawnNewFleets();
+		G.merge();
+		G.getFleets();
+		assertEquals(4, G.getFleets().size());		
+		assertEquals(25, G.getFleets().get(0).getSize());
+	}
+	
 	
 	
 	
