@@ -1,6 +1,7 @@
 package main;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -20,12 +21,18 @@ public class GameState extends BasicGameState{
 	//private static int turn;
 	private GameObject game;
 	Image starShip;
+	Image space;
+	Image planetImg;
+	Image nextTurn;
 
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
 		game.createPlayers(4);
 		starShip = new Image("resources/starship.gif");
+		space = new Image("resources/spaceBG.png");
+		planetImg = new Image("resources/planet.png");
+		nextTurn = new Image("resources/nextTurn.png");
 		//turn = 0;
 		gamePlanets = new ArrayList<Circle>();
 		//paths = new ArrayList<Line>();
@@ -43,16 +50,25 @@ public class GameState extends BasicGameState{
 		if(container.getInput().isKeyPressed(Input.KEY_2)){
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
-		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
-			game.nextTurn();
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		if((posX>900 && posX<995) && (posY>22 && posY<114)){
+			if(Mouse.isButtonDown(0)){
+				game.nextTurn();
+			
+			}
 		}
 		
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
 			throws SlickException {
-		g.drawString("This is the game", 280, 200);
-		//starShip.draw(50, 50);
+		space.draw(0, 0);
+		planetImg.draw(150, 150);
+		nextTurn.draw(900, 650);
+		int posX = Mouse.getX();
+		int posY = Mouse.getY();
+		g.drawString("X: " + posX + " Y: "+ posY, 600, 50);
 		g.setLineWidth(1);
 		g.setColor(Color.cyan);
 		for(int[] l : game.getAllEdges()){
