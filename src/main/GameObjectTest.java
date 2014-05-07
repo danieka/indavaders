@@ -20,7 +20,7 @@ public class GameObjectTest {
 	
 	@Test
 	public void testConstruct() {
-		assertEquals(G.getPlanets().size(), 6);
+		assertEquals(G.getPlanets().size(), 20);
 		assertEquals(G.getAIPlayers().size(), 3);
 	}
 	
@@ -38,20 +38,27 @@ public class GameObjectTest {
 	
 	@Test
 	public void testPath() {
-		assertArrayEquals(new int[]{0,1,5},G.path(G.getPlanets().get(0), G.getPlanets().get(5)));
+		assertArrayEquals(new int[]{0,1,2,3,4},G.path(G.getPlanets().get(0), G.getPlanets().get(4)));
 		assertArrayEquals(new int[]{1,5},G.path(G.getPlanets().get(1), G.getPlanets().get(5)));
-		assertArrayEquals(new int[]{2,3,4},G.path(G.getPlanets().get(2), G.getPlanets().get(4)));
+		assertArrayEquals(new int[]{10,6,7},G.path(G.getPlanets().get(10), G.getPlanets().get(7)));
 	}
 	
 	@Test
 	public void testNeighbourPlanet() {
 		ArrayList<Planet> n = G.getNeighbourPlanets(G.getPlanets().get(0));
-		assertTrue(n.contains(G.getPlanets().get(3)));
+		assertTrue(n.contains(G.getPlanets().get(5)));
 		assertTrue(n.contains(G.getPlanets().get(1)));
 		
 		n = G.getNeighbourPlanets(G.getPlanets().get(5));
-		assertTrue(n.contains(G.getPlanets().get(4)));
+		assertTrue(n.contains(G.getPlanets().get(6)));
 		assertTrue(n.contains(G.getPlanets().get(1)));
+		
+		n = G.getNeighbourPlanets(G.getPlanets().get(13));
+		assertTrue(n.contains(G.getPlanets().get(12)));
+		assertTrue(n.contains(G.getPlanets().get(14)));
+		assertTrue(n.contains(G.getPlanets().get(8)));
+		assertTrue(n.contains(G.getPlanets().get(9)));
+		assertTrue(n.contains(G.getPlanets().get(19)));
 	}
 	
 	@Test
