@@ -18,8 +18,7 @@ public class Fleet {
 	public void moveTo(Planet planet){
 		GameObject G = GameObject.getInstance();
 		int[] path = G.path(location, planet);
-		location = G.getPlanets().get(path[0]);
-		G.addMove(new Move(this, location, planet));
+		G.addMove(new Move(this, G.getPlanets().get(path[1])));
 		return;
 	}
 	
