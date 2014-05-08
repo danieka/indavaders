@@ -28,9 +28,9 @@ public class EndState extends BasicGameState{
 	
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g)
 			throws SlickException {
-		g.drawString("Game Over", 280, 200);
-		g.drawString("Press any key to continue", 280, 215);
-		
+		g.drawString("Game Over", 280, 300);
+		g.drawString("Such defeat, very lose, many sad", 280, 315);
+		g.drawString("Press any key to continue", 280, 330);
 	}
 
 	public int getID() {
