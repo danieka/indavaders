@@ -115,48 +115,38 @@ public class GameState extends BasicGameState{
 				divFleet = null;
 				toolTip = null;
 			}
-			
-			
+
+
 			if((posX>900 && posX<995) && (posY<746 && posY>654)){
 				if(Mouse.isButtonDown(0)){
 					game.nextTurn();
-				
+
 				}
 			}
-			for(Planet p: game.getPlanets()){
-				if(!p.getFleets().isEmpty()){
-					int x = p.getX();
-					int y = p.getY();
-					if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
-						Fleet fleet = p.getFleets().get(0);
-						Mouse.getEventButtonState();
-						if(Mouse.isButtonDown(0)){
-							selectedFleet = fleet;
-						}
-					}
+			for(Fleet f: game.getPlayerFleets(game.getHumanPlayer())){
+				int x = f.getX();
+				int y = f.getY();
+				if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+					selectedFleet = f;
 				}
 			}
 		}
-		
+
 		if (button == 0 && shiftPressed){
-			for(Planet p: game.getPlanets()){
-				if(!p.getFleets().isEmpty()){
-					int x = p.getX();
-					int y = p.getY();
-					if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
-						Fleet fleet = p.getFleets().get(0);
-						if(divFleet == fleet || divFleet == null){
-							divFleet = fleet;
-							if(0 < fleet.getSize()){
-								fleet.setSize(fleet.getSize() - 1);
-								divFleetNumber += 1;
-								toolTip = divFleetNumber + "";
-							}
+			for(Fleet f: game.getPlayerFleets(game.getHumanPlayer())){
+				int x = f.getX();
+				int y = f.getY();
+				if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+					if(divFleet == f || divFleet == null){
+						divFleet = f;
+						if(0 < f.getSize()){
+							f.setSize(f.getSize() - 1);
+							divFleetNumber += 1;
+							toolTip = divFleetNumber + "";
 						}
 					}
-				}
+				}	
 			}
-
 		}
 		
 		if (button == 1){
