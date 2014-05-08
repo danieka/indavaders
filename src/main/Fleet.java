@@ -15,7 +15,7 @@ public class Fleet implements Drawable {
 	private int y;
 	private int desiredX;
 	private int desiredY;
-	private static final int pixelDelta = 3;
+	private static final int pixelDelta = 2;
 	
 	
 	Fleet(int size, Player owner, Planet location){
