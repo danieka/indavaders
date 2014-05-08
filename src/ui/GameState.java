@@ -33,7 +33,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
-		game.randomPlayers(4);
+		game.randomPlayers(3);
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
 		nextTurn = new Image("resources/nextTurn.png");

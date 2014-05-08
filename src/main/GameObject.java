@@ -258,6 +258,9 @@ public class GameObject {
 	  }
 	
 	public void addMove(Move move){
+		if(moveQueue.contains(move)){
+			throw new IllegalArgumentException();
+		}
 		moveQueue.add(move);
 	}
 	
@@ -347,6 +350,7 @@ public class GameObject {
 		Move m;
 		while(!moveQueue.isEmpty()){
 			m = moveQueue.poll();
+			System.out.println(m);
 			m.execute();
 		}
 	}

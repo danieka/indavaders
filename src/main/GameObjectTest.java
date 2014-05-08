@@ -78,7 +78,7 @@ public class GameObjectTest {
 		Planet p = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
 		G.spawnNewFleets();
 		assertEquals(2, p.getFleets().size());
-		assertEquals(5, p.getFleets().get(1).getSize());
+		assertEquals(10, p.getFleets().get(1).getSize());
 		assertEquals(2, G.getPlayerFleets(G.getHumanPlayer()).size());
 	}
 	
@@ -162,10 +162,14 @@ public class GameObjectTest {
 		G.merge();
 		G.getFleets();
 		assertEquals(4, G.getFleets().size());		
-		assertEquals(25, G.getFleets().get(0).getSize());
+		assertEquals(25, G.getFleets().get(1).getSize());
 	}
 	
-	
+	@Test(expected=IllegalArgumentException.class)
+	public void testAddDuplicateMove(){
+		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(1)));
+		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(5)));
+	}
 	
 	
 	@After

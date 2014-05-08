@@ -114,11 +114,11 @@ public class AIPlayer extends Player{
 			if(ass.getTask().getShipsNecessary() < ass.getFleet().getSize() && ass.getTask().getShipsNecessary() > 0){
 				Fleet newFleet = G.splitFleet(ass.getFleet(), ass.getTask().getShipsNecessary());
 				ass.getTask().decreaseShipsNecessary(newFleet.getSize());
-				G.addMove(new Move(newFleet, ass.getTask().getPlanet(), newFleet.getPlanet()));
+				newFleet.moveTo(ass.getTask().getPlanet());
 				assignedFleets.add(newFleet);
 			}
 			else if(ass.getTask().getShipsNecessary() >= ass.getFleet().getSize()){
-				G.addMove(new Move(ass.getFleet(), ass.getTask().getPlanet(), ass.getFleet().getPlanet()));
+				ass.getFleet().moveTo(ass.getTask().getPlanet());
 				ass.getTask().decreaseShipsNecessary(ass.getFleet().getSize());
 				assignedFleets.add(ass.getFleet());
 			}

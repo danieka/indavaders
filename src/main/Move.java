@@ -12,6 +12,9 @@ public class Move {
 	}
 	
 	public Move(Fleet fleet, Planet to){
+		if(!GameObject.getInstance().getNeighbourPlanets(fleet.getPlanet()).contains(to)){
+			throw new IllegalArgumentException("Planet is no neigbour");
+		}
 		this.fleet = fleet;
 		this.to = to;
 		this.from = fleet.getPlanet();
@@ -22,4 +25,29 @@ public class Move {
 		from.removeFleet(fleet);
 		to.addFleet(fleet);
 	}
+	
+    @Override
+    public boolean equals(Object v) {
+        boolean retVal = false;
+
+        if (v instanceof Move){
+            Move ptr = (Move) v;
+            retVal = ptr.fleet == this.fleet;
+        }
+
+     return retVal;
+    }
+
+    @Override
+    public int hashCode() {
+    	int hash;
+        hash = fleet.hashCode();
+        return hash;
+    }
+    
+    @Override
+    public String toString(){
+    	GameObject G = GameObject.getInstance(); 
+    	return "Move fleet " + fleet.toString() + " from " + G.getPlanets().indexOf(from) + " to " + G.getPlanets().indexOf(to);
+    }
 }

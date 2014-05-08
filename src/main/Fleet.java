@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Arrays;
+
 import org.newdawn.slick.Graphics;
 
 import ui.Drawable;
@@ -11,12 +13,19 @@ public class Fleet implements Drawable {
 	private Player owner;
 	private int x;
 	private int y;
+	private int desiredX;
+	private int desiredY;
+	private static final int pixelDelta = 3;
 	
 	
 	Fleet(int size, Player owner, Planet location){
 		this.size = size;
 		this.owner = owner;
-		setLocation(location);
+		this.location = location;
+		x = location.getX();
+		y = location.getY();
+		desiredX = x;
+		desiredY = y;
 	}
 	
 	public int getSize(){
@@ -24,11 +33,12 @@ public class Fleet implements Drawable {
 	}
 	
 	public void moveTo(Planet dest){
+		if(dest == location) return;
 		GameObject G = GameObject.getInstance();
 		int[] path = G.path(location, dest);
 		G.addMove(new Move(this, G.getPlanet(path[1])));
-		x -= ((location.getX() - dest.getX()) / 2);
-		y -= ((location.getY() - dest.getY()) / 2);
+		desiredX -= ((location.getX() - dest.getX()) / 2);
+		desiredY -= ((location.getY() - dest.getY()) / 2);
 		return;
 	}
 	
@@ -42,8 +52,8 @@ public class Fleet implements Drawable {
 
 	public void setLocation(Planet to) {
 		location = to;
-		x = location.getX();
-		y = location.getY();
+		desiredX = location.getX();
+		desiredY = location.getY();
 	}
 	
 	public void setSize(int size) {
@@ -52,10 +62,20 @@ public class Fleet implements Drawable {
 
 	@Override
 	public void draw(Graphics g) {
-			ImageCache.getImage("starship.gif").draw(x, y);
-			g.setColor(owner.getColor());
-			g.drawString("[" + size + "]", x + 30, y + 10);
-
+		if(x != desiredX || y != desiredY){
+			if(Math.sqrt(Math.pow(desiredX, 2) + Math.pow(desiredY, 2)) < 2*pixelDelta){
+				x = desiredX;
+				y = desiredY;
+			} else {
+				if(x > desiredX) x -= pixelDelta;
+				if(x < desiredX) x += pixelDelta;
+			 	if(y > desiredY) y -= pixelDelta;
+				if(y < desiredY) y += pixelDelta;
+			}
+		}
+		ImageCache.getImage("starship.gif").draw(x, y);
+		g.setColor(owner.getColor());
+		g.drawString("[" + size + "]", x + 30, y + 10);
 	}
 
 	@Override
