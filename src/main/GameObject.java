@@ -13,6 +13,7 @@ import java.util.Random;
 
 import org.newdawn.slick.Color;
 
+import ui.Drawable;
 import ai.AIPlayer;
 
 /**
@@ -503,5 +504,11 @@ public class GameObject {
 		fleets.add(f);
 		p.addFleet(f);
 		return f;
+	}
+
+	public HashSet<Drawable> getDrawable() {
+		HashSet<Drawable> ret = new HashSet<Drawable>(planets);
+		ret.addAll(fleets);
+		return ret;
 	}
 }

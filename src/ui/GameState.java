@@ -1,27 +1,26 @@
-package main;
+package ui;
 import java.util.ArrayList;
 
+import main.Fleet;
+import main.GameObject;
+import main.Planet;
+
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class GameState extends BasicGameState{
-	private ArrayList<Circle> gamePlanets;
-	private ArrayList<Circle> planetRing;
+	//private ArrayList<Line> paths;
+	//private static int turn;
 	private GameObject game;
-	Animation idleShip, selectedShip, movingShip;
-	int[] duration = {500, 500, 500, 500};
-	Image starShip;
 	Image space;
 	Image planetImg;
 	Image nextTurn;
@@ -35,38 +34,19 @@ public class GameState extends BasicGameState{
 			throws SlickException {
 		game = GameObject.getInstance();
 		game.randomPlayers(4);
-		starShip = new Image("resources/starship.gif");
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
 		nextTurn = new Image("resources/nextTurn.png");
-		Image[] shipIdle = {new Image("resources/starship1.png"), new Image("resources/starship1.png"),
-		new Image("resources/starship1.png"), new Image("resources/starship1.png")};
-		Image[] selectingShip = {new Image("resources/starship1.png"), new Image("resources/starship2.png"),
-		new Image("resources/starship3.png"), new Image("resources/starship4.png")};
-		Image[] movedShip = {new Image("resources/starshipMove1.png"), new Image("resources/starshipMove2.png"),
-		new Image("resources/starship3.png"), new Image("resources/starship4.png")};
-		selectedShip = new Animation(selectingShip, duration, false);
-		idleShip = new Animation(shipIdle, duration, false);
-		movingShip = new Animation(movedShip, duration, false);
-		gamePlanets = new ArrayList<Circle>();
-		planetRing = new ArrayList<Circle>();
-		
-		for(Planet p: game.getPlanets()){
-			int x = p.getX();
-			int y = p.getY();
-			planetRing.add(new Circle(x, y, 19));
-			gamePlanets.add(new Circle(x, y, 15));
-		}
+		ImageCache.getInstance();
+		//turn = 0;
 			
 	}
 
-	public void update(GameContainer container, StateBasedGame sbg, int delta)
+	public void update(GameContainer container, StateBasedGame sbg, int arg2)
 			throws SlickException {
 		if(container.getInput().isKeyPressed(Input.KEY_2)){
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
-		//int posX = Mouse.getX();
-		//int posY = 768 - Mouse.getY();
 		
 		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
 				game.nextTurn();		
@@ -95,30 +75,9 @@ public class GameState extends BasicGameState{
 			int y2 = l[3];
 			g.drawLine(x1, y1, x2, y2);
 		}
-		for(int i = 0; i < game.getPlanets().size(); i++){
-			Circle c = gamePlanets.get(i);
-			Planet p = game.getPlanets().get(i);
-			if(p.getOwner() != null){
-				g.setColor(p.getOwner().getColor());
-				g.fill(c);
-			}else{
-				g.setColor(Color.white);
-				g.fill(c);
-			}
-		}
-		for(Planet p: game.getPlanets()){
-			if(!p.getFleets().isEmpty()){
-				int x = p.getX();
-				int y = p.getY();
-				//starShip.draw(x, y);
-				selectedShip.draw(x, y);
-				int z = 0;
-				for(int n=0; n<p.getFleets().size(); n++){
-					z += p.getFleets().get(n).getSize();
-				}
-				g.setColor(Color.white);
-				g.drawString("[" +z+ "]", x+30, y+10);
-			}
+
+		for(Drawable d : game.getDrawable()){
+			d.draw(g);
 		}
 		
 		g.setColor(Color.white);
@@ -156,7 +115,6 @@ public class GameState extends BasicGameState{
 						Mouse.getEventButtonState();
 						if(Mouse.isButtonDown(0)){
 							selectedFleet = fleet;
-							//idleShip = selectedShip;
 						}
 					}
 				}
@@ -209,8 +167,6 @@ public class GameState extends BasicGameState{
 					int y = plan.getY();
 					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){
 						selectedFleet.moveTo(plan);
-						selectedFleet = null;
-						selectedShip = movingShip;
 					}
 				}
 			}
