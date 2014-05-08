@@ -133,6 +133,7 @@ public class GameState extends BasicGameState{
 		}
 
 		if (button == 0 && shiftPressed){
+			selectedFleet = null;
 			for(Fleet f: game.getPlayerFleets(game.getHumanPlayer())){
 				int x = f.getX();
 				int y = f.getY();
