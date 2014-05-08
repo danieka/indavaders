@@ -84,6 +84,23 @@ public class GameState extends BasicGameState{
 		if(toolTip != null){
 			g.drawString(toolTip, posX + 15, posY);
 		}
+		
+		if(selectedFleet != null){
+			for(Planet p : game.getNeighbourPlanets(selectedFleet.getPlanet())){
+				if((posX>p.getX()-7 && posX<p.getX()+7) && (posY>p.getY()-7 && posY<p.getY()+7)){
+					g.setColor(Color.blue);
+					g.drawLine(selectedFleet.getX()+15, selectedFleet.getY()+15, p.getX(), p.getY());
+				}
+			}
+		}
+		if(divFleet != null){
+			for(Planet p : game.getNeighbourPlanets(divFleet.getPlanet())){
+				if((posX>p.getX()-7 && posX<p.getX()+7) && (posY>p.getY()-7 && posY<p.getY()+7)){
+					g.setColor(Color.blue);
+					g.drawLine(divFleet.getX()+15, divFleet.getY()+15, p.getX(), p.getY());
+				}
+			}
+		}
 	}
 
 	public int getID() {
@@ -167,6 +184,7 @@ public class GameState extends BasicGameState{
 					int y = plan.getY();
 					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){
 						selectedFleet.moveTo(plan);
+						selectedFleet = null;
 					}
 				}
 			}

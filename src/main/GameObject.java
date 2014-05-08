@@ -506,8 +506,8 @@ public class GameObject {
 		return f;
 	}
 
-	public HashSet<Drawable> getDrawable() {
-		HashSet<Drawable> ret = new HashSet<Drawable>(planets);
+	public ArrayList<Drawable> getDrawable() {
+		ArrayList<Drawable> ret = new ArrayList<Drawable>(planets);
 		ret.addAll(fleets);
 		return ret;
 	}
