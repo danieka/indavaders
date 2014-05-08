@@ -1,9 +1,18 @@
 package main;
 
-public class Fleet {
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
+import ui.Drawable;
+import ui.ImageCache;
+
+public class Fleet implements Drawable {
 	private int size;
 	private Planet location;
 	private Player owner;
+	
 	
 	Fleet(int size, Player owner, Planet location){
 		this.size = size;
@@ -36,5 +45,15 @@ public class Fleet {
 	
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	@Override
+	public void draw(Graphics g) {
+			int x = location.getX();
+			int y = location.getY();
+			ImageCache.getImage("starship.gif").draw(x, y);
+			g.setColor(owner.getColor());
+			g.drawString("[" + size + "]", x+30, y+10);
+
 	}
 }
