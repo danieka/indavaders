@@ -1,5 +1,9 @@
-package main;
+package ui;
 import java.util.ArrayList;
+
+import main.Fleet;
+import main.GameObject;
+import main.Planet;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
