@@ -178,7 +178,19 @@ public class GameObjectTest {
 			G.getPlanet(i).setOwner(human);;          }
 		assertEquals(0, G.getPlayerPlanets(AIPlayer).size());
 		assertEquals(G.getPlanets().size(), G.getPlayerPlanets(human).size());        
-		assertTrue(G.win());         
+		assertTrue(G.win());    
+	}
+	
+	
+	@Test
+	public void testWin2(){
+		//La till ett test för en bug jag hittade/ Daniel
+		for(Planet p : G.getPlanets()){
+			p.setOwner(G.getAIPlayers().get(0));  //Sätt alla planeter till en motståndare.
+		}
+		assertFalse(G.win());
+		G.eliminatePlayer();  //Detta görs normalt inför varje ny runda.
+		assertFalse(G.win());
 	}
 
 	@Test
