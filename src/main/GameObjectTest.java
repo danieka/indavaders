@@ -78,7 +78,7 @@ public class GameObjectTest {
 		Planet p = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
 		G.spawnNewFleets();
 		assertEquals(2, p.getFleets().size());
-		assertEquals(10, p.getFleets().get(1).getSize());
+		assertEquals(5, p.getFleets().get(1).getSize());
 		assertEquals(2, G.getPlayerFleets(G.getHumanPlayer()).size());
 	}
 	
@@ -175,8 +175,7 @@ public class GameObjectTest {
         G.getPlanet(1).setOwner(AIPlayer);
         assertEquals(AIPlayer, G.getPlanet(1).getOwner());
         G.win();
-        assertEquals(false, G.win());
-        
+        assertEquals(false, G.win());        
         for(int i = 0; i < G.getPlanets().size(); i++){
         G.getPlanet(i).setOwner(human);;  
         }
