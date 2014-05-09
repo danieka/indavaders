@@ -44,7 +44,7 @@ public class GameState extends BasicGameState{
 
 	public void update(GameContainer container, StateBasedGame sbg, int arg2)
 			throws SlickException {
-		if(container.getInput().isKeyPressed(Input.KEY_2)){
+		if(container.getInput().isKeyPressed(Input.KEY_2)){ // || game.win() == true){
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
 		
@@ -65,7 +65,17 @@ public class GameState extends BasicGameState{
 		nextTurn.draw(900, 650);
 		int posX = Mouse.getX();
 		int posY = 768 - Mouse.getY();
-		g.drawString("X: " + posX + " Y: "+ posY, 600, 50);
+		String win = "False";
+		if(game.win() == true){
+			win = "True";
+		}
+		String lose = "False";
+		if(game.lose() == true){
+			win = "True";
+		}
+		g.drawString("X: " + posX + " Y: "+ posY, 550, 15);
+		g.drawString("Win=" + win, 550, 30);
+		g.drawString("Lose=" + lose, 550, 45);
 		g.setLineWidth(1);
 		g.setColor(Color.cyan);
 		for(int[] l : game.getAllEdges()){
