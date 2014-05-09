@@ -207,6 +207,17 @@ public class GameObjectTest {
 		assertEquals(0, G.getPlayerPlanets(human).size());       
 		assertTrue(G.lose());       
 	}
+	
+	@Test
+	public void testLose2(){
+		G.getPlanet(0).setOwner(G.getAIPlayers().get(0));
+		for(Planet p : G.getPlanets()){
+			p.setOwner(G.getAIPlayers().get(0));  //Sätt alla planeter till en motståndare.
+		}
+		assertTrue(G.lose());
+		G.eliminatePlayer();  //Detta görs normalt inför varje ny runda.
+		assertTrue(G.lose()); //Vi borde fortfarande förlora.
+	}
 
 
 	@Test(expected=IllegalArgumentException.class)
