@@ -29,7 +29,7 @@ public class AIPlayer extends Player{
 	private boolean verbose = true;
 	private float defendAffinity = 50;
 	private float attackAffinity = 40;
-	private float colonizeAffinity = 45;
+	private float colonizeAffinity = 50;
 
 	GameObject G;
 	ArrayList<Task> taskList;
