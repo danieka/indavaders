@@ -30,6 +30,7 @@ public class AIPlayer extends Player{
 	private float defendAffinity = 50;
 	private float attackAffinity = 40;
 	private float colonizeAffinity = 50;
+	private Planet goal;
 
 	GameObject G;
 	ArrayList<Task> taskList;
@@ -41,12 +42,17 @@ public class AIPlayer extends Player{
 
 	}
 
-	public void makeMove(){		
+	public void makeMove(){	
+		setGoal();
 		gatherTasks();
 		assignTasks();
 		executeAssignements();
 	}
 
+
+	private void setGoal() {
+		goal = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
+	}
 
 	/**
 	 * This dfs-search goes through all planets and generates appropriate tasks that ought to be performed in the next round.
@@ -70,6 +76,7 @@ public class AIPlayer extends Player{
 					taskList.add(new Task(colonizeAffinity*next.getProductionCapacity(), next, 3));
 				}
 				else if(next.getOwner() != this){
+					goal = next;
 					int enemyShips = 1; //Suspect we could get strange behavior if requiredShips == 0
 					for(Fleet fleet : next.getFleets()){
 						enemyShips += fleet.getSize();
@@ -102,25 +109,31 @@ public class AIPlayer extends Player{
 	}
 
 	private void assignTask(Task task, Fleet fleet){
-		float score = task.getScore()/Math.max(1, G.path(fleet.getPlanet(), task.getPlanet()).length -2);
+		float score = task.getScore()*(1/Math.max(1, G.path(fleet.getPlanet(), task.getPlanet()).length - 1));
 		assignementList.add(new Assignement(task, score, fleet)); 
 	}
 
 	private void executeAssignements() {
 		HashSet<Fleet> assignedFleets = new HashSet<Fleet>();
 		for(Assignement ass : assignementList){
-			if(assignedFleets.contains(ass.getFleet())) continue;
-			
+			if(assignedFleets.contains(ass.getFleet()) || ass.getTask().getShipsNecessary() == 0) continue;
 			if(ass.getTask().getShipsNecessary() < ass.getFleet().getSize() && ass.getTask().getShipsNecessary() > 0){
 				Fleet newFleet = G.splitFleet(ass.getFleet(), ass.getTask().getShipsNecessary());
 				ass.getTask().decreaseShipsNecessary(newFleet.getSize());
 				newFleet.moveTo(ass.getTask().getPlanet());
 				assignedFleets.add(newFleet);
+				System.out.println(newFleet);
 			}
 			else if(ass.getTask().getShipsNecessary() >= ass.getFleet().getSize()){
 				ass.getFleet().moveTo(ass.getTask().getPlanet());
 				ass.getTask().decreaseShipsNecessary(ass.getFleet().getSize());
 				assignedFleets.add(ass.getFleet());
+			}
+			System.out.println(ass);
+		}
+		for(Fleet f : G.getPlayerFleets(this)){
+			if(!assignedFleets.contains(f)){
+				//f.moveTo(goal);
 			}
 		}
 	}
