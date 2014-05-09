@@ -418,6 +418,31 @@ public class GameObject {
 			}
 		}		
 	}
+	
+	public boolean win(){
+        int count = 0;
+        for(Planet planet: planets){
+            if(planet.getOwner() == getHumanPlayer()){
+                count++;                
+            }else{        
+                break;
+            }
+        }
+        if(count == planets.size()){
+            return true;            
+        }
+        return false;
+    }
+    
+    public boolean lose(){
+        for(Planet planet: planets){
+            if(planet.getOwner() == getHumanPlayer()){
+                break;
+            }
+            return true;
+        }
+        return false;
+    }	
 
 	public int[] path(Planet fromPlanet, Planet destPlanet){
 		int from = planets.indexOf(fromPlanet);

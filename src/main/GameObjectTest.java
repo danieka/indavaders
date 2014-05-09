@@ -165,6 +165,43 @@ public class GameObjectTest {
 		assertEquals(25, G.getFleets().get(1).getSize());
 	}
 	
+
+@Test
+    public void testWin(){
+        Player human = G.getHumanPlayer();
+        G.getPlanet(0).setOwner(human);
+        assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
+        Player AIPlayer = G.getAIPlayers().get(0);
+        G.getPlanet(1).setOwner(AIPlayer);
+        assertEquals(AIPlayer, G.getPlanet(1).getOwner());
+        G.win();
+        assertEquals(false, G.win());
+        G.getPlanet(1).setOwner(human);;  
+        assertEquals(0, G.getPlayerPlanets(AIPlayer).size());
+        assertEquals(2, G.getPlayerPlanets(human).size());
+        G.win();
+        assertEquals(true, G.win()); 
+        
+    }
+    
+    @Test
+    public void testLose(){
+        Player human = G.getHumanPlayer();
+        G.getPlanet(0).setOwner(human);
+        assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
+        Player AIPlayer = G.getAIPlayers().get(0);
+        G.getPlanet(1).setOwner(AIPlayer);
+        assertEquals(AIPlayer, G.getPlanet(1).getOwner());
+        G.lose();
+        assertEquals(false, G.lose());
+        G.getPlanet(0).setOwner(AIPlayer);    
+        assertEquals(2, G.getPlayerPlanets(AIPlayer).size());
+        assertEquals(0, G.getPlayerPlanets(human).size());
+        G.lose();
+        assertEquals(true, G.lose());       
+    }
+
+	
 	@Test(expected=IllegalArgumentException.class)
 	public void testAddDuplicateMove(){
 		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(1)));
