@@ -176,9 +176,12 @@ public class GameObjectTest {
         assertEquals(AIPlayer, G.getPlanet(1).getOwner());
         G.win();
         assertEquals(false, G.win());
-        G.getPlanet(1).setOwner(human);;  
+        
+        for(int i = 0; i < G.getPlanets().size(); i++){
+        G.getPlanet(i).setOwner(human);;  
+        }
         assertEquals(0, G.getPlayerPlanets(AIPlayer).size());
-        assertEquals(2, G.getPlayerPlanets(human).size());
+        assertEquals(G.getPlanets().size(), G.getPlayerPlanets(human).size());
         G.win();
         assertEquals(true, G.win()); 
         
