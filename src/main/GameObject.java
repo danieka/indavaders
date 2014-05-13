@@ -381,7 +381,7 @@ public class GameObject {
 			if(planet.getOwner() != null){
 				int r = 5;
 				if(planet.getOwner() == players.get(0)){
-					r = 5;
+					r = 6;
 				}
 				Fleet f = new Fleet(r*planet.getProductionCapacity(), planet.getOwner(), planet);
 				planet.addFleet(f);
@@ -536,8 +536,16 @@ public class GameObject {
 	}
 
 	public ArrayList<Drawable> getDrawable() {
-		ArrayList<Drawable> ret = new ArrayList<Drawable>(planets);
-		ret.addAll(fleets);
+		ArrayList<Drawable> ret = new ArrayList<Drawable>(getPlayerPlanets(getHumanPlayer()));
+		for(Planet e : getPlayerPlanets(getHumanPlayer())){
+			ret.addAll(e.getFleets());
+			for(Planet p : getNeighbourPlanets(e)){
+				if (!ret.contains((Drawable)p)){
+					ret.add(p);
+					ret.addAll(p.getFleets());
+				}
+			}
+		}
 		return ret;
 	}
 }

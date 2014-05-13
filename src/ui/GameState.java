@@ -12,6 +12,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -33,7 +34,7 @@ public class GameState extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
-		game.randomPlayers(2 );
+		game.randomPlayers(4);
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
 		nextTurn = new Image("resources/nextTurn.png");
@@ -73,6 +74,7 @@ public class GameState extends BasicGameState{
 		if(game.lose() == true){
 			lose = "True";
 		}
+		g.setColor(Color.white);
 		g.drawString("X: " + posX + " Y: "+ posY, 550, 15);
 		g.drawString("Win=" + win, 550, 30);
 		g.drawString("Lose=" + lose, 550, 45);
@@ -96,16 +98,19 @@ public class GameState extends BasicGameState{
 		}
 		
 		if(selectedFleet != null){
+			g.setLineWidth(2);
+			g.setColor(Color.blue);
+			g.draw(new Circle(selectedFleet.getX()+14, selectedFleet.getY()+18, 20));
 			for(Planet p : game.getNeighbourPlanets(selectedFleet.getPlanet())){
-				if((posX>p.getX()-7 && posX<p.getX()+7) && (posY>p.getY()-7 && posY<p.getY()+7)){
-					g.setColor(Color.blue);
+				if((posX>p.getX()-14 && posX<p.getX()+14) && (posY>p.getY()-14 && posY<p.getY()+14)){
+					
 					g.drawLine(selectedFleet.getX()+15, selectedFleet.getY()+15, p.getX(), p.getY());
 				}
 			}
 		}
 		if(divFleet != null){
 			for(Planet p : game.getNeighbourPlanets(divFleet.getPlanet())){
-				if((posX>p.getX()-7 && posX<p.getX()+7) && (posY>p.getY()-7 && posY<p.getY()+7)){
+				if((posX>p.getX()-14 && posX<p.getX()+14) && (posY>p.getY()-14 && posY<p.getY()+14)){
 					g.setColor(Color.blue);
 					g.drawLine(divFleet.getX()+15, divFleet.getY()+15, p.getX(), p.getY());
 				}
@@ -167,7 +172,7 @@ public class GameState extends BasicGameState{
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();
-					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){						
+					if((posX>x-14 && posX<x+14) && (posY>y-14 && posY<y+14)){						
 						Fleet f = game.createFleet(game.getHumanPlayer(), divFleet.getPlanet(), divFleetNumber);
 						divFleet = null;
 						divFleetNumber = 0;
@@ -183,7 +188,7 @@ public class GameState extends BasicGameState{
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();
-					if((posX>x-7 && posX<x+7) && (posY>y-7 && posY<y+7)){
+					if((posX>x-14 && posX<x+14) && (posY>y-14 && posY<y+14)){
 						selectedFleet.moveTo(plan);
 						selectedFleet = null;
 					}
