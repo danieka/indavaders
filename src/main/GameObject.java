@@ -263,6 +263,9 @@ public class GameObject {
 
 	public void addMove(Move move){
 		if(moveQueue.contains(move)){
+			moveQueue.remove(move);
+		}
+		if(moveQueue.contains(move)){
 			throw new IllegalArgumentException();
 		}
 		moveQueue.add(move);
@@ -309,6 +312,7 @@ public class GameObject {
 		eliminatePlayer();
 		spawnNewFleets();	
 		merge();
+		fight();
 	}
 
 
@@ -322,7 +326,6 @@ public class GameObject {
 					continue;
 				}
 				if(fleetOne.getOwner() != fleet.getOwner()){
-					System.out.println("Fight");
 					if(fleet.getSize() == 0){
 						continue;
 					}
@@ -354,19 +357,13 @@ public class GameObject {
 		Move m;
 		while(!moveQueue.isEmpty()){
 			m = moveQueue.poll();
-			System.out.println(m);
 			m.execute();
 		}
 	}
 
 	public void changeOwnership(){		
 		for(Planet planet: planets){
-			Player owner = planet.getOwner();		
-			for(Fleet fleet: planet.getFleets()){
-				if(owner != fleet.getOwner()){
-					planet.setOwner(fleet.getOwner());
-				}
-			}		
+			planet.updateOwnership();
 		}
 	}
 

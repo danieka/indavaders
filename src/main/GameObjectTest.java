@@ -231,14 +231,6 @@ public class GameObjectTest {
 		assertFalse(G.lose());
 	}
 
-
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddDuplicateMove(){
-		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(1)));
-		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(5)));
-	}
-
-
 	@After
 	public void tearDown() {
 		G.destroy();
