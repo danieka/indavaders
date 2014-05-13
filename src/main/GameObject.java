@@ -197,7 +197,8 @@ public class GameObject {
 
 	public void randomPlayers(int amountOfPlayers){
 		Color playerColor = new Color(0x00749dfc);
-		players.add(new Player("name", playerColor));
+		humanPlayer = new Player("name", playerColor);
+		players.add(humanPlayer);
 		Planet p = randomUnownedPlanet();
 		p.setOwner(players.get(0));
 		fleets.add(new Fleet(20, players.get(0), p));			
@@ -503,8 +504,6 @@ public class GameObject {
 				}
 			}
 		}
-
-
 
 		int[][] r = {dist,prev};
 		return r;
