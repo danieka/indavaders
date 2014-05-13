@@ -168,14 +168,15 @@ public class GameObjectTest {
 	@Test
 	public void testWin(){
 		Player human = G.getHumanPlayer();
-		G.getPlanet(0).setOwner(human);
-		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
+		G.getPlanet(0).setOwner(human);		
 		Player AIPlayer = G.getAIPlayers().get(0);
 		G.getPlanet(1).setOwner(AIPlayer);
-		assertEquals(AIPlayer, G.getPlanet(1).getOwner());        
+
 		assertFalse(G.win());        
 		for(int i = 0; i < G.getPlanets().size(); i++){
-			G.getPlanet(i).setOwner(human);;          }
+			G.getPlanet(i).setOwner(human);;          
+			}
+		G.eliminatePlayer();
 		assertEquals(0, G.getPlayerPlanets(AIPlayer).size());
 		assertEquals(G.getPlanets().size(), G.getPlayerPlanets(human).size());        
 		assertTrue(G.win());    
@@ -184,12 +185,12 @@ public class GameObjectTest {
 	
 	@Test
 	public void testWin2(){
-		//La till ett test fšr en bug jag hittade/ Daniel
+		//La till ett test fï¿½r en bug jag hittade/ Daniel
 		for(Planet p : G.getPlanets()){
-			p.setOwner(G.getAIPlayers().get(0));  //SŠtt alla planeter till en motstŒndare.
+			p.setOwner(G.getAIPlayers().get(0));  //Sï¿½tt alla planeter till en motstï¿½ndare.
 		}
 		assertFalse(G.win());
-		G.eliminatePlayer();  //Detta gšrs normalt infšr varje ny runda.
+		G.eliminatePlayer();  //Detta gï¿½rs normalt infï¿½r varje ny runda.
 		assertFalse(G.win());
 	}
 	
@@ -197,12 +198,13 @@ public class GameObjectTest {
 	public void testLose(){
 		Player human = G.getHumanPlayer();
 		G.getPlanet(0).setOwner(human);
-		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
+		
 		Player AIPlayer = G.getAIPlayers().get(0);
 		G.getPlanet(1).setOwner(AIPlayer);
-		assertEquals(AIPlayer, G.getPlanet(1).getOwner());        
+		       
 		assertFalse(G.lose());
 		G.getPlanet(0).setOwner(AIPlayer);    
+		G.eliminatePlayer();
 		assertEquals(2, G.getPlayerPlanets(AIPlayer).size());
 		assertEquals(0, G.getPlayerPlanets(human).size());       
 		assertTrue(G.lose());       
@@ -212,19 +214,20 @@ public class GameObjectTest {
 	public void testLose2(){
 		G.getPlanet(0).setOwner(G.getAIPlayers().get(0));
 		for(Planet p : G.getPlanets()){
-			p.setOwner(G.getAIPlayers().get(0));  //SŠtt alla planeter till en motstŒndare.
+			p.setOwner(G.getAIPlayers().get(0));  //Sï¿½tt alla planeter till en motstï¿½ndare.
 		}
-		assertTrue(G.lose());
-		G.eliminatePlayer();  //Detta gšrs normalt infšr varje ny runda.
-		assertTrue(G.lose()); //Vi borde fortfarande fšrlora.
+		assertFalse(G.lose());
+		G.eliminatePlayer();  //Detta gï¿½rs normalt infï¿½r varje ny runda.
+		assertTrue(G.lose()); //Vi borde fortfarande fï¿½rlora.
 	}
 	
 	@Test
 	public void testLose3(){
-		//Vi bšrjar med att ta bort spelarens startplanet och gšr den ockuperad
+		//Vi bï¿½rjar med att ta bort spelarens startplanet och gï¿½r den ockuperad
 		G.getPlayerPlanets(G.getHumanPlayer()).get(0).setOwner(null);
 		//Och ger honom en ny
 		G.getPlanet(13).setOwner(G.getHumanPlayer());
+		G.eliminatePlayer();
 		assertFalse(G.lose());
 	}
 

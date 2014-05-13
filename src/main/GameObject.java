@@ -39,6 +39,7 @@ public class GameObject {
 	private static GameObject uniqInstance;
 	private Queue<Move> moveQueue;
 	private Random rand;
+	private Player humanPlayer;
 
 	private GameObject(){	
 		moveQueue = new LinkedList<Move>();
@@ -181,7 +182,8 @@ public class GameObject {
 	}
 
 	public void createPlayers(int amountOfPlayers){
-		players.add(new Player("name", Color.blue));
+		humanPlayer = new Player("name", Color.blue);
+		players.add(humanPlayer);
 		planets.get(0).setOwner(players.get(0));
 		fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
 		planets.get(0).addFleet(fleets.get(0));
@@ -217,7 +219,7 @@ public class GameObject {
 	}
 
 	public Player getHumanPlayer(){		
-		return players.get(0);
+		return humanPlayer;
 	}
 
 
@@ -435,13 +437,10 @@ public class GameObject {
 	}
 
 	public boolean lose(){
-		for(Planet planet: planets){
-			if(planet.getOwner() == getHumanPlayer()){
-				break;
-			}
-			return true;
+		if(players.contains(humanPlayer)){
+			return false;
 		}
-		return false;
+		return true;
 	}	
 
 	public int[] path(Planet fromPlanet, Planet destPlanet){
