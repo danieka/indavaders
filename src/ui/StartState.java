@@ -25,6 +25,9 @@ public class StartState extends BasicGameState{
 		if(container.getInput().isKeyPressed(Input.KEY_1)){
 			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
 		}
+		if(container.getInput().isKeyPressed(Input.KEY_7)){
+			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
+		}
 		if(container.getInput().isKeyPressed(Input.KEY_4)){
 			Indavaders.exit();
 			}

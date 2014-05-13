@@ -198,19 +198,21 @@ public class GameObject {
 	}
 
 	public void randomPlayers(int amountOfPlayers){
-		Color playerColor = new Color(0x00749dfc);
-		humanPlayer = new Player("name", playerColor);
-		players.add(humanPlayer);
-		Planet p = randomUnownedPlanet();
-		p.setOwner(players.get(0));
-		fleets.add(new Fleet(20, players.get(0), p));			
-		p.addFleet(fleets.get(0));
-		for(int i = 1; i < amountOfPlayers; i++){
-			p = randomUnownedPlanet();
-			players.add(new AIPlayer("name", color.values()[i].color));	
-			p.setOwner(players.get(i));			
-			fleets.add(new Fleet(20, players.get(i), p));	
-			p.addFleet(fleets.get(i));
+		if(humanPlayer == null){
+			Color playerColor = new Color(0x00749dfc);
+			humanPlayer = new Player("name", playerColor);
+			players.add(humanPlayer);
+			Planet p = randomUnownedPlanet();
+			p.setOwner(players.get(0));
+			fleets.add(new Fleet(20, players.get(0), p));			
+			p.addFleet(fleets.get(0));
+			for(int i = 1; i < amountOfPlayers; i++){
+				p = randomUnownedPlanet();
+				players.add(new AIPlayer("name", color.values()[i].color));	
+				p.setOwner(players.get(i));			
+				fleets.add(new Fleet(20, players.get(i), p));	
+				p.addFleet(fleets.get(i));
+			}
 		}
 	}
 

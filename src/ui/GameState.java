@@ -20,7 +20,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class GameState extends BasicGameState{
 	//private ArrayList<Line> paths;
-	private GameObject game;
+	protected GameObject game;
 	Image space;
 	Image planetImg;
 	Image nextTurn;
@@ -122,6 +122,7 @@ public class GameState extends BasicGameState{
 				}
 			}
 		}
+		
 	}
 
 	public int getID() {
