@@ -1,11 +1,13 @@
 package main;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 import ui.Drawable;
+import ui.ImageCache;
 
 /**
  * Class representing planets in the game.
@@ -21,6 +23,7 @@ public class Planet implements Drawable {
 	private int y;
 	private ArrayList<Fleet> fleets; 
 	private Circle image;
+	int pic = 0;
 	
 	Planet (int x, int y, int size, String name, Player owner){
 		this.name = name;
@@ -29,7 +32,9 @@ public class Planet implements Drawable {
 		this.x = x;
 		this.y = y;
 		fleets = new ArrayList<Fleet>();
-		image = new Circle(x, y, 15);
+		image = new Circle(x, y, 18);
+		Random r = new Random();
+		pic = r.nextInt(4);
 		}
 	
 	public int getProductionCapacity() {
@@ -79,6 +84,7 @@ public class Planet implements Drawable {
 				g.setColor(Color.white);
 			}
 			g.fill(image);
+			ImageCache.getImage("planet" + pic + ".png").draw(x-15, y-15);
 			g.setColor(Color.white);
 			g.drawString(name, x, y-35);
 	}
