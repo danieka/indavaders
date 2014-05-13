@@ -551,28 +551,11 @@ public class GameObject {
 					stack.add(next);
 					visited.add(next);
 				}
-
 			}
 			ret.add(planet);
 			ret.addAll(planet.getFleets());
 		}
 		
 		return ret;
-	}
-
-	public void tutorialPlayers(int a) {
-		if(humanPlayer == null){
-			humanPlayer = new Player("name", Color.blue);
-			players.add(humanPlayer);
-			planets.get(0).setOwner(players.get(0));
-			fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
-			planets.get(0).addFleet(fleets.get(0));
-			for(int i = 19; i < a; i--){			
-				players.add(new AIPlayer("name", color.values()[i].color));	
-				planets.get(i).setOwner(players.get(i));			
-				fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
-				planets.get(i).addFleet(fleets.get(i));
-			}
-		}
 	}
 }

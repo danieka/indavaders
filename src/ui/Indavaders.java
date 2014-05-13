@@ -38,9 +38,12 @@ public class Indavaders extends StateBasedGame{
 
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		this.addState(new StartState());
-		this.addState(new GameState());
+		
+		this.addState(new GameState());		
 		this.addState(new EndState());
-		this.addState(new TutorialState());
+		this.addState(new TutorialState()); 
+		
+		
 		
 	}
 	

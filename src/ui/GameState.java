@@ -24,12 +24,13 @@ public class GameState extends BasicGameState{
 	Image space;
 	Image planetImg;
 	Image nextTurn;
-	private Fleet selectedFleet;
+	protected Fleet selectedFleet = null;
 	private boolean shiftPressed;
 	private boolean ctrlPressed;
 	private int divFleetNumber = 0;
-	private Fleet divFleet;
+	protected Fleet divFleet;
 	private String toolTip;
+	protected int turns;
 
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
@@ -49,6 +50,7 @@ public class GameState extends BasicGameState{
 		}
 		
 		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
+				turns++;
 				game.nextTurn();		
 		}
 		
