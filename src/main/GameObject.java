@@ -259,6 +259,9 @@ public class GameObject {
 
 	public void addMove(Move move){
 		if(moveQueue.contains(move)){
+			moveQueue.remove(move);
+		}
+		if(moveQueue.contains(move)){
 			throw new IllegalArgumentException();
 		}
 		moveQueue.add(move);
