@@ -100,7 +100,7 @@ public class Planet implements Drawable {
 				if(owner == null){
 					owner = f.getOwner();
 				}
-				else if(siegedBy != null){
+				else if(siegedBy == f.getOwner()){
 					owner = siegedBy;
 					siegedBy = null;
 					
