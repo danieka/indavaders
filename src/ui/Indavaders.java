@@ -40,6 +40,7 @@ public class Indavaders extends StateBasedGame{
 		this.addState(new StartState());
 		this.addState(new GameState());
 		this.addState(new EndState());
+		this.addState(new TutorialState());
 		
 	}
 	
