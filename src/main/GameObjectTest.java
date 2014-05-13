@@ -184,12 +184,12 @@ public class GameObjectTest {
 	
 	@Test
 	public void testWin2(){
-		//La till ett test fšr en bug jag hittade/ Daniel
+		//La till ett test fï¿½r en bug jag hittade/ Daniel
 		for(Planet p : G.getPlanets()){
-			p.setOwner(G.getAIPlayers().get(0));  //SŠtt alla planeter till en motstŒndare.
+			p.setOwner(G.getAIPlayers().get(0));  //Sï¿½tt alla planeter till en motstï¿½ndare.
 		}
 		assertFalse(G.win());
-		G.eliminatePlayer();  //Detta gšrs normalt infšr varje ny runda.
+		G.eliminatePlayer();  //Detta gï¿½rs normalt infï¿½r varje ny runda.
 		assertFalse(G.win());
 	}
 	
@@ -212,29 +212,21 @@ public class GameObjectTest {
 	public void testLose2(){
 		G.getPlanet(0).setOwner(G.getAIPlayers().get(0));
 		for(Planet p : G.getPlanets()){
-			p.setOwner(G.getAIPlayers().get(0));  //SŠtt alla planeter till en motstŒndare.
+			p.setOwner(G.getAIPlayers().get(0));  //Sï¿½tt alla planeter till en motstï¿½ndare.
 		}
 		assertTrue(G.lose());
-		G.eliminatePlayer();  //Detta gšrs normalt infšr varje ny runda.
-		assertTrue(G.lose()); //Vi borde fortfarande fšrlora.
+		G.eliminatePlayer();  //Detta gï¿½rs normalt infï¿½r varje ny runda.
+		assertTrue(G.lose()); //Vi borde fortfarande fï¿½rlora.
 	}
 	
 	@Test
 	public void testLose3(){
-		//Vi bšrjar med att ta bort spelarens startplanet och gšr den ockuperad
+		//Vi bï¿½rjar med att ta bort spelarens startplanet och gï¿½r den ockuperad
 		G.getPlayerPlanets(G.getHumanPlayer()).get(0).setOwner(null);
 		//Och ger honom en ny
 		G.getPlanet(13).setOwner(G.getHumanPlayer());
 		assertFalse(G.lose());
 	}
-
-
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddDuplicateMove(){
-		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(1)));
-		G.addMove(new Move(G.getFleets().get(0), G.getPlanet(0), G.getPlanet(5)));
-	}
-
 
 	@After
 	public void tearDown() {

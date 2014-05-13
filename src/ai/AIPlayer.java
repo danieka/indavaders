@@ -122,14 +122,12 @@ public class AIPlayer extends Player{
 				ass.getTask().decreaseShipsNecessary(newFleet.getSize());
 				newFleet.moveTo(ass.getTask().getPlanet());
 				assignedFleets.add(newFleet);
-				System.out.println(newFleet);
 			}
 			else if(ass.getTask().getShipsNecessary() >= ass.getFleet().getSize()){
 				ass.getFleet().moveTo(ass.getTask().getPlanet());
 				ass.getTask().decreaseShipsNecessary(ass.getFleet().getSize());
 				assignedFleets.add(ass.getFleet());
 			}
-			System.out.println(ass);
 		}
 		for(Fleet f : G.getPlayerFleets(this)){
 			if(!assignedFleets.contains(f)){

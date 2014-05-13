@@ -17,6 +17,7 @@ public class Planet implements Drawable {
 	private String name;
 	private int productionCapacity;
 	private Player owner;
+	private Player siegedBy = null;
 	private int x;
 	private int y;
 	private ArrayList<Fleet> fleets; 
@@ -85,5 +86,27 @@ public class Planet implements Drawable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public void updateOwnership() {
+		for(Fleet f : fleets){
+			if(f.getOwner() != owner){
+				if(owner == null){
+					owner = f.getOwner();
+				}
+				else if(siegedBy != null){
+					System.out.println("Change owner of " + name + " to " + siegedBy);
+					owner = siegedBy;
+					siegedBy = null;
+					
+				}
+				else{
+					siegedBy = f.getOwner();
+					System.out.println("Planet " + name + " sieged by " + siegedBy);
+				}
+				return;			
+			}
+		siegedBy = null;
+		}
 	}
 }
