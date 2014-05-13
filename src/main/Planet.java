@@ -79,6 +79,7 @@ public class Planet implements Drawable {
 				g.setColor(Color.white);
 			}
 			g.fill(image);
+			g.setColor(Color.white);
 			g.drawString(name, x, y-35);
 	}
 	
