@@ -20,7 +20,6 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class GameState extends BasicGameState{
 	//private ArrayList<Line> paths;
-	//private static int turn;
 	private GameObject game;
 	Image space;
 	Image planetImg;
@@ -39,13 +38,12 @@ public class GameState extends BasicGameState{
 		planetImg = new Image("resources/planet.png");
 		nextTurn = new Image("resources/nextTurn.png");
 		ImageCache.getInstance();
-		//turn = 0;
 			
 	}
 
 	public void update(GameContainer container, StateBasedGame sbg, int arg2)
 			throws SlickException {
-		if(container.getInput().isKeyPressed(Input.KEY_2)){ // || game.win() == true){
+		if(container.getInput().isKeyPressed(Input.KEY_2) || game.win() == true || game.lose() == true){ 
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
 		
