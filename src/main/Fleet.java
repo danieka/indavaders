@@ -32,6 +32,11 @@ public class Fleet implements Drawable {
 		return size;
 	}
 	
+	/**
+	 * Order the fleet to move to planet dest.
+	 * This can be any planet on the map but the fleet will only move one planet.
+	 * @param dest
+	 */
 	public void moveTo(Planet dest){
 		if(dest == location) return;
 		GameObject G = GameObject.getInstance();
@@ -49,7 +54,11 @@ public class Fleet implements Drawable {
 	public Player getOwner(){
 		return owner;
 	}
-
+	
+	/**
+	 * This is only to be used by the Move class.
+	 * @param to
+	 */
 	public void setLocation(Planet to) {
 		location = to;
 		desiredX = location.getX();
@@ -60,6 +69,9 @@ public class Fleet implements Drawable {
 		this.size = size;
 	}
 
+	/**
+	 * This method draws the fleet on the Graphics object g.
+	 */
 	@Override
 	public void draw(Graphics g) {
 		if(x != desiredX || y != desiredY){

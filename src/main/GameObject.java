@@ -537,6 +537,7 @@ public class GameObject {
 
 	public ArrayList<Drawable> getDrawable() {
 		ArrayList<Drawable> ret = new ArrayList<Drawable>(getPlayerPlanets(getHumanPlayer()));
+		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;
 		Planet start = getPlayerPlanets(getHumanPlayer()).get(0);
 		// DFS uses Stack data structure
 		HashSet<Planet> visited = new HashSet<Planet>();
@@ -550,7 +551,6 @@ public class GameObject {
 					stack.add(next);
 					visited.add(next);
 				}
-
 			}
 			ret.add(planet);
 			ret.addAll(planet.getFleets());
