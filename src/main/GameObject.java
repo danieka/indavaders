@@ -537,6 +537,7 @@ public class GameObject {
 
 	public ArrayList<Drawable> getDrawable() {
 		ArrayList<Drawable> ret = new ArrayList<Drawable>(getPlayerPlanets(getHumanPlayer()));
+		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;
 		Planet start = getPlayerPlanets(getHumanPlayer()).get(0);
 		// DFS uses Stack data structure
 		HashSet<Planet> visited = new HashSet<Planet>();
@@ -557,5 +558,21 @@ public class GameObject {
 		}
 		
 		return ret;
+	}
+
+	public void tutorialPlayers(int a) {
+		if(humanPlayer == null){
+			humanPlayer = new Player("name", Color.blue);
+			players.add(humanPlayer);
+			planets.get(0).setOwner(players.get(0));
+			fleets.add(new Fleet(20, players.get(0), planets.get(0)));			
+			planets.get(0).addFleet(fleets.get(0));
+			for(int i = 19; i < a; i--){			
+				players.add(new AIPlayer("name", color.values()[i].color));	
+				planets.get(i).setOwner(players.get(i));			
+				fleets.add(new Fleet(20, players.get(i), planets.get(i)));	
+				planets.get(i).addFleet(fleets.get(i));
+			}
+		}
 	}
 }
