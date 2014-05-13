@@ -199,7 +199,7 @@ public class GameObject {
 
 	public void randomPlayers(int amountOfPlayers){
 		if(humanPlayer == null){
-			Color playerColor = new Color(0x00749dfc);
+			Color playerColor = new Color(0x002b7cff);
 			humanPlayer = new Player("name", playerColor);
 			players.add(humanPlayer);
 			Planet p = randomUnownedPlanet();
