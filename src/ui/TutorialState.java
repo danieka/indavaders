@@ -71,7 +71,7 @@ public class TutorialState extends GameState {
 			dialogText = "Nice! \n" +
 					"You've now commanded the fleet to move, and you can see it in transit. \n" +
 					"But before the fleet moves we have to advance the game to the next turn. \n" +
-					"To do this press the spacebar or the next turn button in the lower left corner. \n ";
+					"To do this press the spacebar or the next turn button in the lower right corner. \n ";
 			if(turns != 0){
 				tutorialStep = 3;
 			}
