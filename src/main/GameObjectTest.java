@@ -148,8 +148,6 @@ public class GameObjectTest {
 		Planet p = G.getPlanet(15);
 		Fleet f1 = G.createFleet(player1, p, 20);
 		Fleet f2 = G.createFleet(player2, p, 20);
-		Fleet f3 = G.createFleet(player1, p, 20);
-		Fleet f4 = G.createFleet(player2, p, 20);
 		G.merge();
 		assertEquals(2, p.getFleets().size());
 		assertTrue(p.getFleets().contains(f1));

@@ -3,12 +3,10 @@ package ai;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Stack;
 
 import main.Fleet;
 import main.GameObject;
-import main.Move;
 import main.Planet;
 import main.Player;
 
@@ -31,11 +29,10 @@ public class AIPlayer extends Player{
         PINK,
     }
 	
-	private boolean verbose = true;
 	private float defendAffinity = 50;
 	private float attackAffinity = 40;
 	private float colonizeAffinity = 50;
-	private Planet goal;
+	//private Planet goal;
 
 	GameObject G;
 	ArrayList<Task> taskList;
@@ -51,7 +48,7 @@ public class AIPlayer extends Player{
 	 * This function is the external function that GameObjects calls. This should in turn call all internal functions as needed.
 	 */
 	public void makeMove(){	
-		setGoal();
+		//setGoal();
 		gatherTasks();
 		assignTasks();
 		executeAssignements();
@@ -60,9 +57,9 @@ public class AIPlayer extends Player{
 	/**
 	 * Set a overarching goal for the AI-player to strive against. This is actually not acted on right now.
 	 */
-	private void setGoal() {
-		goal = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
-	}
+	//private void setGoal() {
+		//goal = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
+	//}
 
 	/**
 	 * This dfs-search goes through all planets and generates appropriate tasks that ought to be performed in the next round.
@@ -88,7 +85,7 @@ public class AIPlayer extends Player{
 				}
 				else if(next.getOwner() != this){
 					//This mean the planet next is owned by the enemy.
-					goal = next;
+					//goal = next;
 					int enemyShips = 1; //Suspect we could get strange behavior if requiredShips == 0
 					for(Fleet fleet : next.getFleets()){
 						enemyShips += fleet.getSize();
