@@ -87,4 +87,9 @@ public class Fleet implements Drawable {
 	public int getY() {
 		return y;
 	}
+	
+	@Override
+	public String toString() {
+		return "Fleet with size: " + size + " at: " + location.getName();
+	}
 }

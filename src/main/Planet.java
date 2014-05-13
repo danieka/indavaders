@@ -74,10 +74,16 @@ public class Planet implements Drawable {
 	public void draw(Graphics g) {
 			if(owner != null){
 				g.setColor(owner.getColor());
-				g.fill(image);
+				
 			}else{
 				g.setColor(Color.white);
-				g.fill(image);
 			}
+			g.fill(image);
+			g.drawString(name, x, y-35);
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }

@@ -192,7 +192,7 @@ public class GameObjectTest {
 		G.eliminatePlayer();  //Detta gšrs normalt infšr varje ny runda.
 		assertFalse(G.win());
 	}
-
+	
 	@Test
 	public void testLose(){
 		Player human = G.getHumanPlayer();
@@ -217,6 +217,15 @@ public class GameObjectTest {
 		assertTrue(G.lose());
 		G.eliminatePlayer();  //Detta gšrs normalt infšr varje ny runda.
 		assertTrue(G.lose()); //Vi borde fortfarande fšrlora.
+	}
+	
+	@Test
+	public void testLose3(){
+		//Vi bšrjar med att ta bort spelarens startplanet och gšr den ockuperad
+		G.getPlayerPlanets(G.getHumanPlayer()).get(0).setOwner(null);
+		//Och ger honom en ny
+		G.getPlanet(13).setOwner(G.getHumanPlayer());
+		assertFalse(G.lose());
 	}
 
 
