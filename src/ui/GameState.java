@@ -71,7 +71,7 @@ public class GameState extends BasicGameState{
 		}
 		String lose = "False";
 		if(game.lose() == true){
-			win = "True";
+			lose = "True";
 		}
 		g.drawString("X: " + posX + " Y: "+ posY, 550, 15);
 		g.drawString("Win=" + win, 550, 30);
