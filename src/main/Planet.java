@@ -96,14 +96,12 @@ public class Planet implements Drawable {
 					owner = f.getOwner();
 				}
 				else if(siegedBy != null){
-					System.out.println("Change owner of " + name + " to " + siegedBy);
 					owner = siegedBy;
 					siegedBy = null;
 					
 				}
 				else{
 					siegedBy = f.getOwner();
-					System.out.println("Planet " + name + " sieged by " + siegedBy);
 				}
 				return;			
 			}
