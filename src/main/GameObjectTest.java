@@ -168,14 +168,15 @@ public class GameObjectTest {
 	@Test
 	public void testWin(){
 		Player human = G.getHumanPlayer();
-		G.getPlanet(0).setOwner(human);
-		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
+		G.getPlanet(0).setOwner(human);		
 		Player AIPlayer = G.getAIPlayers().get(0);
 		G.getPlanet(1).setOwner(AIPlayer);
-		assertEquals(AIPlayer, G.getPlanet(1).getOwner());        
+
 		assertFalse(G.win());        
 		for(int i = 0; i < G.getPlanets().size(); i++){
-			G.getPlanet(i).setOwner(human);;          }
+			G.getPlanet(i).setOwner(human);;          
+			}
+		G.eliminatePlayer();
 		assertEquals(0, G.getPlayerPlanets(AIPlayer).size());
 		assertEquals(G.getPlanets().size(), G.getPlayerPlanets(human).size());        
 		assertTrue(G.win());    
@@ -197,12 +198,13 @@ public class GameObjectTest {
 	public void testLose(){
 		Player human = G.getHumanPlayer();
 		G.getPlanet(0).setOwner(human);
-		assertTrue(G.getPlayerPlanets(human).contains(G.getPlanet(0)));
+		
 		Player AIPlayer = G.getAIPlayers().get(0);
 		G.getPlanet(1).setOwner(AIPlayer);
-		assertEquals(AIPlayer, G.getPlanet(1).getOwner());        
+		       
 		assertFalse(G.lose());
 		G.getPlanet(0).setOwner(AIPlayer);    
+		G.eliminatePlayer();
 		assertEquals(2, G.getPlayerPlanets(AIPlayer).size());
 		assertEquals(0, G.getPlayerPlanets(human).size());       
 		assertTrue(G.lose());       
@@ -214,7 +216,7 @@ public class GameObjectTest {
 		for(Planet p : G.getPlanets()){
 			p.setOwner(G.getAIPlayers().get(0));  //S�tt alla planeter till en motst�ndare.
 		}
-		assertTrue(G.lose());
+		assertFalse(G.lose());
 		G.eliminatePlayer();  //Detta g�rs normalt inf�r varje ny runda.
 		assertTrue(G.lose()); //Vi borde fortfarande f�rlora.
 	}
@@ -225,6 +227,7 @@ public class GameObjectTest {
 		G.getPlayerPlanets(G.getHumanPlayer()).get(0).setOwner(null);
 		//Och ger honom en ny
 		G.getPlanet(13).setOwner(G.getHumanPlayer());
+		G.eliminatePlayer();
 		assertFalse(G.lose());
 	}
 
