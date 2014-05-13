@@ -54,6 +54,7 @@ public class Planet implements Drawable {
 	public int getY(){
 		return y;
 	}
+
 	
 	public void addFleet(Fleet fleet){
 		fleets.add(fleet);
@@ -107,5 +108,12 @@ public class Planet implements Drawable {
 			}
 		siegedBy = null;
 		}
+	}
+
+	public boolean siegedBy(Player player) {
+		if(siegedBy == player){
+			return true;
+		}
+		return false;
 	}
 }

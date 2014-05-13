@@ -10,11 +10,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 import org.newdawn.slick.Color;
 
 import ui.Drawable;
 import ai.AIPlayer;
+import ai.Task;
 
 /**
  * Game object
@@ -533,15 +535,25 @@ public class GameObject {
 
 	public ArrayList<Drawable> getDrawable() {
 		ArrayList<Drawable> ret = new ArrayList<Drawable>(getPlayerPlanets(getHumanPlayer()));
-		for(Planet e : getPlayerPlanets(getHumanPlayer())){
-			ret.addAll(e.getFleets());
-			for(Planet p : getNeighbourPlanets(e)){
-				if (!ret.contains((Drawable)p)){
-					ret.add(p);
-					ret.addAll(p.getFleets());
+		Planet start = getPlayerPlanets(getHumanPlayer()).get(0);
+		// DFS uses Stack data structure
+		HashSet<Planet> visited = new HashSet<Planet>();
+		Stack<Planet> stack = new Stack<Planet>();
+		stack.add(start);
+		visited.add(start);
+		while(!stack.isEmpty()) {
+			Planet planet = stack.pop();
+			for( Planet next : getNeighbourPlanets(planet)){
+				if(!visited.contains(next) && (planet.getOwner() == getHumanPlayer() || planet.siegedBy(getHumanPlayer()))){
+					stack.add(next);
+					visited.add(next);
 				}
+
 			}
+			ret.add(planet);
+			ret.addAll(planet.getFleets());
 		}
+		
 		return ret;
 	}
 }

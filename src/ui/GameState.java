@@ -27,6 +27,7 @@ public class GameState extends BasicGameState{
 	Image nextTurn;
 	private Fleet selectedFleet;
 	private boolean shiftPressed;
+	private boolean ctrlPressed;
 	private int divFleetNumber = 0;
 	private Fleet divFleet;
 	private String toolTip;
@@ -52,11 +53,18 @@ public class GameState extends BasicGameState{
 		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
 				game.nextTurn();		
 		}
+		
 		if(container.getInput().isKeyDown(Input.KEY_LSHIFT)){
 			shiftPressed = true;
 		} else {
 			shiftPressed = false;
-		}		
+		}
+		
+		if(container.getInput().isKeyDown(Input.KEY_LCONTROL)){
+			ctrlPressed = true;
+		} else {
+			ctrlPressed = false;
+		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
@@ -158,6 +166,24 @@ public class GameState extends BasicGameState{
 						if(1 < f.getSize()){
 							f.setSize(f.getSize() - 1);
 							divFleetNumber += 1;
+							toolTip = divFleetNumber + "";
+						}
+					}
+				}	
+			}
+		}
+		
+		if (button == 0 && ctrlPressed){
+			selectedFleet = null;
+			for(Fleet f: game.getPlayerFleets(game.getHumanPlayer())){
+				int x = f.getX();
+				int y = f.getY();
+				if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+					if(divFleet == f || divFleet == null){
+						divFleet = f;
+						if(1 < f.getSize() - 10){
+							f.setSize(f.getSize() - 10);
+							divFleetNumber += 10;
 							toolTip = divFleetNumber + "";
 						}
 					}
