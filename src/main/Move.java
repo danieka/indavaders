@@ -47,7 +47,6 @@ public class Move {
     
     @Override
     public String toString(){
-    	GameObject G = GameObject.getInstance(); 
     	return "Move fleet " + fleet.toString() + " from " + from.toString() + " to " + to.toString();
     }
 }

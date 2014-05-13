@@ -1,11 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
-
-import main.Fleet;
-import main.GameObject;
-import main.Planet;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

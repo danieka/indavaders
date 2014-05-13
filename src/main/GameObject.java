@@ -16,7 +16,6 @@ import org.newdawn.slick.Color;
 
 import ui.Drawable;
 import ai.AIPlayer;
-import ai.Task;
 
 /**
  * Game object

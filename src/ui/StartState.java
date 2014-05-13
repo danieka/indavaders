@@ -1,5 +1,4 @@
 package ui;
-import java.awt.Color;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

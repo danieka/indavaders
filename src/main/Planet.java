@@ -13,7 +13,6 @@ import ui.Drawable;
  *
  */
 public class Planet implements Drawable {
-	private int size;
 	private String name;
 	private int productionCapacity;
 	private Player owner;
@@ -24,7 +23,6 @@ public class Planet implements Drawable {
 	private Circle image;
 	
 	Planet (int x, int y, int size, String name, Player owner){
-		this.size = size;
 		this.name = name;
 		this.productionCapacity = size;
 		this.owner = owner;

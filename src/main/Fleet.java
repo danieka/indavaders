@@ -1,7 +1,5 @@
 package main;
 
-import java.util.Arrays;
-
 import org.newdawn.slick.Graphics;
 
 import ui.Drawable;
