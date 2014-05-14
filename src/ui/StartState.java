@@ -10,7 +10,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.geom.Rectangle;
-
+/**
+ * StartState is the first state of the game. From here you'll get to the game, tutorial and so on.
+ * 
+ * @author Adam Pielbusch
+ *
+ */
 
 public class StartState extends BasicGameState{
 	
@@ -34,13 +39,16 @@ public class StartState extends BasicGameState{
 
 	public void update(GameContainer container, StateBasedGame sbg, int arg2)
 			throws SlickException {
+		//Start the game
 		if(container.getInput().isKeyPressed(Input.KEY_1) || start == true){
 			start = false;
 			sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
 		}
+		//Exit the game
 		if(container.getInput().isKeyPressed(Input.KEY_5) || quit == true){
 			Indavaders.exit();
 			}
+		//Enter the tutorial
 		if(container.getInput().isKeyPressed(Input.KEY_4) || tutorial == true){
 			tutorial = false;
 			sbg.enterState(3, new FadeOutTransition(), new FadeInTransition());
@@ -49,8 +57,9 @@ public class StartState extends BasicGameState{
 	
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g)
 			throws SlickException {
-		indavaders.draw(50, 150);
+		indavaders.draw(50, 150); //the logo
 		
+		//Draws the buttons
 		g.draw(new Rectangle(400, 360, 150, 40));
 		g.draw(new Rectangle(400, 420, 150, 40));
 		g.draw(new Rectangle(400, 480, 150, 40));
