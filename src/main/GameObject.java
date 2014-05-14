@@ -633,14 +633,13 @@ public class GameObject {
 	public ArrayList<Drawable> getDrawable() {
 		ArrayList<Drawable> ret = new ArrayList<Drawable>();
 		if (fogOfWar){
-		ret.addAll(getPlayerPlanets(getHumanPlayer()));
 		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;
 		Planet start = getPlayerPlanets(getHumanPlayer()).get(0);
 		// DFS uses Stack data structure
 		HashSet<Planet> visited = new HashSet<Planet>();
 		Stack<Planet> stack = new Stack<Planet>();
-		stack.add(start);
-		visited.add(start);
+		stack.addAll(getPlayerPlanets(getHumanPlayer()));
+		visited.addAll(getPlayerPlanets(getHumanPlayer()));
 		while(!stack.isEmpty()) {
 			Planet planet = stack.pop();
 			for( Planet next : getNeighborPlanets(planet)){
