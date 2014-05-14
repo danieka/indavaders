@@ -44,15 +44,15 @@ public class GameObjectTest {
 
 	@Test
 	public void testNeighbourPlanet() {
-		ArrayList<Planet> n = G.getNeighbourPlanets(G.getPlanet(0));
+		ArrayList<Planet> n = G.getNeighborPlanets(G.getPlanet(0));
 		assertTrue(n.contains(G.getPlanet(5)));
 		assertTrue(n.contains(G.getPlanet(1)));
 
-		n = G.getNeighbourPlanets(G.getPlanet(5));
+		n = G.getNeighborPlanets(G.getPlanet(5));
 		assertTrue(n.contains(G.getPlanet(6)));
 		assertTrue(n.contains(G.getPlanet(1)));
 
-		n = G.getNeighbourPlanets(G.getPlanet(13));
+		n = G.getNeighborPlanets(G.getPlanet(13));
 		assertTrue(n.contains(G.getPlanet(12)));
 		assertTrue(n.contains(G.getPlanet(14)));
 		assertTrue(n.contains(G.getPlanet(8)));
@@ -136,8 +136,6 @@ public class GameObjectTest {
 		Planet p = G.getPlanet(15);
 		Fleet f1 = G.createFleet(player1, p, 20);
 		Fleet f2 = G.createFleet(player2, p, 20);
-		Fleet f3 = G.createFleet(player1, p, 20);
-		Fleet f4 = G.createFleet(player2, p, 20);
 		G.merge();
 		assertEquals(2, p.getFleets().size());
 		assertTrue(p.getFleets().contains(f1));

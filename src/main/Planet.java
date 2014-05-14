@@ -1,11 +1,13 @@
 package main;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 import ui.Drawable;
+import ui.ImageCache;
 
 /**
  * Class representing planets in the game.
@@ -13,7 +15,6 @@ import ui.Drawable;
  *
  */
 public class Planet implements Drawable {
-	private int size;
 	private String name;
 	private int productionCapacity;
 	private Player owner;
@@ -22,6 +23,7 @@ public class Planet implements Drawable {
 	private int y;
 	private ArrayList<Fleet> fleets; 
 	private Circle image;
+	int pic = 0;
 	
 	/**
 	 * Constructor for objects of class Planet
@@ -34,15 +36,21 @@ public class Planet implements Drawable {
 	 * @param owner
 	 */
 	Planet (int x, int y, int size, String name, Player owner){
-		this.size = size;
 		this.name = name;
 		this.productionCapacity = size;
 		this.owner = owner;
 		this.x = x;
 		this.y = y;
 		fleets = new ArrayList<Fleet>();
+<<<<<<< HEAD
 		image = new Circle(x, y, 15);
 		}	
+=======
+		image = new Circle(x, y, 18);
+		Random r = new Random();
+		pic = r.nextInt(4);
+		}
+>>>>>>> 0176637a25e5370c31042b71ce1621ffcd987f55
 	
 	public int getProductionCapacity() {
 		return productionCapacity;
@@ -64,6 +72,7 @@ public class Planet implements Drawable {
 	public int getY(){
 		return y;
 	}
+
 	
 	public void addFleet(Fleet fleet){
 		fleets.add(fleet);
@@ -94,6 +103,7 @@ public class Planet implements Drawable {
 				g.setColor(Color.white);
 			}
 			g.fill(image);
+			ImageCache.getImage("planet" + pic + ".png").draw(x-15, y-15);
 			g.setColor(Color.white);
 			g.drawString(name, x, y-35);
 	}
@@ -112,7 +122,7 @@ public class Planet implements Drawable {
 				if(owner == null){
 					owner = f.getOwner();
 				}
-				else if(siegedBy != null){
+				else if(siegedBy == f.getOwner()){
 					owner = siegedBy;
 					siegedBy = null;
 					
@@ -124,5 +134,12 @@ public class Planet implements Drawable {
 			}
 		siegedBy = null;
 		}
+	}
+
+	public boolean siegedBy(Player player) {
+		if(siegedBy == player){
+			return true;
+		}
+		return false;
 	}
 }

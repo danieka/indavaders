@@ -7,6 +7,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * The main class. This will create the different states from which you can play the game.
+ * @author Adam Pielbusch
+ *
+ */
+
 public class Indavaders extends StateBasedGame{
 	
 	public static int siffra;
@@ -22,10 +28,10 @@ public class Indavaders extends StateBasedGame{
 	{
 		try
 		{
-			//AppGameContainer appgc;
 			appgc = new AppGameContainer(new Indavaders("Indavaders"));
 			appgc.setDisplayMode(1024, 768, false);
 			appgc.setTargetFrameRate(60);
+			appgc.setShowFPS(false);
 			appgc.start();
 			
 		}
@@ -37,9 +43,13 @@ public class Indavaders extends StateBasedGame{
 
 
 	public void initStatesList(GameContainer arg0) throws SlickException {
+		//The different states
 		this.addState(new StartState());
-		this.addState(new GameState());
+		this.addState(new GameState());		
 		this.addState(new EndState());
+		this.addState(new TutorialState()); 
+		
+		
 		
 	}
 	

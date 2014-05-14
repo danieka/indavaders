@@ -9,7 +9,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * The final state of the game; game over. 
+ * The final state of the game; you have either won or lost. 
  * @author Adam Pielbusch
  *
  */
@@ -32,11 +32,11 @@ public class EndState extends BasicGameState{
 	
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g)
 			throws SlickException {
-		if(game.win() == true){
+		if(game.win() == true){ //Win text
 			g.drawString("You have won!", 280, 300);
 			g.drawString("Such best, very victory, many horse", 280, 315);
 			g.drawString("Press any key to continue", 280, 330);
-		}else{
+		}else{ //Lose text
 			g.drawString("Game Over", 280, 300);
 			g.drawString("Such defeat, very lose, many sad", 280, 315);
 			g.drawString("Press any key to continue", 280, 330);

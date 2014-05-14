@@ -18,17 +18,25 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+/**
+ * The gamestate is the game. From here you'll be able to play the game. 
+ * When entered a new GameObject is created.
+ * @author Adam Pielbusch
+ *
+ */
 public class GameState extends BasicGameState{
 	//private ArrayList<Line> paths;
-	private GameObject game;
-	Image space;
+	protected GameObject game;
+	Image space; //Background
 	Image planetImg;
 	Image nextTurn;
-	private Fleet selectedFleet;
+	protected Fleet selectedFleet = null;
 	private boolean shiftPressed;
+	private boolean ctrlPressed;
 	private int divFleetNumber = 0;
-	private Fleet divFleet;
+	protected Fleet divFleet;
 	private String toolTip;
+	protected int turns;
 
 	public void init(GameContainer container, StateBasedGame arg1)
 			throws SlickException {
@@ -43,18 +51,27 @@ public class GameState extends BasicGameState{
 
 	public void update(GameContainer container, StateBasedGame sbg, int arg2)
 			throws SlickException {
+		//Take you to the endstate
 		if(container.getInput().isKeyPressed(Input.KEY_2) || game.win() == true || game.lose() == true){ 
 			sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
 		}
-		
+		//Simulates a turn when you push the button
 		if(container.getInput().isKeyPressed(Input.KEY_SPACE)){
+				turns++;
 				game.nextTurn();		
 		}
+		
 		if(container.getInput().isKeyDown(Input.KEY_LSHIFT)){
 			shiftPressed = true;
 		} else {
 			shiftPressed = false;
-		}		
+		}
+		
+		if(container.getInput().isKeyDown(Input.KEY_LCONTROL)){
+			ctrlPressed = true;
+		} else {
+			ctrlPressed = false;
+		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame arg1, Graphics g)
@@ -64,20 +81,10 @@ public class GameState extends BasicGameState{
 		nextTurn.draw(900, 650);
 		int posX = Mouse.getX();
 		int posY = 768 - Mouse.getY();
-		String win = "False";
-		if(game.win() == true){
-			win = "True";
-		}
-		String lose = "False";
-		if(game.lose() == true){
-			lose = "True";
-		}
 		g.setColor(Color.white);
-		g.drawString("X: " + posX + " Y: "+ posY, 550, 15);
-		g.drawString("Win=" + win, 550, 30);
-		g.drawString("Lose=" + lose, 550, 45);
+		//g.drawString("X: " + posX + " Y: "+ posY, 550, 15);
 		g.setLineWidth(1);
-		g.setColor(Color.cyan);
+		//g.setColor(Color.cyan);
 		for(int[] l : game.getAllEdges()){
 			int x1 = l[0];
 			int y1 = l[1];
@@ -99,7 +106,7 @@ public class GameState extends BasicGameState{
 			g.setLineWidth(2);
 			g.setColor(game.getHumanPlayer().getColor());
 			g.draw(new Circle(selectedFleet.getX()+14, selectedFleet.getY()+18, 20));
-			for(Planet p : game.getNeighbourPlanets(selectedFleet.getPlanet())){
+			for(Planet p : game.getNeighborPlanets(selectedFleet.getPlanet())){
 				if((posX>p.getX()-14 && posX<p.getX()+14) && (posY>p.getY()-14 && posY<p.getY()+14)){
 					
 					g.drawLine(selectedFleet.getX()+15, selectedFleet.getY()+15, p.getX(), p.getY());
@@ -107,13 +114,14 @@ public class GameState extends BasicGameState{
 			}
 		}
 		if(divFleet != null){
-			for(Planet p : game.getNeighbourPlanets(divFleet.getPlanet())){
+			for(Planet p : game.getNeighborPlanets(divFleet.getPlanet())){
 				if((posX>p.getX()-14 && posX<p.getX()+14) && (posY>p.getY()-14 && posY<p.getY()+14)){
 					g.setColor(game.getHumanPlayer().getColor());
 					g.drawLine(divFleet.getX()+15, divFleet.getY()+15, p.getX(), p.getY());
 				}
 			}
 		}
+		
 	}
 
 	public int getID() {
@@ -121,7 +129,7 @@ public class GameState extends BasicGameState{
 	}
 	@Override
 	public void mousePressed(int button, int posX, int posY){
-		if (button == 0 && !shiftPressed){
+		if (button == 0 && !shiftPressed && !ctrlPressed){
 			if(divFleet != null){
 				divFleet.setSize(divFleet.getSize() + divFleetNumber);
 				divFleetNumber = 0;
@@ -163,10 +171,28 @@ public class GameState extends BasicGameState{
 			}
 		}
 		
+		if (button == 0 && ctrlPressed){
+			selectedFleet = null;
+			for(Fleet f: game.getPlayerFleets(game.getHumanPlayer())){
+				int x = f.getX();
+				int y = f.getY();
+				if((posX>x && posX<x+32) && (posY>y && posY<y+32)){
+					if(divFleet == f || divFleet == null){
+						divFleet = f;
+						if(1 < f.getSize() - 10){
+							f.setSize(f.getSize() - 10);
+							divFleetNumber += 10;
+							toolTip = divFleetNumber + "";
+						}
+					}
+				}	
+			}
+		}
+		
 		if (button == 1){
 			if(divFleet != null){
 				Planet p = divFleet.getPlanet();
-				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				ArrayList<Planet> planetList = game.getNeighborPlanets(p);
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();
@@ -182,7 +208,7 @@ public class GameState extends BasicGameState{
 			
 			if(selectedFleet != null){
 				Planet p = selectedFleet.getPlanet();
-				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				ArrayList<Planet> planetList = game.getNeighborPlanets(p);
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();

@@ -25,7 +25,7 @@ public class Move {
 	 * @param to
 	 */
 	public Move(Fleet fleet, Planet to){
-		if(!GameObject.getInstance().getNeighbourPlanets(fleet.getPlanet()).contains(to)){
+		if(!GameObject.getInstance().getNeighborPlanets(fleet.getPlanet()).contains(to)){
 			throw new IllegalArgumentException("Planet is no neigbour");
 		}
 		this.fleet = fleet;
@@ -63,7 +63,6 @@ public class Move {
     
     @Override
     public String toString(){
-    	GameObject G = GameObject.getInstance(); 
     	return "Move fleet " + fleet.toString() + " from " + from.toString() + " to " + to.toString();
     }
 }
