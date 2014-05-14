@@ -38,10 +38,10 @@ public class GameState extends BasicGameState{
 	private String toolTip;
 	protected int turns;
 
-	public void init(GameContainer container, StateBasedGame arg1)
+	public void init(GameContainer container,StateBasedGame arg1)
 			throws SlickException {
 		game = GameObject.getInstance();
-		game.randomPlayers(4);
+		//game.randomPlayers(amountOfPlayers);
 		space = new Image("resources/spaceBG.png");
 		planetImg = new Image("resources/planet.png");
 		nextTurn = new Image("resources/nextTurn.png");
