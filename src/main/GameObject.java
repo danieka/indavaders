@@ -419,14 +419,10 @@ public class GameObject {
 			}
 		}
 	}
-<<<<<<< HEAD
-	
-=======
 
 	/**
 	 * Move the fleets in the moveQueue.
 	 */
->>>>>>> 0176637a25e5370c31042b71ce1621ffcd987f55
 	public void executeMoves(){
 		Move m;
 		while(!moveQueue.isEmpty()){
