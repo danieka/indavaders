@@ -21,6 +21,7 @@ public class ImageCache {
         }
         return result;
     }
+    
 	public static synchronized ImageCache getInstance() {
 	    if (uniqInstance == null) {
 	      uniqInstance = new ImageCache();
