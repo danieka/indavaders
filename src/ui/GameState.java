@@ -132,7 +132,7 @@ public class GameState extends BasicGameState{
 	}
 	@Override
 	public void mousePressed(int button, int posX, int posY){
-		if (button == 0 && !shiftPressed){
+		if (button == 0 && !shiftPressed && !ctrlPressed){
 			if(divFleet != null){
 				divFleet.setSize(divFleet.getSize() + divFleetNumber);
 				divFleetNumber = 0;
