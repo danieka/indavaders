@@ -42,6 +42,7 @@ public class GameObject {
 	private Queue<Move> moveQueue;
 	private Random rand;
 	private Player humanPlayer;
+	private boolean fogOfWar = true;
 
 	private GameObject(){	
 		moveQueue = new LinkedList<Move>();
@@ -630,7 +631,9 @@ public class GameObject {
 	 * @return
 	 */
 	public ArrayList<Drawable> getDrawable() {
-		ArrayList<Drawable> ret = new ArrayList<Drawable>(getPlayerPlanets(getHumanPlayer()));
+		ArrayList<Drawable> ret = new ArrayList<Drawable>();
+		if (fogOfWar){
+		ret.addAll(getPlayerPlanets(getHumanPlayer()));
 		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;
 		Planet start = getPlayerPlanets(getHumanPlayer()).get(0);
 		// DFS uses Stack data structure
@@ -649,7 +652,20 @@ public class GameObject {
 			ret.add(planet);
 			ret.addAll(planet.getFleets());
 		}
+		}
+		else {
+			ret.addAll(planets);
+			ret.addAll(fleets);
+		}
 		
 		return ret;
+	}
+	
+	/**
+	 * Set the fog of war to be on or off.
+	 * @param state
+	 */
+	public void setFogOfWar(boolean state){
+		fogOfWar = state;
 	}
 }
