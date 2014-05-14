@@ -106,7 +106,7 @@ public class GameState extends BasicGameState{
 			g.setLineWidth(2);
 			g.setColor(game.getHumanPlayer().getColor());
 			g.draw(new Circle(selectedFleet.getX()+14, selectedFleet.getY()+18, 20));
-			for(Planet p : game.getNeighbourPlanets(selectedFleet.getPlanet())){
+			for(Planet p : game.getNeighborPlanets(selectedFleet.getPlanet())){
 				if((posX>p.getX()-14 && posX<p.getX()+14) && (posY>p.getY()-14 && posY<p.getY()+14)){
 					
 					g.drawLine(selectedFleet.getX()+15, selectedFleet.getY()+15, p.getX(), p.getY());
@@ -114,7 +114,7 @@ public class GameState extends BasicGameState{
 			}
 		}
 		if(divFleet != null){
-			for(Planet p : game.getNeighbourPlanets(divFleet.getPlanet())){
+			for(Planet p : game.getNeighborPlanets(divFleet.getPlanet())){
 				if((posX>p.getX()-14 && posX<p.getX()+14) && (posY>p.getY()-14 && posY<p.getY()+14)){
 					g.setColor(game.getHumanPlayer().getColor());
 					g.drawLine(divFleet.getX()+15, divFleet.getY()+15, p.getX(), p.getY());
@@ -129,7 +129,7 @@ public class GameState extends BasicGameState{
 	}
 	@Override
 	public void mousePressed(int button, int posX, int posY){
-		if (button == 0 && !shiftPressed){
+		if (button == 0 && !shiftPressed && !ctrlPressed){
 			if(divFleet != null){
 				divFleet.setSize(divFleet.getSize() + divFleetNumber);
 				divFleetNumber = 0;
@@ -192,7 +192,7 @@ public class GameState extends BasicGameState{
 		if (button == 1){
 			if(divFleet != null){
 				Planet p = divFleet.getPlanet();
-				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				ArrayList<Planet> planetList = game.getNeighborPlanets(p);
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();
@@ -208,7 +208,7 @@ public class GameState extends BasicGameState{
 			
 			if(selectedFleet != null){
 				Planet p = selectedFleet.getPlanet();
-				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				ArrayList<Planet> planetList = game.getNeighborPlanets(p);
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();
