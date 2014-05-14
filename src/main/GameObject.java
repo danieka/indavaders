@@ -646,8 +646,7 @@ public class GameObject {
 	public ArrayList<Drawable> getDrawable() {
 		ArrayList<Drawable> ret = new ArrayList<Drawable>();
 		if (fogOfWar){
-		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;
-		Planet start = getPlayerPlanets(getHumanPlayer()).get(0);
+		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;		
 		// DFS uses Stack data structure
 		HashSet<Planet> visited = new HashSet<Planet>();
 		Stack<Planet> stack = new Stack<Planet>();
