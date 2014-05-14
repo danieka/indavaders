@@ -42,15 +42,11 @@ public class Planet implements Drawable {
 		this.x = x;
 		this.y = y;
 		fleets = new ArrayList<Fleet>();
-<<<<<<< HEAD
-		image = new Circle(x, y, 15);
-		}	
-=======
 		image = new Circle(x, y, 18);
 		Random r = new Random();
 		pic = r.nextInt(4);
 		}
->>>>>>> 0176637a25e5370c31042b71ce1621ffcd987f55
+
 	
 	public int getProductionCapacity() {
 		return productionCapacity;
