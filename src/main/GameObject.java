@@ -461,7 +461,7 @@ public class GameObject {
 			if(planet.getOwner() != null){
 				int r = 5;
 				if(planet.getOwner() == players.get(0)){
-					r = 60;
+					r = 6;
 				}
 				Fleet f = new Fleet(r*planet.getProductionCapacity(), planet.getOwner(), planet);
 				planet.addFleet(f);
