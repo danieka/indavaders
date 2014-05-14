@@ -74,7 +74,7 @@ public class AIPlayer extends Player{
 		visited.add(start);
 		while(!stack.isEmpty()) {
 			Planet planet = stack.pop();
-			for( Planet next : G.getNeighbourPlanets(planet)){
+			for( Planet next : G.getNeighborPlanets(planet)){
 				if(!visited.contains(next) && next.getOwner() == this){
 					stack.add(next);
 					visited.add(next);

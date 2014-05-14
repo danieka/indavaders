@@ -18,7 +18,8 @@ import ui.Drawable;
 import ai.AIPlayer;
 
 /**
- * Game object
+ * This class handles all game mechanics and all actions from the UI goes through this class.
+ * It follows the singleton pattern.
  * @author danieka
  *
  */
@@ -36,8 +37,8 @@ public class GameObject {
 	private ArrayList<Player> players;
 	private ArrayList<Planet> planets;
 	private ArrayList<Fleet> fleets;
-	private Graph G;
-	private static GameObject uniqInstance;
+	private Graph G; //This graph is used for calculating paths.
+	private static GameObject uniqInstance; 
 	private Queue<Move> moveQueue;
 	private Random rand;
 	private Player humanPlayer;
@@ -47,8 +48,7 @@ public class GameObject {
 		rand = new Random();
 
 		BufferedReader file = null;
-		// This "try-with-resource" statement automatically calls file.close()
-		// just before leaving the try block.
+		// With the following try clause we read Planets.txt and creates the graph from the file.
 		try {
 			file = new BufferedReader(new InputStreamReader(new FileInputStream("src/Planets.txt"), "UTF-8"));
 			String line = file.readLine();
@@ -97,8 +97,7 @@ public class GameObject {
 		fleets = new ArrayList<Fleet>();
 
 		file = null;
-		// This "try-with-resource" statement automatically calls file.close()
-		// just before leaving the try block.
+		// Here we create all the planets
 		try {
 			file = new BufferedReader(new InputStreamReader(new FileInputStream("src/Planetpositions.txt"), "UTF-8"));
 			String line = file.readLine();
@@ -163,6 +162,12 @@ public class GameObject {
 		return list;
 	}
 
+	/**
+	 * Splits fleet and returns a new fleet with size newSize.
+	 * @param fleet
+	 * @param newSize
+	 * @return
+	 */
 	public Fleet splitFleet(Fleet fleet, int newSize){
 		if(newSize > fleet.getSize()) throw new IllegalArgumentException("Illegal size");
 		Fleet newFleet = new Fleet(newSize, fleet.getOwner(), fleet.getPlanet());
@@ -172,6 +177,11 @@ public class GameObject {
 		return newFleet;
 	}
 
+	/**
+	 * Get all fleets belonging to player.
+	 * @param player
+	 * @return
+	 */
 	public ArrayList<Fleet> getPlayerFleets(Player player){
 		ArrayList<Fleet> list = new ArrayList<Fleet>();
 		for(Fleet fleet: fleets){
@@ -182,6 +192,10 @@ public class GameObject {
 		return list;
 	}
 
+	/**
+	 * This method to create players is used by the unit tests when we need the players to be in the same place every time.
+	 * @param amountOfPlayers
+	 */
 	public void createPlayers(int amountOfPlayers){
 		humanPlayer = new Player("name", Color.blue);
 		players.add(humanPlayer);
@@ -196,6 +210,10 @@ public class GameObject {
 		}
 	}
 
+	/**
+	 * This creates the players with random starting positions. This is used in the actual game.
+	 * @param amountOfPlayers
+	 */
 	public void randomPlayers(int amountOfPlayers){
 		if(humanPlayer == null){
 			Color playerColor = new Color(0x002b7cff);
@@ -215,6 +233,10 @@ public class GameObject {
 		}
 	}
 
+	/**
+	 * This returns a random unowned planet and is used by randomPlayers.
+	 * @return
+	 */
 	public Planet randomUnownedPlanet(){
 		Planet p = getPlanet(rand.nextInt(19));
 		while(p.getOwner() != null){
@@ -227,7 +249,10 @@ public class GameObject {
 		return humanPlayer;
 	}
 
-
+	/**
+	 * Returns an arraylist with all AI players in the game.
+	 * @return
+	 */
 	public ArrayList<AIPlayer> getAIPlayers(){
 		ArrayList<AIPlayer> list = new ArrayList<AIPlayer>();
 		for(Player player: players){
@@ -257,6 +282,10 @@ public class GameObject {
 		return Arrays.copyOfRange(strarr, 0, i);
 	}	
 
+	/**
+	 * The "constructor" for this singleton.
+	 * @return
+	 */
 	public static synchronized GameObject getInstance() {
 		if (uniqInstance == null) {
 			uniqInstance = new GameObject();
@@ -264,6 +293,11 @@ public class GameObject {
 		return uniqInstance;
 	}
 
+	/**
+	 * Add a move to the queue. All these moves are executed when nextTurn() is called.
+	 * If a second move for a fleet is added the first move is removed and replaced with the new move.
+	 * @param move
+	 */
 	public void addMove(Move move){
 		if(moveQueue.contains(move)){
 			moveQueue.remove(move);
@@ -274,6 +308,10 @@ public class GameObject {
 		moveQueue.add(move);
 	}
 
+	/**
+	 * This returns all edges between planets. This is used by the UI to draw the paths between the planets.
+	 * @return
+	 */
 	public ArrayList<int[]> getAllEdges(){
 		ArrayList<int[]> ret = new ArrayList<int[]>();
 		for(int i = 0; i < G.numVertices(); i++){
@@ -288,7 +326,12 @@ public class GameObject {
 		return ret;
 	}
 
-	public ArrayList<Planet> getNeighbourPlanets(Planet planet){
+	/**
+	 * Returns an ArrayList of planets containing all the neighbors of planet.
+	 * @param planet
+	 * @return
+	 */
+	public ArrayList<Planet> getNeighborPlanets(Planet planet){
 		ArrayList<Planet> ret = new ArrayList<Planet>();
 		for (VertexIterator iter = G.neighbors(planets.indexOf(planet)); iter.hasNext();){
 			int v = iter.next();
@@ -297,6 +340,9 @@ public class GameObject {
 		return ret;
 	}
 
+	/**
+	 * This executes the next turn of the game.
+	 */
 	public void nextTurn(){
 		System.out.println("<<<<<<<<<<<<<<  New turn  >>>>>>>>>>>>>>");
 		for(AIPlayer p : getAIPlayers()){
@@ -319,6 +365,10 @@ public class GameObject {
 	}
 
 
+	/**
+	 * This function walks through all planets and simulates all fights on all planets.
+	 * After this function is run only fleets from one player should be left on every planet.
+	 */
 	public void fight() {
 
 		for(Planet planet: planets){
@@ -356,6 +406,9 @@ public class GameObject {
 		}
 	}
 
+	/**
+	 * Move the fleets in the moveQueue.
+	 */
 	public void executeMoves(){
 		Move m;
 		while(!moveQueue.isEmpty()){
@@ -364,12 +417,18 @@ public class GameObject {
 		}
 	}
 
+	/**
+	 * Walks through all planets and updates the ownership of the planets.
+	 */
 	public void changeOwnership(){		
 		for(Planet planet: planets){
 			planet.updateOwnership();
 		}
 	}
 
+	/**
+	 * Eliminate players that have no planets left.
+	 */
 	public void eliminatePlayer(){
 		Iterator<Player> i = players.iterator();
 		while (i.hasNext()) {
@@ -380,6 +439,9 @@ public class GameObject {
 		}
 	}
 
+	/**
+	 * Spawn the new reinforcements from the owned planets.
+	 */
 	public void spawnNewFleets(){		
 		for(Planet planet: planets){
 			if(planet.getOwner() != null){
@@ -394,6 +456,10 @@ public class GameObject {
 		}
 	}	
 
+	/**
+	 * This function goes through all planets and merges all fleets from the same player so that only
+	 * one fleet from each player remains at every planet.
+	 */
 	public void merge(){
 		for(Planet planet: planets){			
 			for(Fleet f : planet.getFleets()){
@@ -423,6 +489,10 @@ public class GameObject {
 		}		
 	}
 
+	/**
+	 * Returns true if the human player has won, otherwise it returns false.
+	 * @return
+	 */
 	public boolean win(){
 		int count = 0;
 		for(Planet planet: planets){
@@ -438,6 +508,10 @@ public class GameObject {
 		return false;
 	}
 
+	/**
+	 * Returns true if the human player has lost, otherwise returns false.
+	 * @return
+	 */
 	public boolean lose(){
 		if(players.contains(humanPlayer)){
 			return false;
@@ -445,6 +519,12 @@ public class GameObject {
 		return true;
 	}	
 
+	/**
+	 * This function returns a array of the path between to planets including the from and dest.
+	 * @param fromPlanet
+	 * @param destPlanet
+	 * @return
+	 */
 	public int[] path(Planet fromPlanet, Planet destPlanet){
 		int from = planets.indexOf(fromPlanet);
 		int next = planets.indexOf(destPlanet);
@@ -523,17 +603,32 @@ public class GameObject {
 		return max;
 	}
 
+	/**
+	 * This function destroys the singleton object.
+	 */
 	public void destroy() {
 		uniqInstance = new GameObject();
 	}
 
-	public Fleet createFleet(Player player1, Planet p, int i) {
-		Fleet f = new Fleet(i, player1, p);
+	/**
+	 * This function creates a new fleet belonging to player att planet p with the size i and returns the new fleet.
+	 * @param player
+	 * @param p
+	 * @param i
+	 * @return
+	 */
+	public Fleet createFleet(Player player, Planet p, int i) {
+		Fleet f = new Fleet(i, player, p);
 		fleets.add(f);
 		p.addFleet(f);
 		return f;
 	}
 
+	/**
+	 * This function returns all objects that the UI should draw. So it is here that fog of war is implemented.
+	 * Uses dfs to walk through all planets that the player can see.
+	 * @return
+	 */
 	public ArrayList<Drawable> getDrawable() {
 		ArrayList<Drawable> ret = new ArrayList<Drawable>(getPlayerPlanets(getHumanPlayer()));
 		if(getPlayerPlanets(getHumanPlayer()).size() == 0) return ret;
@@ -545,7 +640,7 @@ public class GameObject {
 		visited.add(start);
 		while(!stack.isEmpty()) {
 			Planet planet = stack.pop();
-			for( Planet next : getNeighbourPlanets(planet)){
+			for( Planet next : getNeighborPlanets(planet)){
 				if(!visited.contains(next) && (planet.getOwner() == getHumanPlayer() || planet.siegedBy(getHumanPlayer()))){
 					stack.add(next);
 					visited.add(next);

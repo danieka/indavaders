@@ -197,7 +197,7 @@ public class GameState extends BasicGameState{
 		if (button == 1){
 			if(divFleet != null){
 				Planet p = divFleet.getPlanet();
-				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				ArrayList<Planet> planetList = game.getNeighborPlanets(p);
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();
@@ -213,7 +213,7 @@ public class GameState extends BasicGameState{
 			
 			if(selectedFleet != null){
 				Planet p = selectedFleet.getPlanet();
-				ArrayList<Planet> planetList = game.getNeighbourPlanets(p);
+				ArrayList<Planet> planetList = game.getNeighborPlanets(p);
 				for(Planet plan: planetList){
 					int x = plan.getX();
 					int y = plan.getY();

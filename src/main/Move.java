@@ -12,7 +12,7 @@ public class Move {
 	}
 	
 	public Move(Fleet fleet, Planet to){
-		if(!GameObject.getInstance().getNeighbourPlanets(fleet.getPlanet()).contains(to)){
+		if(!GameObject.getInstance().getNeighborPlanets(fleet.getPlanet()).contains(to)){
 			throw new IllegalArgumentException("Planet is no neigbour");
 		}
 		this.fleet = fleet;
