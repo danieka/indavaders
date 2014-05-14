@@ -2,7 +2,9 @@ package ai;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Stack;
 
 import main.Fleet;
@@ -24,15 +26,15 @@ import org.newdawn.slick.Color;
  */
 public class AIPlayer extends Player{
 	public static enum color {
-        RED,
-        GREEN,
-        PINK,
-    }
-	
+		RED,
+		GREEN,
+		PINK,
+	}
+
 	private float defendAffinity = 50;
 	private float attackAffinity = 40;
 	private float colonizeAffinity = 50;
-	//private Planet goal;
+	private Planet goal;
 
 	GameObject G;
 	ArrayList<Task> taskList;
@@ -43,7 +45,7 @@ public class AIPlayer extends Player{
 		G = GameObject.getInstance();
 
 	}
-	
+
 	/**
 	 * This function is the external function that GameObjects calls. This should in turn call all internal functions as needed.
 	 */
@@ -57,9 +59,31 @@ public class AIPlayer extends Player{
 	/**
 	 * Set a overarching goal for the AI-player to strive against. This is actually not acted on right now.
 	 */
-	//private void setGoal() {
-		//goal = G.getPlayerPlanets(G.getHumanPlayer()).get(0);
-	//}
+	private void setGoal() {
+		HashMap<Planet, Integer> hmap = new HashMap<Planet, Integer>();
+		for(Planet p : G.getPlayerPlanets(this)){
+			for(Planet next : G.getNeighborPlanets(p)){
+				if(next.getOwner() == this) continue;
+				if(!hmap.containsKey(next)){
+					hmap.put(p, 1);
+				}else{
+					int e = hmap.get(p);
+					hmap.remove(p);
+					hmap.put(p, e+1);
+				}
+			}
+		}
+		for(Planet p : hmap.keySet()){
+			if(goal == null){
+				goal = p;
+			}else{
+				if(hmap.get(goal) < hmap.get(p)){
+					goal = p;
+				}
+			}
+		}
+
+	}
 
 	/**
 	 * This dfs-search goes through all planets and generates appropriate tasks that ought to be performed in the next round.
@@ -146,9 +170,11 @@ public class AIPlayer extends Player{
 				assignedFleets.add(ass.getFleet());
 			}
 		}
-		for(Fleet f : G.getPlayerFleets(this)){
-			if(!assignedFleets.contains(f)){
-				//f.moveTo(goal); Not implemented at this time.
+		if(goal != null){
+			for(Fleet f : G.getPlayerFleets(this)){
+				if(!assignedFleets.contains(f)){
+					f.moveTo(goal);
+				}
 			}
 		}
 	}
