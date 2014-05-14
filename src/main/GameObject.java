@@ -315,33 +315,46 @@ public class GameObject {
 		fight();
 	}
 
-
-	public void fight() {
-
+	public void fight(){
+		rand = new Random();		
+		int fleetOneBonus = 0;
+		int fleetBonus = 0;
 		for(Planet planet: planets){
 			Fleet fleetOne = null;
-			for(Fleet fleet: planet.getFleets()){				
+			for(Fleet fleet: planet.getFleets()){
 				if(fleetOne == null){
-					fleetOne = fleet;	
+					fleetOne = fleet;					
 					continue;
 				}
-				if(fleetOne.getOwner() != fleet.getOwner()){
-					if(fleet.getSize() == 0){
+				if(fleetOne.getOwner() != fleet.getOwner()){					
+					if(fleet.getSize() == 0){						
 						continue;
 					}
-					if(fleetOne.getSize() > fleet.getSize()){
-						fleetOne.setSize(fleetOne.getSize() - fleet.getSize());
-						fleet.setSize(0);
-					} else if(fleetOne.getSize() < fleet.getSize()){
-						fleet.setSize(fleet.getSize() - fleetOne.getSize() );
-						fleetOne.setSize(0);
-						fleetOne = fleet;
-					} else if(fleetOne.getSize() == fleet.getSize()){
-						fleetOne.setSize(1);
-						fleet.setSize(0);
+					//Ägaren av planeter är fleetOne					
+					if(planet.getOwner() == fleetOne.getOwner()){
+						fleetOneBonus = 2;
 					}
-				}
-			}
+					//Ägaren av planeten är fleet
+					if(planet.getOwner() == fleet.getOwner()){
+						fleetBonus = 2;
+					}						
+					while(fleetOne.getSize() > 0 && fleet.getSize() > 0){						
+						
+						if(fleetOne == fleet){								
+							continue;	
+							
+						}else if(rand.nextInt(10) + fleetOneBonus - rand.nextInt(10) + fleetBonus > 0){
+							fleetOne.setSize(fleetOne.getSize()-1);													
+						}else{
+							fleet.setSize(fleet.getSize()-1);								
+						}
+					}	
+					if(fleetOne.getSize() == 0){				
+						fleetOne = fleet;
+					}
+				}				
+			}			
+			
 			Iterator<Fleet> i = planet.getFleets().iterator();
 			while (i.hasNext()) {
 				Fleet f = i.next(); // must be called before you can call i.remove()
@@ -352,7 +365,7 @@ public class GameObject {
 			}
 		}
 	}
-
+	
 	public void executeMoves(){
 		Move m;
 		while(!moveQueue.isEmpty()){
@@ -382,7 +395,7 @@ public class GameObject {
 			if(planet.getOwner() != null){
 				int r = 5;
 				if(planet.getOwner() == players.get(0)){
-					r = 6;
+					r = 60;
 				}
 				Fleet f = new Fleet(r*planet.getProductionCapacity(), planet.getOwner(), planet);
 				planet.addFleet(f);

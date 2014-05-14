@@ -23,6 +23,16 @@ public class Planet implements Drawable {
 	private ArrayList<Fleet> fleets; 
 	private Circle image;
 	
+	/**
+	 * Constructor for objects of class Planet
+     * Creates a planet with the parameters x, y, size, name  and owner. 
+     * X and y is the position of a planet on the map.     
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @param name
+	 * @param owner
+	 */
 	Planet (int x, int y, int size, String name, Player owner){
 		this.size = size;
 		this.name = name;
@@ -32,7 +42,7 @@ public class Planet implements Drawable {
 		this.y = y;
 		fleets = new ArrayList<Fleet>();
 		image = new Circle(x, y, 15);
-		}
+		}	
 	
 	public int getProductionCapacity() {
 		return productionCapacity;
@@ -41,7 +51,7 @@ public class Planet implements Drawable {
 	public void setOwner(Player player){
 		owner = player;
 		return;
-	}
+	}	
 	
 	public Player getOwner(){
 		return owner;
@@ -70,7 +80,11 @@ public class Planet implements Drawable {
 	public String getName(){
 		return name;
 	}
-
+	
+	/**
+	 * Draws the planets on the map and sets color on the planet and 
+	 * planet names.
+	 */
 	@Override
 	public void draw(Graphics g) {
 			if(owner != null){
@@ -88,7 +102,10 @@ public class Planet implements Drawable {
 	public String toString() {
 		return name;
 	}
-
+	
+	/**
+	 * Updates the ownership on the planets.
+	 */
 	public void updateOwnership() {
 		for(Fleet f : fleets){
 			if(f.getOwner() != owner){

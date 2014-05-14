@@ -92,7 +92,7 @@ public class GameObjectTest {
 		assertEquals(5, G.getFleets().size());
 	}
 
-	//@Test
+	@Test
 	public void testGame(){
 		while(G.getAIPlayers().size() != 1){
 			G.nextTurn();
@@ -110,19 +110,7 @@ public class GameObjectTest {
 		assertEquals(1, G.getPlanet(1).getFleets().size());
 		assertTrue(G.getFleets().contains(f));
 		assertFalse(G.getFleets().contains(e));
-	}
-
-	@Test
-	public void testEqualFight(){
-		Fleet f = G.getPlayerFleets(G.getHumanPlayer()).get(0);
-		Fleet e = G.getPlayerFleets(G.getAIPlayers().get(0)).get(0);
-		G.addMove(new Move(f, G.getPlanet(1)));
-		G.executeMoves();
-		G.fight();
-		assertEquals(1, G.getPlanet(1).getFleets().size());
-		assertTrue(G.getFleets().contains(e));
-		assertFalse(G.getFleets().contains(f));
-	}
+	}	
 
 	@Test
 	public void testThreewayFight(){

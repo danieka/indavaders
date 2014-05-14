@@ -5,12 +5,25 @@ public class Move {
 	private Planet to;
 	private Planet from;
 
+	/**
+	 * Constructor for objects of class Move
+     * Moves a fleet with parameters fleet, to and from.   
+	 * @param fleet
+	 * @param to
+	 * @param from
+	 */
 	public Move(Fleet fleet, Planet to, Planet from){
 		this.fleet = fleet;
 		this.to = to;
 		this.from = from;
 	}
 	
+	/**
+	 * Constructor for objects of class Move.
+	 * Moves a fleet with parameters fleet and to.
+	 * @param fleet
+	 * @param to
+	 */
 	public Move(Fleet fleet, Planet to){
 		if(!GameObject.getInstance().getNeighbourPlanets(fleet.getPlanet()).contains(to)){
 			throw new IllegalArgumentException("Planet is no neigbour");
@@ -20,11 +33,14 @@ public class Move {
 		this.from = fleet.getPlanet();
 	}
 	
+	/**
+	 * Moves a fleet from one planet to another.
+	 */
 	public void execute(){
 		fleet.setLocation(to);
 		from.removeFleet(fleet);
 		to.addFleet(fleet);
-	}
+	}	
 	
     @Override
     public boolean equals(Object v) {
@@ -37,7 +53,7 @@ public class Move {
 
      return retVal;
     }
-
+    
     @Override
     public int hashCode() {
     	int hash;
