@@ -113,6 +113,7 @@ public class StartState extends BasicGameState{
 				
 			}
 			if((posX>x && posX<x+150) && (posY>y+180 && posY<580)){
+				game.randomPlayers(2);
 				tutorial = true;
 			}
 			if((posX>x && posX<x+150) && (posY>y+240 && posY<640)){

@@ -384,11 +384,11 @@ public class GameObject {
 					if(fleet.getSize() == 0){						
 						continue;
 					}
-					//Ägaren av planeter är fleetOne					
+					//��garen av planeter ��r fleetOne					
 					if(planet.getOwner() == fleetOne.getOwner()){
 						fleetOneBonus = 2;
 					}
-					//Ägaren av planeten är fleet
+					//��garen av planeten ��r fleet
 					if(planet.getOwner() == fleet.getOwner()){
 						fleetBonus = 2;
 					}						
@@ -620,7 +620,7 @@ public class GameObject {
 	/**
 	 * This function destroys the singleton object.
 	 */
-	public void destroy() {
+	public static synchronized void destroy() {
 		uniqInstance = new GameObject();
 	}
 

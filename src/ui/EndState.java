@@ -25,6 +25,8 @@ public class EndState extends BasicGameState{
 	public void update(GameContainer container, StateBasedGame sbg, int arg2)
 			throws SlickException {
 		if(container.getInput().isKeyPressed(Input.KEY_Q)){
+			GameObject.destroy();
+			GameObject.getInstance();
 			sbg.enterState(0);
 		}
 		
